@@ -1,20 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Games;
 using Tests.Helpers;
-using Models.Types;
 
-namespace Tests.Models
+namespace Tests.Models.Games
 {
     [TestClass]
-    public class TypeTests
+    public class GameTests
     {
-        private PropertyHelper<PokemonType> _propertyHelper;
+        private PropertyHelper<Game> _propertyHelper;
 
-        public TypeTests()
+        public GameTests()
         {
-            _propertyHelper = new PropertyHelper<PokemonType>();
+            _propertyHelper = new PropertyHelper<Game>();
         }
-
-        #region Properties
 
         [TestMethod]
         public void HasId()
@@ -79,37 +77,6 @@ namespace Tests.Models
         }
 
         [TestMethod]
-        public void HasColor()
-        {
-            // Arrange
-            string propertyName = "Color";
-
-            // Act
-            var colorProperty = _propertyHelper.GetPropertyOfName(propertyName);
-
-            // Assert
-            Assert.IsNotNull(colorProperty);
-            Assert.AreEqual(colorProperty.PropertyType.Name, nameof(System.String));
-        }
-
-        [TestMethod]
-        public void HasColorCaseSensitive()
-        {
-            // Arrange
-            string propertyName = "color";
-
-            // Act
-            var colorPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
-            var colorPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
-
-            // Assert
-            Assert.IsNotNull(colorPropertyCaseInsensitive);
-            Assert.AreEqual(colorPropertyCaseInsensitive.PropertyType.Name, nameof(System.String));
-
-            Assert.IsTrue(colorPropertyCaseSensitive == null);
-        }
-
-        [TestMethod]
         public void HasIcon()
         {
             // Arrange
@@ -139,7 +106,5 @@ namespace Tests.Models
 
             Assert.IsTrue(iconPropertyCaseSensitive == null);
         }
-
-        #endregion
     }
 }

@@ -1,20 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Abilities;
 using Tests.Helpers;
-using Models.Types;
 
-namespace Tests.Models
+namespace Tests.Models.Abilities
 {
     [TestClass]
-    public class TypeTests
+    public class AbilitiesTests
     {
-        private PropertyHelper<PokemonType> _propertyHelper;
+        private PropertyHelper<Ability> _propertyHelper;
 
-        public TypeTests()
+        public AbilitiesTests()
         {
-            _propertyHelper = new PropertyHelper<PokemonType>();
-        }
+            _propertyHelper = new PropertyHelper<Ability>();
 
-        #region Properties
+        }
 
         [TestMethod]
         public void HasId()
@@ -79,67 +78,65 @@ namespace Tests.Models
         }
 
         [TestMethod]
-        public void HasColor()
+        public void HasEffect()
         {
             // Arrange
-            string propertyName = "Color";
+            string propertyName = "Effect";
 
             // Act
-            var colorProperty = _propertyHelper.GetPropertyOfName(propertyName);
+            var effectProperty = _propertyHelper.GetPropertyOfName(propertyName);
 
             // Assert
-            Assert.IsNotNull(colorProperty);
-            Assert.AreEqual(colorProperty.PropertyType.Name, nameof(System.String));
+            Assert.IsNotNull(effectProperty);
+            Assert.AreEqual(effectProperty.PropertyType.Name, nameof(System.String));
         }
 
         [TestMethod]
-        public void HasColorCaseSensitive()
+        public void HasEffectCaseSensitive()
         {
             // Arrange
-            string propertyName = "color";
+            string propertyName = "effect";
 
             // Act
-            var colorPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
-            var colorPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
+            var effectPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
+            var effectPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
 
             // Assert
-            Assert.IsNotNull(colorPropertyCaseInsensitive);
-            Assert.AreEqual(colorPropertyCaseInsensitive.PropertyType.Name, nameof(System.String));
+            Assert.IsNotNull(effectPropertyCaseInsensitive);
+            Assert.AreEqual(effectPropertyCaseInsensitive.PropertyType.Name, nameof(System.String));
 
-            Assert.IsTrue(colorPropertyCaseSensitive == null);
+            Assert.IsTrue(effectPropertyCaseSensitive == null);
         }
 
         [TestMethod]
-        public void HasIcon()
+        public void HasOverworldEffect()
         {
             // Arrange
-            string propertyName = "Icon";
+            string propertyName = "OverworldEffect";
 
             // Act
-            var iconProperty = _propertyHelper.GetPropertyOfName(propertyName);
+            var overworldEffectProperty = _propertyHelper.GetPropertyOfName(propertyName);
 
             // Assert
-            Assert.IsNotNull(iconProperty);
-            Assert.AreEqual(iconProperty.PropertyType.Name, nameof(System.Uri));
+            Assert.IsNotNull(overworldEffectProperty);
+            Assert.AreEqual(overworldEffectProperty.PropertyType.Name, nameof(System.String));
         }
 
         [TestMethod]
-        public void HasIconCaseSensitive()
+        public void HasOverworldEffectCaseSensitive()
         {
             // Arrange
-            string propertyName = "icon";
+            string propertyName = "effect";
 
             // Act
-            var iconPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
-            var iconPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
+            var overworldEffectPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
+            var overworldEffectPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
 
             // Assert
-            Assert.IsNotNull(iconPropertyCaseInsensitive);
-            Assert.AreEqual(iconPropertyCaseInsensitive.PropertyType.Name, nameof(System.Uri));
+            Assert.IsNotNull(overworldEffectPropertyCaseInsensitive);
+            Assert.AreEqual(overworldEffectPropertyCaseInsensitive.PropertyType.Name, nameof(System.String));
 
-            Assert.IsTrue(iconPropertyCaseSensitive == null);
+            Assert.IsTrue(overworldEffectPropertyCaseSensitive == null);
         }
-
-        #endregion
     }
 }
