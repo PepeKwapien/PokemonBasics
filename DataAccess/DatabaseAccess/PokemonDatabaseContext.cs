@@ -7,20 +7,13 @@ using Models.Pokemons;
 using Models.Types;
 using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess
 {
     public class PokemonDatabaseContext : DbContext
     {
-        // Types
-        public DbSet<PokemonType> Types { get; set; }
-        public DbSet<DamageMultiplier> DamageMultiplier { get; set; }
-
+        #region DbSets
         // Abilities
         public DbSet<Ability> Abilities { get; set; }
         public DbSet<PokemonAbility> PokemonAbilities { get; set; }
@@ -29,22 +22,77 @@ namespace DataAccess
         public DbSet<Attack> Attacks { get; set; }
         public DbSet<PokemonAttack> PokemonAttacks { get; set; }
 
-        // Pokeballs
-        public DbSet<Pokeball> Pokeballs { get; set; }
-
         // Games
         public DbSet<Game> Games { get; set; }
-        public DbSet<PokeballAvailability> PokeballsAvailability { get; set; }
         public DbSet<PokemonAvailability> PokemonAvailabilities { get; set; }
+
+        // Pokeballs
+        public DbSet<Pokeball> Pokeballs { get; set; }
 
         // Pokemons
         public DbSet<Pokemon> Pokemons { get; set; }
         public DbSet<Evolution> Evolutions { get; set; }
         public DbSet<AlternateForm> AlternateForms { get; set; }
 
+        // Types
+        public DbSet<PokemonType> Types { get; set; }
+        public DbSet<DamageMultiplier> DamageMultiplier { get; set; }
+        #endregion
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DamageMultiplier>()
+                .HasOne(dm => dm.Type)
+                .WithMany()
+                .HasForeignKey(dm => dm.TypeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<DamageMultiplier>()
+                .HasOne(dm => dm.Against)
+                .WithMany()
+                .HasForeignKey(dm => dm.AgainstId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<AlternateForm>()
+                .HasOne(af => af.Original)
+                .WithMany()
+                .HasForeignKey(af => af.OriginalId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<AlternateForm>()
+                .HasOne(af => af.Alternate)
+                .WithMany()
+                .HasForeignKey(af => af.AlternateId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Evolution>()
+               .HasOne(ev => ev.Pokemon)
+               .WithMany()
+               .HasForeignKey(ev => ev.PokemonId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Evolution>()
+                .HasOne(ev => ev.Into)
+                .WithMany()
+                .HasForeignKey(ev => ev.IntoId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PokemonAttack>()
+               .HasOne(pa => pa.Pokemon)
+               .WithMany(at => at.PokemonAttacks)
+               .HasForeignKey(pa => pa.PokemonId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PokemonAttack>()
+                .HasOne(pa => pa.Attack)
+                .WithMany(at => at.PokemonAttacks)
+                .HasForeignKey(pa => pa.AttackId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

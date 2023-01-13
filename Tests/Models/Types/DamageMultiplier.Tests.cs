@@ -15,38 +15,6 @@ namespace Tests.Models
         }
 
         #region Properties
-
-        [TestMethod]
-        public void HasId()
-        {
-            // Arrange
-            string propertyName = "Id";
-
-            // Act
-            var idProperty = _propertyHelper.GetPropertyOfName(propertyName);
-
-            // Assert
-            Assert.IsNotNull(idProperty);
-            Assert.AreEqual(idProperty.PropertyType.Name, nameof(System.Guid));
-        }
-
-        [TestMethod]
-        public void HasIdCaseSensitive()
-        {
-            // Arrange
-            string propertyName = "id";
-
-            // Act
-            var idPropertyCaseInsensitive = _propertyHelper.GetPropertyOfNameCaseInsesitive(propertyName);
-            var idPropertyCaseSensitive = _propertyHelper.GetPropertyOfName(propertyName);
-
-            // Assert
-            Assert.IsNotNull(idPropertyCaseInsensitive);
-            Assert.AreEqual(idPropertyCaseInsensitive.PropertyType.Name, nameof(System.Guid));
-
-            Assert.IsTrue(idPropertyCaseSensitive == null);
-        }
-
         [TestMethod]
         public void HasType()
         {
@@ -121,7 +89,7 @@ namespace Tests.Models
 
             // Assert
             Assert.IsNotNull(multiplierProperty);
-            Assert.AreEqual(multiplierProperty.PropertyType.Name, nameof(System.Int32));
+            Assert.AreEqual(multiplierProperty.PropertyType.Name, nameof(System.Double));
         }
 
         [TestMethod]
@@ -136,7 +104,7 @@ namespace Tests.Models
 
             // Assert
             Assert.IsNotNull(multiplierPropertyCaseInsensitive);
-            Assert.AreEqual(multiplierPropertyCaseInsensitive.PropertyType.Name, nameof(System.Int32));
+            Assert.AreEqual(multiplierPropertyCaseInsensitive.PropertyType.Name, nameof(System.Double));
 
             Assert.IsTrue(multiplierPropertyCaseSensitive == null);
         }

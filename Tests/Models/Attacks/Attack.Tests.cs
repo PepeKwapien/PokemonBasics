@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Attacks;
+using Models.Enums;
 using Models.Types;
 using Tests.Helpers;
 
-namespace Tests.Models.Attacks
+namespace Tests.Models
 {
     [TestClass]
     public class AttackTests
@@ -213,7 +214,7 @@ namespace Tests.Models.Attacks
 
             // Assert
             Assert.IsNotNull(categoryProperty);
-            Assert.AreEqual(categoryProperty.PropertyType.Name, nameof(System.String));
+            Assert.AreEqual(categoryProperty.PropertyType.Name, nameof(AttackCategories));
         }
 
         [TestMethod]
@@ -228,7 +229,7 @@ namespace Tests.Models.Attacks
 
             // Assert
             Assert.IsNotNull(categoryPropertyCaseInsensitive);
-            Assert.AreEqual(categoryPropertyCaseInsensitive.PropertyType.Name, nameof(System.String));
+            Assert.AreEqual(categoryPropertyCaseInsensitive.PropertyType.Name, nameof(AttackCategories));
 
             Assert.IsTrue(categoryPropertyCaseSensitive == null);
         }
