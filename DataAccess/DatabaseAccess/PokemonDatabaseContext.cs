@@ -39,6 +39,8 @@ namespace DataAccess
         public DbSet<DamageMultiplier> DamageMultiplier { get; set; }
         #endregion
 
+        public PokemonDatabaseContext(DbContextOptions options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);

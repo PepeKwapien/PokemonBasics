@@ -1,29 +1,60 @@
 ﻿using DataAccess;
+using ExternalApiHandler.Requesters;
+using ExternalApiHandler.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ExternalApiHandler.Handlers;
 
 namespace ExternalApiHandler
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             IConfiguration config = new ConfigurationBuilder()
-               .AddJsonFile("appsettings.json")
+               .AddJsonFile("Config/appsettings.json")
                .Build();
 
-            var serviceProvider = new ServiceCollection()
-                .Configure<ExternalApiSettings>(config.GetRequiredSection("ExternalApiSettings"))
-                .AddDbContext<PokemonDatabaseContext>()
-                .AddHttpClient()
-                .BuildServiceProvider();
+            ExternalApiOptions externalOptions = new ExternalApiOptions();
+            config.GetRequiredSection("ExternalApiSettings").Bind(externalOptions);
+
+            // Options
+            var serviceCollection = new ServiceCollection()
+                .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"))
+                .Configure<TypesOptions>(config.GetRequiredSection("TypesSettings"));
+
+            // DbContext
+            serviceCollection
+                .AddDbContext<PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
+
+            // Handlers
+            serviceCollection
+                .AddSingleton<IPokemonTypeHandler, PokemonTypeHandler>()
+                .AddSingleton<IDamageMultiplierHandler, DamageMultiplierHandler>();
+
+            // Requesters
+            serviceCollection
+                .AddSingleton<PokemonTypesRequester>();
+
+
+            serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
+            {
+                client.BaseAddress = new Uri(externalOptions.BaseUrl);
+            });
+            
+            var serviceProvider = serviceCollection.BuildServiceProvider();
 
             using(var scope = serviceProvider.CreateScope())
             {
-                var settings = scope.ServiceProvider.GetService<IOptions<ExternalApiSettings>>().Value;
+                var options = scope.ServiceProvider.GetService<IOptions<ExternalApiOptions>>();
 
-                Console.WriteLine(settings.BaseUrl);
+                Console.WriteLine(options.Value.BaseUrl);
+
+                var handler = scope.ServiceProvider.GetService<PokemonTypesRequester>();
+
+                await handler.Action();
             }
         }
     }
