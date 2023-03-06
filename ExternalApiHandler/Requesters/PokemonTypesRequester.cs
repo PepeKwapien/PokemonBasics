@@ -11,15 +11,15 @@ namespace ExternalApiHandler.Requesters
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly TypesOptions _options;
         private readonly ExternalApiOptions _externalApiOptions;
-        private readonly PokemonTypeHandler _pokemonTypeHandler;
-        private readonly DamageMultiplierHandler _damageMultiplierHandler;
+        private readonly IPokemonTypeHandler _pokemonTypeHandler;
+        private readonly IDamageMultiplierHandler _damageMultiplierHandler;
 
         public PokemonTypesRequester(
             IHttpClientFactory httpClientFactory,
             IOptions<ExternalApiOptions> externalApiOptions,
             IOptions<TypesOptions> pokemonTypeOptions,
-            PokemonTypeHandler pokemonTypeHandler,
-            DamageMultiplierHandler damageMultiplierHandler): base()
+            IPokemonTypeHandler pokemonTypeHandler,
+            IDamageMultiplierHandler damageMultiplierHandler): base()
         {
             _externalHttpClientFactory = httpClientFactory;
             _options = pokemonTypeOptions.Value;
