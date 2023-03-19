@@ -8,14 +8,13 @@ namespace Logger
         private string? _fileName;
         private readonly MinimalLoggerLevel _level;
         private string _delimiter;
-        private StreamWriter _writer;
+        private StreamWriter? _writer;
 
         public FileLogger(string path, string? fileName = null, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimiter = "|") {
             _path = path;
             _fileName = fileName;
             _level = level;
             _delimiter = delimiter;
-            _writer = new StreamWriter(GetPathForWriter(), true);
         }
 
         #region Properties
@@ -118,8 +117,15 @@ namespace Logger
         {
             if(this._writer!= null)
             {
-                this._writer.Flush();
-                this._writer.Dispose();
+                try
+                {
+                    this._writer.Flush();
+                    this._writer.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
             }
         }
 
@@ -128,14 +134,28 @@ namespace Logger
         {
             if (this._writer != null && this._writer.BaseStream != null)
             {
-                this._writer.Close();
+                try
+                {
+                    this._writer.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
             }
         }
         private void OpenIfClosed()
         {
             if(this._writer == null || this._writer.BaseStream == null)
             {
-                this._writer = new StreamWriter(GetPathForWriter(), true);
+                try
+                {
+                    _writer = new StreamWriter(GetPathForWriter(), true);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
             }
         }
         private string GetPathForWriter()
@@ -160,7 +180,7 @@ namespace Logger
 
             string lineMessage = $"{timestamp}{_delimiter}{levelName}{_delimiter}{message}";
 
-            this._writer.WriteLine(lineMessage);
+            this._writer?.WriteLine(lineMessage);
         }
         #endregion
     }
