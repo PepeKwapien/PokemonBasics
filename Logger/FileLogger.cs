@@ -39,7 +39,7 @@ namespace Logger
             }
         }
         public MinimalLoggerLevel Level { get { return _level; } }
-        public string Delimiter { get { return _delimiter; } set { this._delimiter = value } }
+        public string Delimiter { get { return _delimiter; } set { this._delimiter = value;  } }
         #endregion
         #region Methods to write messages
         public bool Debug(string message)
