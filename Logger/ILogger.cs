@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Logger
+﻿namespace Logger
 {
     public interface ILogger
     {
@@ -12,11 +10,7 @@ namespace Logger
         bool Error(string message);
 
         // Methods to fully set path
-        string SetLogPath(string path);
-        string SetFileName(string fileName);
-
-        // Methods for fluent API to manage path
-        ILogger AddToPath(string directoryName);
-        ILogger GoBackToParentDirectory();
+        void SetPath(string path);
+        void SetFileName(string fileName);
     }
 }
