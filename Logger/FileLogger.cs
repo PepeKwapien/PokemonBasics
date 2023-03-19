@@ -8,7 +8,7 @@
         private readonly string _delimeter;
         private StreamWriter _writer;
 
-        public FileLogger(string path, string? fileName, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimeter = "|") {
+        public FileLogger(string path, string? fileName = null, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimeter = "|") {
             _path = path;
             _fileName = fileName;
             _level = level;
