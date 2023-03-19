@@ -5,12 +5,14 @@
         private  string _path;
         private  string? _fileName;
         private MinimalLoggerLevel _level;
+        private readonly string _delimeter;
         private StreamWriter _writer;
 
-        public FileLogger(string path, string? fileName, MinimalLoggerLevel level = MinimalLoggerLevel.Debug) {
+        public FileLogger(string path, string? fileName, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimeter = "|") {
             _path = path;
             _fileName = fileName;
             _level = level;
+            _delimeter = delimeter;
             _writer = new StreamWriter(GetPathForWriter(), true);
         }
 
@@ -144,7 +146,7 @@
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string levelName = level.ToString().ToUpper();
 
-            string lineMessage = $"{timestamp}|{levelName}|{message}";
+            string lineMessage = $"{timestamp}{_delimeter}{levelName}{_delimeter}{message}";
 
             this._writer.WriteLine(lineMessage);
         }
