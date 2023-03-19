@@ -24,6 +24,9 @@
                 return false;
             }
 
+            OpenIfClosed();
+            WriteLine(levelForMethod, message);
+
             return true;
         }
         public bool Info(string message)
@@ -92,6 +95,7 @@
         public void SetPath(string path)
         {
             CloseIfOpen();
+            path = path.Replace("/", "\\");
             this._path= path;
         }
         #endregion
@@ -122,7 +126,14 @@
         }
         private string GetPathForWriter()
         {
-            return $"{_path}/{_fileName}";
+            return $"{_path}\\{GetFileNameWithDate()}";
+        }
+        private string GetFileNameWithDate()
+        {
+            string logDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+            return String.IsNullOrEmpty(_fileName) ? $"{logDate}.log" : $"{logDate}-{this._fileName}.log";
         }
         private bool CheckIfShouldBeLogged(MinimalLoggerLevel level)
         {
@@ -130,7 +141,7 @@
         }
         private void WriteLine(MinimalLoggerLevel level, string message)
         {
-            string timestamp = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string levelName = level.ToString().ToUpper();
 
             string lineMessage = $"{timestamp}|{levelName}|{message}";
