@@ -1,21 +1,46 @@
-﻿namespace Logger
+﻿using System.IO;
+
+namespace Logger
 {
     public class FileLogger : ILogger, IDisposable
     {
-        private  string _path;
-        private  string? _fileName;
-        private MinimalLoggerLevel _level;
-        private readonly string _delimeter;
+        private string _path;
+        private string? _fileName;
+        private readonly MinimalLoggerLevel _level;
+        private string _delimiter;
         private StreamWriter _writer;
 
-        public FileLogger(string path, string? fileName = null, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimeter = "|") {
+        public FileLogger(string path, string? fileName = null, MinimalLoggerLevel level = MinimalLoggerLevel.Debug, string delimiter = "|") {
             _path = path;
             _fileName = fileName;
             _level = level;
-            _delimeter = delimeter;
+            _delimiter = delimiter;
             _writer = new StreamWriter(GetPathForWriter(), true);
         }
 
+        #region Properties
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                CloseIfOpen();
+                value = value.Replace("/", "\\");
+                this._path = value;
+            }
+        }
+        public string? FileName
+        {
+            get { return _fileName; }
+            set
+            {
+                CloseIfOpen();
+                this._fileName = value;
+            }
+        }
+        public MinimalLoggerLevel Level { get { return _level; } }
+        public string Delimiter { get { return _delimiter; } set { this._delimiter = value } }
+        #endregion
         #region Methods to write messages
         public bool Debug(string message)
         {
@@ -88,19 +113,6 @@
             return true;
         }
         #endregion
-        #region Setters
-        public void SetFileName(string fileName)
-        {
-            CloseIfOpen();
-            this._fileName = fileName;
-        }
-        public void SetPath(string path)
-        {
-            CloseIfOpen();
-            path = path.Replace("/", "\\");
-            this._path= path;
-        }
-        #endregion
 
         public void Dispose()
         {
@@ -146,7 +158,7 @@
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string levelName = level.ToString().ToUpper();
 
-            string lineMessage = $"{timestamp}{_delimeter}{levelName}{_delimeter}{message}";
+            string lineMessage = $"{timestamp}{_delimiter}{levelName}{_delimiter}{message}";
 
             this._writer.WriteLine(lineMessage);
         }

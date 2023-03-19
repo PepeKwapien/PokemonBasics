@@ -8,9 +8,5 @@
         bool Warn(string message);
         bool Success(string message);
         bool Error(string message);
-
-        // Methods to fully set path
-        void SetPath(string path);
-        void SetFileName(string fileName);
     }
 }
