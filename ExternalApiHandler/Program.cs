@@ -22,8 +22,7 @@ namespace ExternalApiHandler
 
             // Options
             var serviceCollection = new ServiceCollection()
-                .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"))
-                .Configure<TypesOptions>(config.GetRequiredSection("TypesSettings"));
+                .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"));
 
             // DbContext
             serviceCollection
@@ -31,8 +30,8 @@ namespace ExternalApiHandler
 
             // Handlers
             serviceCollection
-                .AddSingleton<IPokemonTypeHandler, PokemonTypeHandler>()
-                .AddSingleton<IDamageMultiplierHandler, DamageMultiplierHandler>();
+                .AddSingleton<PokemonTypeHandler>()
+                .AddSingleton<DamageMultiplierHandler>();
 
             // Requesters
             serviceCollection

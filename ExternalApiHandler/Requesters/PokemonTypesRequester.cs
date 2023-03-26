@@ -9,17 +9,14 @@ namespace ExternalApiHandler.Requesters
     internal class PokemonTypesRequester : IRequester<PokemonTypeDto>
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
-        private readonly TypesOptions _options;
         private readonly ExternalApiOptions _externalApiOptions;
 
         public PokemonTypesRequester(
             IHttpClientFactory httpClientFactory,
-            IOptions<ExternalApiOptions> externalApiOptions,
-            IOptions<TypesOptions> pokemonTypeOptions
+            IOptions<ExternalApiOptions> externalApiOptions
             )
         {
             _externalHttpClientFactory = httpClientFactory;
-            _options = pokemonTypeOptions.Value;
             _externalApiOptions = externalApiOptions.Value;
         }
 
@@ -29,9 +26,9 @@ namespace ExternalApiHandler.Requesters
 
             using(var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                for (int i = 1; i <= _options.NoOfTypes; i++)
+                for (int i = 1; i <= _externalApiOptions.NumberOfPokemonTypes; i++)
                 {
-                    var result = await client.GetAsync($"{_options.Path}/{i}");
+                    var result = await client.GetAsync($"{_externalApiOptions.PokemonTypePath}/{i}");
                     var stringifiedContent = await result.Content.ReadAsStringAsync();
                     PokemonTypeDto typeDto = JsonSerializer.Deserialize<PokemonTypeDto>(stringifiedContent);
                     pokemonTypes.Add(typeDto);
