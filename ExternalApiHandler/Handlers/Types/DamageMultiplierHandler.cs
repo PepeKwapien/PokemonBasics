@@ -2,11 +2,11 @@
 
 namespace ExternalApiHandler.Handlers
 {
-    internal class DamageMultiplierHandler : IDamageMultiplierHandler
+    internal class DamageMultiplierHandler : Handler<PokemonTypeDto>
     {
-        public void Handle(PokemonTypeDto[] values)
+        public override void Handle()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

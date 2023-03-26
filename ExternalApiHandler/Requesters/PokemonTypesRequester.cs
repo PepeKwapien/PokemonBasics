@@ -6,31 +6,26 @@ using System.Text.Json;
 
 namespace ExternalApiHandler.Requesters
 {
-    internal class PokemonTypesRequester : Requester
+    internal class PokemonTypesRequester : IRequester<PokemonTypeDto>
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly TypesOptions _options;
         private readonly ExternalApiOptions _externalApiOptions;
-        private readonly IPokemonTypeHandler _pokemonTypeHandler;
-        private readonly IDamageMultiplierHandler _damageMultiplierHandler;
 
         public PokemonTypesRequester(
             IHttpClientFactory httpClientFactory,
             IOptions<ExternalApiOptions> externalApiOptions,
-            IOptions<TypesOptions> pokemonTypeOptions,
-            IPokemonTypeHandler pokemonTypeHandler,
-            IDamageMultiplierHandler damageMultiplierHandler): base()
+            IOptions<TypesOptions> pokemonTypeOptions
+            )
         {
             _externalHttpClientFactory = httpClientFactory;
             _options = pokemonTypeOptions.Value;
             _externalApiOptions = externalApiOptions.Value;
-            _pokemonTypeHandler = pokemonTypeHandler;
-            _damageMultiplierHandler = damageMultiplierHandler;
         }
 
-        public override async Task Action()
+        public async Task<List<PokemonTypeDto>> GetCollection()
         {
-            List<IDto> pokemonTypes = new List<IDto>();
+            List<PokemonTypeDto> pokemonTypes = new List<PokemonTypeDto>();
 
             using(var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
@@ -44,6 +39,8 @@ namespace ExternalApiHandler.Requesters
             }
 
             Console.WriteLine(pokemonTypes.Count);
+
+            return pokemonTypes;
         }
     }
 }

@@ -46,18 +46,18 @@ namespace ExternalApiHandler
             
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            /*using(var scope = serviceProvider.CreateScope())
+            using (var scope = serviceProvider.CreateScope())
             {
                 var options = scope.ServiceProvider.GetService<IOptions<ExternalApiOptions>>();
 
                 Console.WriteLine(options.Value.BaseUrl);
 
-                var handler = scope.ServiceProvider.GetService<PokemonTypesRequester>();
+                var requester = scope.ServiceProvider.GetService<PokemonTypesRequester>();
 
-                await handler.Action();
-            }*/
+                await requester.GetCollection();
+            }
 
-            
+
         }
     }
 }

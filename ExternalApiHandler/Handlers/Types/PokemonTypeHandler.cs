@@ -2,11 +2,11 @@
 
 namespace ExternalApiHandler.Handlers
 {
-    internal class PokemonTypeHandler : IPokemonTypeHandler
+    internal class PokemonTypeHandler : Handler<PokemonTypeDto>
     {
-        public void Handle(PokemonTypeDto[] values)
+        public override void Handle()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
