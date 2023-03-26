@@ -1,11 +1,12 @@
 ﻿using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Helpers;
 using ExternalApiHandler.Options;
+using ExternalApiHandler.Requesters.PokemonTypes;
 using Microsoft.Extensions.Options;
 
 namespace ExternalApiHandler.Requesters
 {
-    internal class PokemonTypesRequester : IRequester<PokemonTypeDto>
+    internal class PokemonTypesRequester : IPokemonTypesRequester
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly ExternalApiOptions _externalApiOptions;

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ExternalApiHandler.Handlers;
+using ExternalApiHandler.Requesters.PokemonTypes;
 
 namespace ExternalApiHandler
 {
@@ -35,8 +36,7 @@ namespace ExternalApiHandler
 
             // Requesters
             serviceCollection
-                .AddSingleton<PokemonTypesRequester>();
-
+                .AddSingleton<IPokemonTypesRequester, PokemonTypesRequester>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {
@@ -51,12 +51,10 @@ namespace ExternalApiHandler
 
                 Console.WriteLine(options.Value.BaseUrl);
 
-                var requester = scope.ServiceProvider.GetService<PokemonTypesRequester>();
+                var requester = scope.ServiceProvider.GetService<IPokemonTypesRequester>();
 
                 await requester.GetCollection();
             }
-
-
         }
     }
 }
