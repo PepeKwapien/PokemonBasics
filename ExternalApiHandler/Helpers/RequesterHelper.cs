@@ -22,7 +22,7 @@ namespace ExternalApiHandler.Helpers
             do
             {
                 CountDto count = await Get<CountDto>(client, path);
-                collectionUrls.AddRange(count.results.ToList().Select(result => result.url.Replace(parentUrl, "")));
+                collectionUrls.AddRange(count.results.Select(result => result.url.Replace(parentUrl, "")));
                 next = count.next;
             } while (!String.IsNullOrEmpty(next));
 
