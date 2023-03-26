@@ -1,8 +1,7 @@
 ﻿using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Handlers;
+using ExternalApiHandler.Helpers;
 using ExternalApiHandler.Options;
 using Microsoft.Extensions.Options;
-using System.Text.Json;
 
 namespace ExternalApiHandler.Requesters
 {
@@ -28,9 +27,8 @@ namespace ExternalApiHandler.Requesters
             {
                 for (int i = 1; i <= _externalApiOptions.NumberOfPokemonTypes; i++)
                 {
-                    var result = await client.GetAsync($"{_externalApiOptions.PokemonTypePath}/{i}");
-                    var stringifiedContent = await result.Content.ReadAsStringAsync();
-                    PokemonTypeDto typeDto = JsonSerializer.Deserialize<PokemonTypeDto>(stringifiedContent);
+                    string path = $"{_externalApiOptions.PokemonTypePath}/{i}";
+                    PokemonTypeDto typeDto = await RequesterHelper.Get<PokemonTypeDto>(client, path);
                     pokemonTypes.Add(typeDto);
                 }
             }
