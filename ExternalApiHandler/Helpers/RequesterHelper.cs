@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using ExternalApiHandler.DTOs;
+using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers
 {
@@ -11,6 +12,21 @@ namespace ExternalApiHandler.Helpers
             T dto = JsonSerializer.Deserialize<T>(stringifiedContent);
 
             return dto;
+        }
+
+        public static async Task<List<string>> GetCollectionUrls(HttpClient client, string path, string parentUrl)
+        {
+            List<string> collectionUrls = new List<string>();
+            string? next = null;
+
+            do
+            {
+                CountDto count = await Get<CountDto>(client, path);
+                collectionUrls.AddRange(count.results.ToList().Select(result => result.url.Replace(parentUrl, "")));
+                next = count.next;
+            } while (!String.IsNullOrEmpty(next));
+
+            return collectionUrls;
         }
     }
 }
