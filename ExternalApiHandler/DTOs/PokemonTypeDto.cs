@@ -2,19 +2,8 @@
 {
     internal class PokemonTypeDto : IDto
     {
-        public TypeName[] names { get; set; }
+        public string name { get; set; }
         public TypeDamageRelations damage_relations { get; set; }
-    }
-
-    internal class TypeName
-    {
-        public string name { get; set; }
-        public TypeLanguage language { get; set; }
-    }
-
-    internal class TypeLanguage
-    {
-        public string name { get; set; }
     }
 
     internal class TypeDamageRelations
