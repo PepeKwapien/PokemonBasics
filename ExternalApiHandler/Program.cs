@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ExternalApiHandler.Handlers;
-using ExternalApiHandler.Requesters.PokemonTypes;
 
 namespace ExternalApiHandler
 {

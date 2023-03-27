@@ -1,7 +1,6 @@
 ﻿using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Helpers;
 using ExternalApiHandler.Options;
-using ExternalApiHandler.Requesters.PokemonTypes;
 using Microsoft.Extensions.Options;
 
 namespace ExternalApiHandler.Requesters
