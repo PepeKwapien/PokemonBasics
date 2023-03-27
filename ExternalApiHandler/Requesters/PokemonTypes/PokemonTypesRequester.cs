@@ -26,16 +26,8 @@ namespace ExternalApiHandler.Requesters
 
             using(var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, _externalApiOptions.PokemonTypePath, _externalApiOptions.BaseUrl);
-
-                foreach (var url in collectionUrls)
-                {
-                    PokemonTypeDto typeDto = await RequesterHelper.Get<PokemonTypeDto>(client, url);
-                    pokemonTypes.Add(typeDto);
-                }
+                pokemonTypes = await RequesterHelper.GetCollection<PokemonTypeDto>(client, _externalApiOptions.PokemonTypePath, _externalApiOptions.BaseUrl);
             }
-
-            Console.WriteLine(pokemonTypes.Count);
 
             return pokemonTypes;
         }

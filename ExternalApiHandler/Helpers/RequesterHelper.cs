@@ -1,4 +1,6 @@
 ﻿using ExternalApiHandler.DTOs;
+using ExternalApiHandler.Options;
+using Models.Types;
 using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers
@@ -27,6 +29,20 @@ namespace ExternalApiHandler.Helpers
             } while (!String.IsNullOrEmpty(next));
 
             return collectionUrls;
+        }
+
+        public static async Task<List<T>> GetCollection<T>(HttpClient client, string path, string parentUrl)
+        {
+            List<T> collection = new List<T>();
+            List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, path, parentUrl);
+
+            foreach (var url in collectionUrls)
+            {
+                T dto = await RequesterHelper.Get<T>(client, url);
+                collection.Add(dto);
+            }
+
+            return collection;
         }
     }
 }
