@@ -19,11 +19,11 @@ namespace ExternalApiHandler.Helpers
         public static async Task<List<string>> GetCollectionUrls(HttpClient client, string path, string parentUrl)
         {
             List<string> collectionUrls = new List<string>();
-            string? next = null;
+            string? next = path;
 
             do
             {
-                CountDto count = await Get<CountDto>(client, path);
+                CountDto count = await Get<CountDto>(client, next);
                 collectionUrls.AddRange(count.results.Select(result => result.url.Replace(parentUrl, "")));
                 next = count.next;
             } while (!String.IsNullOrEmpty(next));
