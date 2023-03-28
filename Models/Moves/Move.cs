@@ -12,9 +12,9 @@ namespace Models.Moves
         [Required]
         [StringLength(16)]
         public string Name { get; set; }
-        public int Power { get; set; }
-        public int Accuracy { get; set; }
-        public int PP { get; set; }
+        public int? Power { get; set; }
+        public int? Accuracy { get; set; }
+        public int? PP { get; set; }
         public int Priority { get; set; }
         public Guid TypeId { get; set; }
         public PokemonType Type { get; set; }
@@ -23,7 +23,7 @@ namespace Models.Moves
         public AttackCategories Category { get; set; }
         [StringLength(128)]
         public string Effect { get; set; }
-        public int SpecialEffectChance { get; set; }
+        public int? SpecialEffectChance { get; set; }
         public ICollection<PokemonMove> PokemonMoves { get; set; }
     }
 }

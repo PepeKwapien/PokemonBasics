@@ -21,6 +21,7 @@ namespace ExternalApiHandler.Helpers
 
             do
             {
+                Console.WriteLine(next);
                 CountDto count = await Get<CountDto>(client, next);
                 collectionUrls.AddRange(count.results.Select(result => result.url.Replace(parentUrl, "")));
                 next = count.next;
@@ -36,6 +37,7 @@ namespace ExternalApiHandler.Helpers
 
             foreach (var url in collectionUrls)
             {
+                Console.WriteLine(url);
                 T dto = await RequesterHelper.Get<T>(client, url);
                 collection.Add(dto);
             }
