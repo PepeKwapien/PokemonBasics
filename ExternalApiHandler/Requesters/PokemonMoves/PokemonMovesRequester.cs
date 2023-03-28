@@ -3,14 +3,14 @@ using ExternalApiHandler.Helpers;
 using ExternalApiHandler.Options;
 using Microsoft.Extensions.Options;
 
-namespace ExternalApiHandler.Requesters.PokemonAbilities
+namespace ExternalApiHandler.Requesters
 {
-    internal class PokemonAbilitiesRequester : IPokemonAbilitiesRequester
+    internal class PokemonMovesRequester : IPokemonMovesRequester
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly ExternalApiOptions _externalApiOptions;
 
-        public PokemonAbilitiesRequester(
+        public PokemonMovesRequester(
             IHttpClientFactory httpClientFactory,
             IOptions<ExternalApiOptions> externalApiOptions)
         {
@@ -18,16 +18,16 @@ namespace ExternalApiHandler.Requesters.PokemonAbilities
             _externalApiOptions = externalApiOptions.Value;
         }
 
-        public async Task<List<PokemonAbilityDto>> GetCollection()
+        public async Task<List<PokemonMoveDto>> GetCollection()
         {
-            List<PokemonAbilityDto> pokemonAbilities = new List<PokemonAbilityDto>();
+            List<PokemonMoveDto> pokemonMoves = new List<PokemonMoveDto>();
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemonAbilities = await RequesterHelper.GetCollection<PokemonAbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _externalApiOptions.BaseUrl);
+                pokemonMoves = await RequesterHelper.GetCollection<PokemonMoveDto>(client, _externalApiOptions.PokemonMovePath, _externalApiOptions.BaseUrl);
             }
 
-            return pokemonAbilities;
+            return pokemonMoves;
         }
     }
 }

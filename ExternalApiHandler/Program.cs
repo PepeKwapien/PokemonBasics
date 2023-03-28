@@ -1,12 +1,12 @@
-﻿using DataAccess;
-using ExternalApiHandler.Requesters;
+﻿using ExternalApiHandler.Requesters;
 using ExternalApiHandler.Options;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ExternalApiHandler.Handlers;
 using ExternalApiHandler.Requesters.PokemonAbilities;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExternalApiHandler
 {
@@ -37,7 +37,8 @@ namespace ExternalApiHandler
             // Requesters
             serviceCollection
                 .AddSingleton<IPokemonTypesRequester, PokemonTypesRequester>()
-                .AddSingleton<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>();
+                .AddSingleton<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>()
+                .AddSingleton<IPokemonMovesRequester, PokemonMovesRequester>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {
@@ -52,9 +53,11 @@ namespace ExternalApiHandler
 
                 Console.WriteLine(options.Value.BaseUrl);
 
-                var requester = scope.ServiceProvider.GetService<IPokemonAbilitiesRequester>();
+                var requester = scope.ServiceProvider.GetService<IPokemonMovesRequester>();
 
-                await requester.GetCollection();
+                var collection = await requester.GetCollection();
+
+                Console.WriteLine(collection.Count);
             }
         }
     }

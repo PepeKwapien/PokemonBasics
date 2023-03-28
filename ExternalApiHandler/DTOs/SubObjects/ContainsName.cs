@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class Language
+    internal class ContainsName
     {
         public string name { get; set; }
     }

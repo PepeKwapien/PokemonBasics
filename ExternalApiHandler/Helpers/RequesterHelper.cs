@@ -1,6 +1,4 @@
 ﻿using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Options;
-using Models.Types;
 using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers

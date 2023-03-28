@@ -6,6 +6,7 @@
         public string ClientName { get; set; }
         public string PokemonTypePath { get; set; }
         public string PokemonAbilityPath { get; set; }
+        public string PokemonMovePath { get; set; }
 
     }
 }
