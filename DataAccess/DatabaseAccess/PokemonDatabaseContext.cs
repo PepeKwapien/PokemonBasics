@@ -39,11 +39,26 @@ namespace DataAccess
         public DbSet<DamageMultiplier> DamageMultiplier { get; set; }
         #endregion
 
-        public PokemonDatabaseContext(DbContextOptions options) : base(options) { }
+        public PokemonDatabaseContext()
+        {
+
+        }
+        public PokemonDatabaseContext(DbContextOptions<PokemonDatabaseContext> options) : base(options) { }
+
+        public static PokemonDatabaseContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<PokemonDatabaseContext>();
+            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
+
+            return new PokemonDatabaseContext(optionsBuilder.Options);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(PokemonDatabaseContext.CreateDbContext(null).Database.GetConnectionString());
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -4,6 +4,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PokemonDatabaseContext))]
-    partial class PokemonDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230328194640_Moves")]
+    partial class Moves
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,11 +140,6 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(16)");
 
-                    b.Property<string>("Effect")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(16)
@@ -153,11 +151,9 @@ namespace DataAccess.Migrations
                     b.Property<int>("Power")
                         .HasColumnType("int");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpecialEffectChance")
-                        .HasColumnType("int");
+                    b.Property<string>("SpecialEffect")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<Guid>("TypeId")
                         .HasColumnType("uniqueidentifier");
