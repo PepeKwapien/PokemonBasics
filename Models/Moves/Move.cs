@@ -3,9 +3,9 @@ using Models.Types;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Attacks
+namespace Models.Moves
 {
-    public class Attack
+    public class Move
     {
         [Key]
         public Guid Id { get; private set; }
@@ -23,6 +23,6 @@ namespace Models.Attacks
         [StringLength(128)]
         public string? SpecialEffect { get; set; }
 
-        public ICollection<PokemonAttack> PokemonAttacks { get; set; }
+        public ICollection<PokemonMove> PokemonMoves { get; set; }
     }
 }

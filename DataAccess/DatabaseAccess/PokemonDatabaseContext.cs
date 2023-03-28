@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Abilities;
-using Models.Attacks;
+using Models.Moves;
 using Models.Games;
 using Models.Pokeballs;
 using Models.Pokemons;
@@ -19,8 +19,8 @@ namespace DataAccess
         public DbSet<PokemonAbility> PokemonAbilities { get; set; }
 
         // Attacks
-        public DbSet<Attack> Attacks { get; set; }
-        public DbSet<PokemonAttack> PokemonAttacks { get; set; }
+        public DbSet<Move> Moves { get; set; }
+        public DbSet<PokemonMove> PokemonMoves { get; set; }
 
         // Games
         public DbSet<Game> Games { get; set; }
@@ -84,16 +84,16 @@ namespace DataAccess
                 .HasForeignKey(ev => ev.IntoId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<PokemonAttack>()
+            modelBuilder.Entity<PokemonMove>()
                .HasOne(pa => pa.Pokemon)
-               .WithMany(at => at.PokemonAttacks)
+               .WithMany(at => at.PokemonMoves)
                .HasForeignKey(pa => pa.PokemonId)
                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<PokemonAttack>()
-                .HasOne(pa => pa.Attack)
-                .WithMany(at => at.PokemonAttacks)
-                .HasForeignKey(pa => pa.AttackId)
+            modelBuilder.Entity<PokemonMove>()
+                .HasOne(pa => pa.Move)
+                .WithMany(at => at.PokemonMoves)
+                .HasForeignKey(pa => pa.MoveId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

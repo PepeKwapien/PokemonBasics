@@ -2,17 +2,17 @@
 using Models.Pokemons;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models.Attacks
+namespace Models.Moves
 {
-    [PrimaryKey(nameof(PokemonId), nameof(AttackId))]
-    public class PokemonAttack
+    [PrimaryKey(nameof(PokemonId), nameof(MoveId))]
+    public class PokemonMove
     {
         public Guid PokemonId { get; set; }
         [ForeignKey("PokemonId")]
         public Pokemon Pokemon { get; set; }
-        public Guid AttackId { get; set; }
-        [ForeignKey("AttackId")]
-        public Attack Attack { get; set; }
+        public Guid MoveId { get; set; }
+        [ForeignKey("MoveId")]
+        public Move Move { get; set; }
         public bool ByLevelUp { get; set; }
         public bool ByTm { get; set; }
         public bool ByEgg { get; set; }

@@ -1,5 +1,5 @@
 ﻿using Models.Abilities;
-using Models.Attacks;
+using Models.Moves;
 using Models.Enums;
 using Models.Games;
 using Models.Types;
@@ -37,6 +37,6 @@ namespace Models.Pokemons
 
         public ICollection<PokemonAvailability> PokemonAvailabilities { get; set; }
         public ICollection<PokemonAbility> PokemonAbilities { get; set; }
-        public ICollection<PokemonAttack> PokemonAttacks { get; set; }
+        public ICollection<PokemonMove> PokemonMoves { get; set; }
     }
 }

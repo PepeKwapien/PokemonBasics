@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models.Attacks;
+using Models.Moves;
 using Models.Enums;
 using Models.Types;
 using Tests.Helpers;
@@ -9,11 +9,11 @@ namespace Tests.Models
     [TestClass]
     public class AttackTests
     {
-        private PropertyHelper<Attack> _propertyHelper;
+        private PropertyHelper<Move> _propertyHelper;
 
         public AttackTests()
         {
-            _propertyHelper = new PropertyHelper<Attack>();
+            _propertyHelper = new PropertyHelper<Move>();
 
         }
 
