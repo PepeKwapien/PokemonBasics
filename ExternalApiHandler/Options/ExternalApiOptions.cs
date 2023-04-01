@@ -14,5 +14,6 @@
         public string PokedexPath { get; set; }
         public string PokemonPath { get; set; }
         public string PokemonSpeciesPath { get; set; }
+        public string EvolutionChainPath { get; set; }
     }
 }
