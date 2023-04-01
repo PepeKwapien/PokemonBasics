@@ -25,6 +25,7 @@ namespace Models.Moves
         [StringLength(256)]
         public string Effect { get; set; }
         public int? SpecialEffectChance { get; set; }
+        public string Target { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }

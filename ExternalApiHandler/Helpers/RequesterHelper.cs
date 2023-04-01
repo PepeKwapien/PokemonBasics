@@ -1,4 +1,4 @@
-﻿using ExternalApiHandler.DTOs;
+﻿using ExternalApiHandler.DTOs.SubObjects;
 using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers

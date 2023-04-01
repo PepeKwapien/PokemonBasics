@@ -1,8 +1,7 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class EffectEntry
+    internal class NameWithLanguage : Name
     {
-        public string effect { get; set; }
         public Name language { get; set; }
     }
 }
