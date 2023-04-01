@@ -24,7 +24,7 @@ namespace ExternalApiHandler.Requesters.PokemonAbilities
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemonAbilities = await RequesterHelper.GetCollection<PokemonAbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _externalApiOptions.BaseUrl);
+                pokemonAbilities = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonAbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _externalApiOptions.BaseUrl);
             }
 
             return pokemonAbilities;

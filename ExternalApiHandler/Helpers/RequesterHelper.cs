@@ -1,4 +1,4 @@
-﻿using ExternalApiHandler.DTOs.SubObjects;
+﻿using ExternalApiHandler.DTOs;
 using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers
@@ -30,10 +30,9 @@ namespace ExternalApiHandler.Helpers
             return collectionUrls;
         }
 
-        public static async Task<List<T>> GetCollection<T>(HttpClient client, string path, string parentUrl)
+        public static async Task<List<T>> GetCollection<T>(HttpClient client, ICollection<string> collectionUrls)
         {
             List<T> collection = new List<T>();
-            List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, path, parentUrl);
 
             foreach (var url in collectionUrls)
             {
@@ -43,6 +42,13 @@ namespace ExternalApiHandler.Helpers
             }
 
             return collection;
+        }
+
+        public static async Task<List<T>> GetCollectionFromRestfulPoint<T>(HttpClient client, string path, string parentUrl)
+        {
+            List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, path, parentUrl);
+
+            return await GetCollection<T>(client, collectionUrls);
         }
     }
 }

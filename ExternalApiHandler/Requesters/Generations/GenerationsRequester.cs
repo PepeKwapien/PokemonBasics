@@ -24,7 +24,7 @@ namespace ExternalApiHandler.Requesters
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                generations = await RequesterHelper.GetCollection<GenerationDto>(client, _externalApiOptions.GenerationPath, _externalApiOptions.BaseUrl);
+                generations = await RequesterHelper.GetCollectionFromRestfulPoint<GenerationDto>(client, _externalApiOptions.GenerationPath, _externalApiOptions.BaseUrl);
             }
 
             return generations;

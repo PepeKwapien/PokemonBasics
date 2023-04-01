@@ -24,7 +24,7 @@ namespace ExternalApiHandler.Requesters
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemonMoves = await RequesterHelper.GetCollection<PokemonMoveDto>(client, _externalApiOptions.PokemonMovePath, _externalApiOptions.BaseUrl);
+                pokemonMoves = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonMoveDto>(client, _externalApiOptions.PokemonMovePath, _externalApiOptions.BaseUrl);
             }
 
             return pokemonMoves;
