@@ -13,5 +13,6 @@
         public string VersionGroupPath { get; set; }
         public string PokedexPath { get; set; }
         public string PokemonPath { get; set; }
+        public string PokemonSpeciesPath { get; set; }
     }
 }
