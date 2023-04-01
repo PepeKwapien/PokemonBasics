@@ -1,4 +1,5 @@
-﻿using Models.Enums;
+﻿using Models.Games;
+using Models.Generations;
 using Models.Types;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,20 +11,23 @@ namespace Models.Moves
         [Key]
         public Guid Id { get; private set; }
         [Required]
-        [StringLength(16)]
+        [StringLength(32)]
         public string Name { get; set; }
         public int? Power { get; set; }
         public int? Accuracy { get; set; }
         public int? PP { get; set; }
         public int Priority { get; set; }
         public Guid TypeId { get; set; }
+        [ForeignKey(nameof(TypeId))]
         public PokemonType Type { get; set; }
-        [Column(TypeName = "nvarchar(16)")]
-        [EnumDataType(typeof(AttackCategories))]
-        public AttackCategories Category { get; set; }
-        [StringLength(128)]
+        [StringLength(32)]
+        public string Category { get; set; }
+        [StringLength(256)]
         public string Effect { get; set; }
         public int? SpecialEffectChance { get; set; }
+        public Guid GenerationId { get; set; }
+        [ForeignKey(nameof(GenerationId))]
+        public Generation Generation { get; set; }
         public ICollection<PokemonMove> PokemonMoves { get; set; }
     }
 }

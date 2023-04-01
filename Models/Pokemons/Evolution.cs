@@ -1,5 +1,4 @@
-﻿using Models.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Pokemons
@@ -9,14 +8,14 @@ namespace Models.Pokemons
         [Key]
         public Guid Id { get; private set; }
         public Guid PokemonId { get; set; }
-        [ForeignKey("PokemonId")]
+        [ForeignKey(nameof(PokemonId))]
         public Pokemon Pokemon { get; set; }
         public Guid IntoId { get; set; }
-        [ForeignKey("IntoId")]
+        [ForeignKey(nameof(IntoId))]
         public Pokemon Into { get; set; }
         [Required]
-        [Column(TypeName = "nvarchar(32)")]
-        public EvolutionMethods Method { get; set; }
+        [StringLength(256)]
+        public string Method { get; set; }
         [Required]
         [StringLength(256)]
         public string Description { get; set; }

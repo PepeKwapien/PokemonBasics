@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.Games;
 using Models.Pokemons;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,15 +9,15 @@ namespace Models.Moves
     public class PokemonMove
     {
         public Guid PokemonId { get; set; }
-        [ForeignKey("PokemonId")]
+        [ForeignKey(nameof(PokemonId))]
         public Pokemon Pokemon { get; set; }
         public Guid MoveId { get; set; }
-        [ForeignKey("MoveId")]
+        [ForeignKey(nameof(MoveId))]
         public Move Move { get; set; }
-        public bool ByLevelUp { get; set; }
-        public bool ByTm { get; set; }
-        public bool ByEgg { get; set; }
-        public bool ByTutor { get; set; }
-        public bool SignatureMove { get; set; }
+        public string Method { get; set; }
+        public int MinimalLevel { get; set; }
+        public Guid GameId { get; set; }
+        [ForeignKey(nameof(GameId))]
+        public Game Game { get; set; }
     }
 }

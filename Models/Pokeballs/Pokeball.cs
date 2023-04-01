@@ -1,4 +1,5 @@
 ﻿using Models.Games;
+using Models.Generations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.Pokeballs
@@ -10,9 +11,7 @@ namespace Models.Pokeballs
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
-        [StringLength(512)]
-        public Uri? Icon { get; set; }
-
+        public ICollection<Generation> Generations { get; set; }
         public ICollection<Game> Games { get; set; }
     }
 }

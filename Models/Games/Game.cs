@@ -1,6 +1,8 @@
-﻿using Models.Enums;
+﻿using Models.Generations;
 using Models.Pokeballs;
+using Models.Pokedexes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Games
 {
@@ -11,12 +13,13 @@ namespace Models.Games
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
-        [EnumDataType(typeof(Generations))]
-        public Generations Generation { get; set; }
+        public Guid GenerationId { get; set; }
+        [ForeignKey(nameof(GenerationId))]
+        public Generation Generation { get; set; }
         [StringLength(512)]
         public Uri? Icon { get; set; }
 
         public ICollection<Pokeball> Pokeballs { get; set; }
-        public ICollection<PokemonAvailability> PokemonAvailabilities { get; set; }
+        public ICollection<Pokedex> Pokedexes { get; set; }
     }
 }

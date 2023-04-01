@@ -7,10 +7,10 @@ namespace Models.Pokemons
     public class AlternateForm
     {
         public Guid OriginalId { get; set; }
-        [ForeignKey("OriginalId")]
+        [ForeignKey(nameof(OriginalId))]
         public Pokemon Original { get; set; }
         public Guid AlternateId { get; set; }
-        [ForeignKey("AlternateId")]
+        [ForeignKey(nameof(AlternateId))]
         public Pokemon Alternate { get; set; }
     }
 }

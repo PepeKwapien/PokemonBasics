@@ -11,10 +11,10 @@ namespace Models.Abilities
         [Key]
         public Guid Id { get; private set; }
         public Guid PokemonId { get; set; }
-        [ForeignKey("PokemonId")]
+        [ForeignKey(nameof(PokemonId))]
         public Pokemon Pokemon { get; set; }
         public Guid AbilityId { get; set; }
-        [ForeignKey("AbilityId")]
+        [ForeignKey(nameof(AbilityId))]
         public Ability Ability { get; set; }
         public bool IsHidden { get; set; } = false;
     }

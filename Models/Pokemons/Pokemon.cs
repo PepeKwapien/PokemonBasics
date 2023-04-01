@@ -1,10 +1,10 @@
 ﻿using Models.Abilities;
 using Models.Moves;
-using Models.Enums;
-using Models.Games;
 using Models.Types;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Models.Generations;
+using Models.Pokedexes;
 
 namespace Models.Pokemons
 {
@@ -16,10 +16,10 @@ namespace Models.Pokemons
         [StringLength(32)]
         public string Name { get; set; }
         public Guid PrimaryTypeId { get; set; }
-        [ForeignKey("PrimaryTypeId")]
+        [ForeignKey(nameof(PrimaryTypeId))]
         public PokemonType PrimaryType { get; set; }
         public Guid? SecondaryTypeId { get; set; }
-        [ForeignKey("SecondaryTypeId")]
+        [ForeignKey(nameof(SecondaryTypeId))]
         public PokemonType? SecondaryType { get; set; }
         public int DexNumber { get; set; }
         public int HP { get; set; }
@@ -30,8 +30,9 @@ namespace Models.Pokemons
         public int Speed { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
-        [EnumDataType(typeof(Generations))]
-        public Generations Generation { get; set; }
+        public Guid GenerationId { get; set; }
+        [ForeignKey(nameof(GenerationId))]
+        public Generation Generation { get; set; }
         [StringLength(512)]
         public Uri? Image { get; set; }
 

@@ -12,7 +12,5 @@ namespace Models.Types
         [Required]
         [StringLength(16)]
         public string Color { get; set; }
-        [StringLength(512)]
-        public Uri? Icon { get; set; }
     }
 }

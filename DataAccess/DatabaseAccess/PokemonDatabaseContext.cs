@@ -5,9 +5,9 @@ using Models.Games;
 using Models.Pokeballs;
 using Models.Pokemons;
 using Models.Types;
-using System;
 using System.Configuration;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Models.Pokedexes;
+using Models.Generations;
 
 namespace DataAccess
 {
@@ -18,16 +18,22 @@ namespace DataAccess
         public DbSet<Ability> Abilities { get; set; }
         public DbSet<PokemonAbility> PokemonAbilities { get; set; }
 
-        // Attacks
+        // Games
+        public DbSet<Game> Games { get; set; }
+
+        // Generations
+        public DbSet<Generation> Generations { get; set; }
+
+        // Moves
         public DbSet<Move> Moves { get; set; }
         public DbSet<PokemonMove> PokemonMoves { get; set; }
 
-        // Games
-        public DbSet<Game> Games { get; set; }
-        public DbSet<PokemonAvailability> PokemonAvailabilities { get; set; }
-
         // Pokeballs
         public DbSet<Pokeball> Pokeballs { get; set; }
+
+        // Pokedexes
+        public DbSet<Pokedex> Pokedexes { get; set; }
+        public DbSet<PokemonAvailability> PokemonAvailabilities { get; set; }
 
         // Pokemons
         public DbSet<Pokemon> Pokemons { get; set; }
@@ -36,29 +42,15 @@ namespace DataAccess
 
         // Types
         public DbSet<PokemonType> Types { get; set; }
-        public DbSet<DamageMultiplier> DamageMultiplier { get; set; }
+        public DbSet<DamageMultiplier> DamageMultipliers { get; set; }
         #endregion
 
-        public PokemonDatabaseContext()
-        {
-
-        }
+        public PokemonDatabaseContext() { }
         public PokemonDatabaseContext(DbContextOptions<PokemonDatabaseContext> options) : base(options) { }
-
-        public static PokemonDatabaseContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<PokemonDatabaseContext>();
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
-
-            return new PokemonDatabaseContext(optionsBuilder.Options);
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(PokemonDatabaseContext.CreateDbContext(null).Database.GetConnectionString());
-            }
+            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,6 +1,6 @@
 ﻿namespace Models.Enums
 {
-    public enum Generations
+    public enum Regions
     {
         Kanto = 1,
         Johto = 2,
