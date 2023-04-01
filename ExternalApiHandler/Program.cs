@@ -38,7 +38,8 @@ namespace ExternalApiHandler
             serviceCollection
                 .AddSingleton<IPokemonTypesRequester, PokemonTypesRequester>()
                 .AddSingleton<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>()
-                .AddSingleton<IPokemonMovesRequester, PokemonMovesRequester>();
+                .AddSingleton<IPokemonMovesRequester, PokemonMovesRequester>()
+                .AddSingleton<IGenerationsRequester, GenerationsRequester>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {

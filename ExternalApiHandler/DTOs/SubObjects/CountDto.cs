@@ -4,11 +4,6 @@
     {
         public int count { get; set; }
         public string next { get; set; }
-        public Result[] results { get; set; }
-    }
-
-    internal class Result
-    {
-        public string url { get; set; }
+        public Url[] results { get; set; }
     }
 }
