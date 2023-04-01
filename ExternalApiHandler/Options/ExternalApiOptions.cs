@@ -10,5 +10,6 @@
         public string GenerationPath { get; set; }
         public string ItemCategoryPath { get; set; }
         public string[] ItemCategoriesForPokeballs { get; set; }
+        public string VersionGroupPath { get; set; }
     }
 }

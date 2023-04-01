@@ -14,7 +14,7 @@ namespace ExternalApiHandler.Helpers
             return dto;
         }
 
-        public static async Task<List<string>> GetCollectionUrls(HttpClient client, string path, string parentUrl)
+        public static async Task<List<string>> GetCollectionUrls(HttpClient client, string path, string urlMask)
         {
             List<string> collectionUrls = new List<string>();
             string? next = path;
@@ -23,30 +23,32 @@ namespace ExternalApiHandler.Helpers
             {
                 Console.WriteLine(next);
                 CountDto count = await Get<CountDto>(client, next);
-                collectionUrls.AddRange(count.results.Select(result => result.url.Replace(parentUrl, "")));
+                collectionUrls.AddRange(count.results.Select(result => result.url.Replace(urlMask, "")));
                 next = count.next;
             } while (!String.IsNullOrEmpty(next));
 
             return collectionUrls;
         }
 
-        public static async Task<List<T>> GetCollection<T>(HttpClient client, ICollection<string> collectionUrls)
+        public static async Task<List<T>> GetCollection<T>(HttpClient client, ICollection<string> collectionUrls, string? urlMask = null)
         {
             List<T> collection = new List<T>();
 
             foreach (var url in collectionUrls)
             {
+                string getUrl = urlMask != null ? url.Replace(urlMask, "") : url;
+
                 Console.WriteLine(url);
-                T dto = await RequesterHelper.Get<T>(client, url);
+                T dto = await RequesterHelper.Get<T>(client, getUrl);
                 collection.Add(dto);
             }
 
             return collection;
         }
 
-        public static async Task<List<T>> GetCollectionFromRestfulPoint<T>(HttpClient client, string path, string parentUrl)
+        public static async Task<List<T>> GetCollectionFromRestfulPoint<T>(HttpClient client, string path, string urlMask)
         {
-            List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, path, parentUrl);
+            List<string> collectionUrls = await RequesterHelper.GetCollectionUrls(client, path, urlMask);
 
             return await GetCollection<T>(client, collectionUrls);
         }

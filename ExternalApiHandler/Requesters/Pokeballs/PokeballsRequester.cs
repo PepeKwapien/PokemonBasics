@@ -3,7 +3,7 @@ using ExternalApiHandler.Helpers;
 using ExternalApiHandler.Options;
 using Microsoft.Extensions.Options;
 
-namespace ExternalApiHandler.Requesters.Pokeballs
+namespace ExternalApiHandler.Requesters
 {
     internal class PokeballsRequester : IPokeballsRequester
     {
@@ -30,10 +30,10 @@ namespace ExternalApiHandler.Requesters.Pokeballs
                 {
                     string path = $"{_externalApiOptions.ItemCategoryPath}/{itemCategory}";
                     var pokeballCategory = await RequesterHelper.Get<ItemCategoryDto>(client, path);
-                    pokeballUrls.AddRange(pokeballCategory.items.Select(item => item.url.Replace(_externalApiOptions.BaseUrl, "")));
+                    pokeballUrls.AddRange(pokeballCategory.items.Select(item => item.url));
                 }
 
-                pokeballs = await RequesterHelper.GetCollection<PokeballDto>(client, pokeballUrls);
+                pokeballs = await RequesterHelper.GetCollection<PokeballDto>(client, pokeballUrls, _externalApiOptions.BaseUrl);
             }
 
             return pokeballs;

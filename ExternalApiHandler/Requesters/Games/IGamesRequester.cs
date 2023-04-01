@@ -2,7 +2,7 @@
 
 namespace ExternalApiHandler.Requesters
 {
-    internal interface IPokeballsRequester : IRequester<PokeballDto>
+    internal interface IGamesRequester : IRequester<GamesDto>
     {
     }
 }

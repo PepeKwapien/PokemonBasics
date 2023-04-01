@@ -7,7 +7,6 @@ using ExternalApiHandler.Handlers;
 using ExternalApiHandler.Requesters.PokemonAbilities;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
-using ExternalApiHandler.Requesters.Pokeballs;
 
 namespace ExternalApiHandler
 {
@@ -41,7 +40,8 @@ namespace ExternalApiHandler
                 .AddSingleton<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>()
                 .AddSingleton<IPokemonMovesRequester, PokemonMovesRequester>()
                 .AddSingleton<IGenerationsRequester, GenerationsRequester>()
-                .AddSingleton<IPokeballsRequester, PokeballsRequester>();
+                .AddSingleton<IPokeballsRequester, PokeballsRequester>()
+                .AddSingleton<IGamesRequester, GamesRequester>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {
