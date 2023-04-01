@@ -5,12 +5,12 @@ using Microsoft.Extensions.Options;
 
 namespace ExternalApiHandler.Requesters
 {
-    internal class PokemonAbilitiesRequester : IPokemonAbilitiesRequester
+    internal class PokedexesRequester : IPokedexesRequester
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly ExternalApiOptions _externalApiOptions;
 
-        public PokemonAbilitiesRequester(
+        public PokedexesRequester(
             IHttpClientFactory httpClientFactory,
             IOptions<ExternalApiOptions> externalApiOptions)
         {
@@ -18,16 +18,16 @@ namespace ExternalApiHandler.Requesters
             _externalApiOptions = externalApiOptions.Value;
         }
 
-        public async Task<List<PokemonAbilityDto>> GetCollection()
+        public async Task<List<PokedexDto>> GetCollection()
         {
-            List<PokemonAbilityDto> pokemonAbilities = new List<PokemonAbilityDto>();
+            List<PokedexDto> pokedexes = new List<PokedexDto>();
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemonAbilities = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonAbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _externalApiOptions.BaseUrl);
+                pokedexes = await RequesterHelper.GetCollectionFromRestfulPoint<PokedexDto>(client, _externalApiOptions.PokedexPath, _externalApiOptions.BaseUrl);
             }
 
-            return pokemonAbilities;
+            return pokedexes;
         }
     }
 }

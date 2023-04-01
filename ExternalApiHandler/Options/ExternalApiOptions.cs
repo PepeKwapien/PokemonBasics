@@ -11,5 +11,7 @@
         public string ItemCategoryPath { get; set; }
         public string[] ItemCategoriesForPokeballs { get; set; }
         public string VersionGroupPath { get; set; }
+        public string PokedexPath { get; set; }
+        public string PokemonPath { get; set; }
     }
 }
