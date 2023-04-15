@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models.Pokedexes
 {
-    public class Pokedex
+    public class Pokedex : IModel
     {
         [Key]
         public Guid Id { get; set; }

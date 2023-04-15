@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Pokemons
 {
-    public class Evolution
+    public class Evolution : IModel
     {
         [Key]
         public Guid Id { get; private set; }

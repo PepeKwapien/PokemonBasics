@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Abilities
 {
-    public class Ability
+    public class Ability : IModel
     {
         [Key]
         public Guid Id { get; private set; }

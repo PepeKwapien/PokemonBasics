@@ -2,7 +2,7 @@
 
 namespace Models.Types
 {
-    public class PokemonType
+    public class PokemonType : IModel
     {
         [Key]
         public Guid Id { get; private set; }

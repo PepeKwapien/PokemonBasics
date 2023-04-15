@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models.Moves
 {
     [PrimaryKey(nameof(PokemonId), nameof(MoveId))]
-    public class PokemonMove
+    public class PokemonMove : IModel
     {
         public Guid PokemonId { get; set; }
         [ForeignKey(nameof(PokemonId))]

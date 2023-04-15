@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models.Types
 {
     [PrimaryKey(nameof(TypeId), nameof(AgainstId))]
-    public class DamageMultiplier
+    public class DamageMultiplier : IModel
     {
         public Guid TypeId { get; set; }
         [ForeignKey(nameof(TypeId))]

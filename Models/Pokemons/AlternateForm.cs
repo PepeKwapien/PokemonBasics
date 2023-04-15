@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models.Pokemons
 {
     [PrimaryKey(nameof(OriginalId), nameof(AlternateId))]
-    public class AlternateForm
+    public class AlternateForm : IModel
     {
         public Guid OriginalId { get; set; }
         [ForeignKey(nameof(OriginalId))]

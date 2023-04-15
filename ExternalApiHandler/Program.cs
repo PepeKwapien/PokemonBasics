@@ -3,7 +3,7 @@ using ExternalApiHandler.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ExternalApiHandler.Handlers;
+using ExternalApiHandler.Mappers;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,11 +28,6 @@ namespace ExternalApiHandler
             serviceCollection
                 .AddDbContext<PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
 
-            // Handlers
-            serviceCollection
-                .AddSingleton<PokemonTypeHandler>()
-                .AddSingleton<DamageMultiplierHandler>();
-
             // Requesters
             serviceCollection
                 .AddSingleton<IPokemonTypesRequester, PokemonTypesRequester>()
@@ -45,6 +40,10 @@ namespace ExternalApiHandler
                 .AddSingleton<IPokemonsRequester, PokemonsRequester>()
                 .AddSingleton<IPokemonSpeciesRequester, PokemonSpeciesRequester>()
                 .AddSingleton<IEvolutionsRequester, EvolutionsRequester>();
+
+            // Mappers
+            serviceCollection
+                .AddScoped<PokemonTypeMapper>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {
@@ -59,11 +58,14 @@ namespace ExternalApiHandler
 
                 Console.WriteLine(options.Value.BaseUrl);
 
-                var requester = scope.ServiceProvider.GetService<IPokemonMovesRequester>();
-
+                var requester = scope.ServiceProvider.GetService<IPokemonTypesRequester>();
                 var collection = await requester.GetCollection();
 
-                Console.WriteLine(collection.Count);
+                var mapper = scope.ServiceProvider.GetService<PokemonTypeMapper>();
+                mapper.SetUp(collection);
+                var mapResult = mapper.Map();
+
+                Console.WriteLine(mapResult.Count);
             }
         }
     }

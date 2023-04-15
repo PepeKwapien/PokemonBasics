@@ -50,7 +50,10 @@ namespace DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultDatabase"].ConnectionString);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

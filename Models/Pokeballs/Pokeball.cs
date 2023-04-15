@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models.Pokeballs
 {
-    public class Pokeball
+    public class Pokeball : IModel
     {
         [Key]
         public Guid Id { get; private set; }

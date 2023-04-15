@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models.Abilities
 {
     [PrimaryKey(nameof(PokemonId), nameof(AbilityId))]
-    public class PokemonAbility
+    public class PokemonAbility : IModel
     {
         [Key]
         public Guid Id { get; private set; }
