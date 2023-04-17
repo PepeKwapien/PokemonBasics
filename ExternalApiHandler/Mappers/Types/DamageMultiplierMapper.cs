@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
+using Logger;
 using Models.Types;
 
 namespace ExternalApiHandler.Mappers
@@ -7,23 +8,31 @@ namespace ExternalApiHandler.Mappers
     internal class DamageMultiplierMapper : Mapper<DamageMultiplier>
     {
         private List<PokemonTypeDto> _pokemonTypesDto;
+        private readonly ILogger _logger;
 
-        public DamageMultiplierMapper(PokemonDatabaseContext dbContext) : base(dbContext)
+        public DamageMultiplierMapper(PokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
-
+            _logger = logger;
         }
 
         public override List<DamageMultiplier> Map()
         {
+            // Have to clear relations because there is a check whether specific relation already exists
+            foreach (var damageMultiplier in _dbContext.DamageMultipliers)
+            {
+                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
+                _dbContext.DamageMultipliers.Remove(damageMultiplier);
+            }
+
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
             foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
             {
                 PokemonType currentType = FindTypeByNameLowercase(typeDto.name);
 
-
                 if(currentType == null)
                 {
+                    _logger.Warn($"No type with name {typeDto.name} was found. Skipping creating its relations");
                     continue;
                 }
 
@@ -31,13 +40,9 @@ namespace ExternalApiHandler.Mappers
                 damageMultipliers.AddRange(newDamageMultipliers);
             }
 
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers)
-            {
-                _dbContext.DamageMultipliers.Remove(damageMultiplier);
-            }
-
             _dbContext.DamageMultipliers.AddRange(damageMultipliers);
             _dbContext.SaveChanges();
+            _logger.Success($"Saved {damageMultipliers.Count} damage relations");
 
             return damageMultipliers;
         }
@@ -73,6 +78,9 @@ namespace ExternalApiHandler.Mappers
 
                 if (typeInRelation == null)
                 {
+                    _logger.Warn($"Unknown type {typeRelation.name} couldn't be found." +
+                        $"Skipping creating relation with type {currentType.Name} where damage multiplier equals {multiplyValue}." +
+                        $"Is type {currentType.Name} attacking?: {currentIsAttacking}");
                     continue;
                 }
 
@@ -81,6 +89,7 @@ namespace ExternalApiHandler.Mappers
 
                 if (DoesDamageMultiplierExist(attakcingType, defendingType, multiplyValue))
                 {
+                    _logger.Info($"Relation where {attakcingType.Name} attacks {defendingType.Name} with multiplier {multiplyValue} already exists. Skipping");
                     continue;
                 }
 
@@ -92,6 +101,7 @@ namespace ExternalApiHandler.Mappers
                 };
 
                 damageMultipliers.Add(damageMultiplier);
+                _logger.Debug($"Damage multiplier where {attakcingType.Name} attacks {defendingType.Name} with multiplier {multiplyValue} created");
             }
 
             return damageMultipliers;

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using ExternalApiHandler.Mappers;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Logger;
 
 namespace ExternalApiHandler
 {
@@ -22,11 +23,21 @@ namespace ExternalApiHandler
 
             // Options
             var serviceCollection = new ServiceCollection()
-                .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"));
+                .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"))
+                .Configure<LoggerOptions>(config.GetRequiredSection("LoggerSettings"));
 
             // DbContext
             serviceCollection
                 .AddDbContext<PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
+
+            // Logger
+            serviceCollection
+                .AddScoped<ILogger>(serviceProvider =>
+            {
+                var options = serviceProvider.GetService<IOptions<LoggerOptions>>();
+                var optionsValue = options.Value;
+                return new FileLogger(optionsValue.FilePath, optionsValue.FileName, optionsValue.LoggerLevel);
+            });
 
             // Requesters
             serviceCollection
@@ -62,11 +73,13 @@ namespace ExternalApiHandler
                 var requester = scope.ServiceProvider.GetService<IPokemonTypesRequester>();
                 var collection = await requester.GetCollection();
 
-                var mapper = scope.ServiceProvider.GetService<DamageMultiplierMapper>();
-                mapper.SetUp(collection);
-                var mapResult = mapper.Map();
+                var mapper1 = scope.ServiceProvider.GetService<PokemonTypeMapper>();
+                mapper1.SetUp(collection);
+                var mapResult1 = mapper1.Map();
 
-                Console.WriteLine(mapResult.Count);
+                var mapper2 = scope.ServiceProvider.GetService<DamageMultiplierMapper>();
+                mapper2.SetUp(collection);
+                var mapResult2 = mapper2.Map();
             }
         }
     }

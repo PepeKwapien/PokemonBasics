@@ -1,17 +1,19 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Helpers;
+using Logger;
 using Models.Types;
 
 namespace ExternalApiHandler.Mappers
 {
     internal class PokemonTypeMapper : Mapper<PokemonType>
     {
+        private readonly ILogger _logger;
         private List<PokemonTypeDto> _pokemonTypesDto;
 
-        public PokemonTypeMapper(PokemonDatabaseContext dbContext) : base(dbContext)
+        public PokemonTypeMapper(PokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
-           
+            _logger = logger;
         }
 
         public override List<PokemonType> Map()
@@ -30,15 +32,23 @@ namespace ExternalApiHandler.Mappers
                 };
 
                 pokemonTypes.Add(newType);
+                _logger.Debug($"Mapped type {name} with color {color}");
             }
 
-            foreach(var type in _dbContext.Types)
+            // Due to annoying foreign key structure I have to remove multipliers manually
+            foreach (var damageMultiplier in _dbContext.DamageMultipliers)
             {
+                _dbContext.DamageMultipliers.Remove(damageMultiplier);
+            }
+            foreach (var type in _dbContext.Types)
+            {
+                _logger.Debug($"Removing type {type.Name}");
                 _dbContext.Types.Remove(type);
             }
 
             _dbContext.Types.AddRange(pokemonTypes);
             _dbContext.SaveChanges();
+            _logger.Success($"Saved {pokemonTypes.Count} types");
 
             return pokemonTypes;
         }
