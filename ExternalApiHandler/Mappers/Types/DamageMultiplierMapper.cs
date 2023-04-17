@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
 using Logger;
+using Microsoft.EntityFrameworkCore;
 using Models.Types;
 
 namespace ExternalApiHandler.Mappers
@@ -18,7 +19,7 @@ namespace ExternalApiHandler.Mappers
         public override List<DamageMultiplier> Map()
         {
             // Have to clear relations because there is a check whether specific relation already exists
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers)
+            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm => dm.Type).Include(dm => dm.Against))
             {
                 _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
                 _dbContext.DamageMultipliers.Remove(damageMultiplier);

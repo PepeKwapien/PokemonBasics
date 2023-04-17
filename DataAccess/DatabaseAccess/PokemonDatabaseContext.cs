@@ -62,13 +62,13 @@ namespace DataAccess
                 .HasOne(dm => dm.Type)
                 .WithMany()
                 .HasForeignKey(dm => dm.TypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<DamageMultiplier>()
                 .HasOne(dm => dm.Against)
                 .WithMany()
                 .HasForeignKey(dm => dm.AgainstId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<AlternateForm>()
                 .HasOne(af => af.Original)

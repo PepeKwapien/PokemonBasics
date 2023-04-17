@@ -2,6 +2,7 @@
 using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Helpers;
 using Logger;
+using Microsoft.EntityFrameworkCore;
 using Models.Types;
 
 namespace ExternalApiHandler.Mappers
@@ -36,8 +37,9 @@ namespace ExternalApiHandler.Mappers
             }
 
             // Due to annoying foreign key structure I have to remove multipliers manually
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers)
+            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm=>dm.Type).Include(dm=>dm.Against))
             {
+                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
                 _dbContext.DamageMultipliers.Remove(damageMultiplier);
             }
             foreach (var type in _dbContext.Types)
