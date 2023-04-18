@@ -28,7 +28,7 @@ namespace ExternalApiHandler
 
             // DbContext
             serviceCollection
-                .AddDbContext<PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
+                .AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
 
             // Logger
             serviceCollection

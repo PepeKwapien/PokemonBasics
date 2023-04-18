@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class EvolvesTo
+    public class EvolvesTo
     {
         public EvolutionDetail[] evolution_details { get; set; }
         public EvolvesTo[] evolves_to { get; set; }

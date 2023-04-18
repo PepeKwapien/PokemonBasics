@@ -11,7 +11,7 @@ using Models.Generations;
 
 namespace DataAccess
 {
-    public class PokemonDatabaseContext : DbContext
+    public class PokemonDatabaseContext : DbContext, IPokemonDatabaseContext
     {
         #region DbSets
         // Abilities

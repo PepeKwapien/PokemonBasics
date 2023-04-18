@@ -7,12 +7,12 @@ using Models.Types;
 
 namespace ExternalApiHandler.Mappers
 {
-    internal class PokemonTypeMapper : Mapper<PokemonType>
+    public class PokemonTypeMapper : Mapper<PokemonType>
     {
         private readonly ILogger _logger;
         private List<PokemonTypeDto> _pokemonTypesDto;
 
-        public PokemonTypeMapper(PokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
+        public PokemonTypeMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
         }
@@ -29,7 +29,7 @@ namespace ExternalApiHandler.Mappers
                 PokemonType newType = new PokemonType()
                 {
                     Name = name,
-                    Color= color,
+                    Color = color,
                 };
 
                 pokemonTypes.Add(newType);

@@ -3,11 +3,11 @@ using Models;
 
 namespace ExternalApiHandler.Mappers
 {
-    internal abstract class Mapper<T> where T : IModel
+    public abstract class Mapper<T> where T : IModel
     {
-        protected readonly PokemonDatabaseContext _dbContext;
+        protected readonly IPokemonDatabaseContext _dbContext;
 
-        protected Mapper(PokemonDatabaseContext dbContext)
+        protected Mapper(IPokemonDatabaseContext dbContext)
         {
             _dbContext = dbContext;
         }

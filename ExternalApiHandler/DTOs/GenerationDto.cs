@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class GenerationDto : IDto
+    public class GenerationDto : IDto
     {
         public Name[] abilities { get; set; }
         public string name { get; set; }

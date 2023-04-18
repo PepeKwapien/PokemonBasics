@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.Helpers
 {
-    internal class TypeColorHelper
+    public class TypeColorHelper
     {
         private static readonly Dictionary<string, string> colors = new Dictionary<string, string>()
         {

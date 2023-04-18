@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class PokemonSpeciesDto : IDto
+    public class PokemonSpeciesDto : IDto
     {
         public Name[] egg_groups { get; set; }
         public Name generation { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class InnerPokemonType
+    public class InnerPokemonType
     {
         public Name type { get; set; }
     }

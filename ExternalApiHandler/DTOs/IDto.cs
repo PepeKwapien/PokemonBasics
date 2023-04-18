@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal interface IDto
+    public interface IDto
     {
     }
 }

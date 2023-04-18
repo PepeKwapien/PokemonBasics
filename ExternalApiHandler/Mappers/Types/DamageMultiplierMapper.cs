@@ -6,12 +6,12 @@ using Models.Types;
 
 namespace ExternalApiHandler.Mappers
 {
-    internal class DamageMultiplierMapper : Mapper<DamageMultiplier>
+    public class DamageMultiplierMapper : Mapper<DamageMultiplier>
     {
         private List<PokemonTypeDto> _pokemonTypesDto;
         private readonly ILogger _logger;
 
-        public DamageMultiplierMapper(PokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
+        public DamageMultiplierMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
         }
@@ -56,20 +56,25 @@ namespace ExternalApiHandler.Mappers
         #region Private Methods
         private PokemonType FindTypeByNameLowercase(string typeName)
         {
-            return _dbContext.Types.FirstOrDefault(type => type.Name.ToLower() == typeName);
+            return _dbContext.Types.FirstOrDefault(type => type.Name.ToLower() == typeName.ToLower());
         }
 
-        private bool DoesDamageMultiplierExist(PokemonType type, PokemonType against, double multiplyValue)
+        private bool DoesDamageMultiplierExist(PokemonType type, PokemonType against, double multiplyValue, List<DamageMultiplier> damageMultipliers)
         {
-            var possiblyExistingMultiplier = _dbContext.DamageMultipliers.FirstOrDefault(multiplier =>
-                multiplier.TypeId == type.Id &&
-                multiplier.AgainstId == against.Id &&
+            var possiblyExistingMultiplier = damageMultipliers.FirstOrDefault(multiplier =>
+                (multiplier.TypeId == type.Id || multiplier.Type.Name == type.Name) &&
+                (multiplier.AgainstId == against.Id || multiplier.Against.Name == type.Name) &&
                 multiplier.Multiplier == multiplyValue);
 
             return possiblyExistingMultiplier != null;
         }
 
-        private List<DamageMultiplier> CreateDamageMultipliers(PokemonType currentType, Name[] typeRelations, double multiplyValue, bool currentIsAttacking = true)
+        private List<DamageMultiplier> CreateDamageMultipliers(
+            PokemonType currentType,
+            Name[] typeRelations,
+            double multiplyValue,
+            bool currentIsAttacking,
+            List<DamageMultiplier> allDamageMultipliers)
         {
             List<DamageMultiplier> damageMultipliers= new List<DamageMultiplier>();
 
@@ -88,7 +93,7 @@ namespace ExternalApiHandler.Mappers
                 PokemonType attakcingType = currentIsAttacking ? currentType : typeInRelation;
                 PokemonType defendingType = currentIsAttacking ? typeInRelation : currentType;
 
-                if (DoesDamageMultiplierExist(attakcingType, defendingType, multiplyValue))
+                if (DoesDamageMultiplierExist(attakcingType, defendingType, multiplyValue, allDamageMultipliers))
                 {
                     _logger.Info($"Relation where {attakcingType.Name} attacks {defendingType.Name} with multiplier {multiplyValue} already exists. Skipping");
                     continue;
@@ -112,12 +117,12 @@ namespace ExternalApiHandler.Mappers
         {
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_to, 2));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_from, 2, false));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_to, 0.5));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_from, 0.5, false));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_to, 0));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_from, 0, false));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_to, 2, true, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_from, 2, false, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_to, 0.5, true, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_from, 0.5, false, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_to, 0, true, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_from, 0, false, damageMultipliers));
 
             return damageMultipliers;
         }

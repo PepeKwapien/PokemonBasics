@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class VersionGroupDto
+    public class VersionGroupDto
     {
         public Name generation { get; set; }
         public string name { get; set; }

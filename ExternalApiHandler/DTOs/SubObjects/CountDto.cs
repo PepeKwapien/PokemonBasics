@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class CountDto
+    public class CountDto
     {
         public int count { get; set; }
         public string next { get; set; }

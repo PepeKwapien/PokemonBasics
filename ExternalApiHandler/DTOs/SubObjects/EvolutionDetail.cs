@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class EvolutionDetail
+    public class EvolutionDetail
     {
         public int? gender { get; set; }
         public Name? held_item { get; set; }

@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace ExternalApiHandler.Helpers
 {
-    internal class RequesterHelper
+    public class RequesterHelper
     {
         // Method to get dto object from given endpoint and deserialize it
         public static async Task<T> Get<T>(HttpClient client, string path, ILogger? logger = null)

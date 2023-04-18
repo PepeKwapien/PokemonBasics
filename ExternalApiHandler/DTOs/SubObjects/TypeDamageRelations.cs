@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class TypeDamageRelations
+    public class TypeDamageRelations
     {
         public Name[] double_damage_from { get; set; }
         public Name[] double_damage_to { get; set; }

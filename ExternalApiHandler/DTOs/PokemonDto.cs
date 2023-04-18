@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    internal class PokemonDto : IDto
+    public class PokemonDto : IDto
     {
         public Ability[] abilities { get; set; }
         public int height { get; set; }

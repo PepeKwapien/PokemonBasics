@@ -2,7 +2,7 @@
 
 namespace ExternalApiHandler.Options
 {
-    internal class LoggerOptions
+    public class LoggerOptions
     {
         public MinimalLoggerLevel LoggerLevel { get; set; }
         public string FilePath { get; set; }
