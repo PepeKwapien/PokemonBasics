@@ -32,7 +32,7 @@ namespace ExternalApiHandler
 
             // Logger
             serviceCollection
-                .AddScoped<ILogger>(serviceProvider =>
+                .AddSingleton<ILogger>(serviceProvider =>
             {
                 var options = serviceProvider.GetService<IOptions<LoggerOptions>>();
                 var optionsValue = options.Value;
