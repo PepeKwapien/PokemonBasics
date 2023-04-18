@@ -13,7 +13,7 @@ namespace ExternalApiHandler.Helpers
             var stringifiedContent = await result.Content.ReadAsStringAsync();
             T dto = JsonSerializer.Deserialize<T>(stringifiedContent);
 
-            logger?.Debug($"Object of type {typeof(T)} receiver from endpoint {path}");
+            logger?.Debug($"Object of type {typeof(T)} received from endpoint {path}");
 
             return dto;
         }
