@@ -32,7 +32,7 @@ namespace ExternalApiHandler
 
             // Logger
             serviceCollection
-                .AddSingleton<ILogger>(serviceProvider =>
+                .AddScoped<ILogger>(serviceProvider =>
             {
                 var options = serviceProvider.GetService<IOptions<LoggerOptions>>();
                 var optionsValue = options.Value;
@@ -41,16 +41,16 @@ namespace ExternalApiHandler
 
             // Requesters
             serviceCollection
-                .AddSingleton<IPokemonTypesRequester, PokemonTypesRequester>()
-                .AddSingleton<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>()
-                .AddSingleton<IPokemonMovesRequester, PokemonMovesRequester>()
-                .AddSingleton<IGenerationsRequester, GenerationsRequester>()
-                .AddSingleton<IPokeballsRequester, PokeballsRequester>()
-                .AddSingleton<IGamesRequester, GamesRequester>()
-                .AddSingleton<IPokedexesRequester, PokedexesRequester>()
-                .AddSingleton<IPokemonsRequester, PokemonsRequester>()
-                .AddSingleton<IPokemonSpeciesRequester, PokemonSpeciesRequester>()
-                .AddSingleton<IEvolutionsRequester, EvolutionsRequester>();
+                .AddScoped<IPokemonTypesRequester, PokemonTypesRequester>()
+                .AddScoped<IPokemonAbilitiesRequester, PokemonAbilitiesRequester>()
+                .AddScoped<IPokemonMovesRequester, PokemonMovesRequester>()
+                .AddScoped<IGenerationsRequester, GenerationsRequester>()
+                .AddScoped<IPokeballsRequester, PokeballsRequester>()
+                .AddScoped<IGamesRequester, GamesRequester>()
+                .AddScoped<IPokedexesRequester, PokedexesRequester>()
+                .AddScoped<IPokemonsRequester, PokemonsRequester>()
+                .AddScoped<IPokemonSpeciesRequester, PokemonSpeciesRequester>()
+                .AddScoped<IEvolutionsRequester, EvolutionsRequester>();
 
             // Mappers
             serviceCollection
@@ -80,6 +80,8 @@ namespace ExternalApiHandler
                 var mapper2 = scope.ServiceProvider.GetService<DamageMultiplierMapper>();
                 mapper2.SetUp(collection);
                 var mapResult2 = mapper2.Map();
+
+                Console.WriteLine(mapResult2.Count);
             }
         }
     }
