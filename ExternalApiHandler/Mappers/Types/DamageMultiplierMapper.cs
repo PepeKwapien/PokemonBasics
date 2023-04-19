@@ -62,8 +62,8 @@ namespace ExternalApiHandler.Mappers
         private bool DoesDamageMultiplierExist(PokemonType type, PokemonType against, double multiplyValue, List<DamageMultiplier> damageMultipliers)
         {
             var possiblyExistingMultiplier = damageMultipliers.FirstOrDefault(multiplier =>
-                (multiplier.TypeId == type.Id || multiplier.Type.Name == type.Name) &&
-                (multiplier.AgainstId == against.Id || multiplier.Against.Name == against.Name) &&
+                multiplier.TypeId.Equals(type.Id) &&
+                multiplier.AgainstId.Equals(against.Id) &&
                 multiplier.Multiplier == multiplyValue);
 
             return possiblyExistingMultiplier != null;
@@ -106,7 +106,9 @@ namespace ExternalApiHandler.Mappers
                 DamageMultiplier damageMultiplier = new DamageMultiplier()
                 {
                     Multiplier = multiplyValue,
+                    TypeId= attakcingType.Id,
                     Type = attakcingType,
+                    AgainstId= defendingType.Id,
                     Against = defendingType,
                 };
 
