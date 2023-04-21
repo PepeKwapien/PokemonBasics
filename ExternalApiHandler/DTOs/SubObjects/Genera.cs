@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class Genera
+    public class Genera : ILanguageVersion
     {
         public string genus { get; set; }
         public Name language { get; set; }
