@@ -6,11 +6,6 @@ namespace ExternalApiHandler.Helpers
 {
     public class RequesterHelper
     {
-        static RequesterHelper()
-        {
-
-        }
-
         // Method to get dto object from given endpoint and deserialize it
         public static async Task<T> Get<T>(HttpClient client, string path, ILogger? logger = null)
         {
