@@ -1,12 +1,11 @@
 ﻿using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Helpers;
-using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Protected;
+using Moq.Language.Flow;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -82,6 +81,80 @@ namespace Tests.ExternalApiHandler.Helpers
             Assert.AreEqual(pokemonTypeDto.damage_relations.half_damage_to.Length, result.damage_relations.half_damage_to.Length);
         }
 
-        
+        [TestMethod]
+        public async Task GetCollectionUrls_GetsCorrectNumberOfUrls()
+        {
+            // Arrange
+            string baseAddress = "http://example.com";
+            CountDto countDto1 = new CountDto
+            {
+                count = 3,
+                next = "2",
+                results = new Url[]
+                {
+                    new Url
+                    {
+                        url = "1"
+                    },
+                     new Url
+                    {
+                        url = "2"
+                    },
+                      new Url
+                    {
+                        url = "3"
+                    },
+                }
+            };
+
+            CountDto countDto2 = new CountDto
+            {
+                count = 2,
+                next = "",
+                results = new Url[]
+                {
+                    new Url
+                    {
+                        url = "4"
+                    },
+                     new Url
+                    {
+                        url = "5"
+                    },
+                }
+            };
+            _handler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync", ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.AbsolutePath.Equals("/1")), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(countDto1), Encoding.UTF8, "application/json")
+                });
+            
+            _handler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync", ItExpr.Is<HttpRequestMessage>(r => r.RequestUri.AbsolutePath.Equals("/2")), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(countDto2), Encoding.UTF8, "application/json")
+                });
+
+            // Create a new HttpClient with the mock HttpMessageHandler
+            var httpClient = new HttpClient(_handler.Object)
+            {
+                BaseAddress = new Uri(baseAddress)
+            };
+
+            // Act
+            var result = await RequesterHelper.GetCollectionUrls(httpClient, "1", "notExisting");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(countDto1.count + countDto2.count, result.Count);
+        }
     }
 }
