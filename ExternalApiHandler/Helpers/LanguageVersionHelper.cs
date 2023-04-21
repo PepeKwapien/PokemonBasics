@@ -2,7 +2,7 @@
 
 namespace ExternalApiHandler.Helpers
 {
-    public class LanguageVersionFinder
+    public class LanguageVersionHelper
     {
         public static T FindEnglishVersion<T>(T[] languageVersions) where T : ILanguageVersion
         {

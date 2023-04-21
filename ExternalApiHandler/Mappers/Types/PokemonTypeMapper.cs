@@ -23,7 +23,7 @@ namespace ExternalApiHandler.Mappers
 
             foreach(PokemonTypeDto typeDto in _pokemonTypesDto)
             {
-                string name = LanguageVersionFinder.FindEnglishVersion(typeDto.names).name;
+                string name = LanguageVersionHelper.FindEnglishVersion(typeDto.names).name;
                 string color = TypeColorHelper.GetTypeColor(typeDto.name);
 
                 PokemonType newType = new PokemonType()

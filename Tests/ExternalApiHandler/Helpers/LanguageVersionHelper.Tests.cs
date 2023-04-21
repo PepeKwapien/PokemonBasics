@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests.ExternalApiHandler.Helpers
 {
     [TestClass]
-    public class LanguageVersionFinderTests
+    public class LanguageVersionHelperTests
     {
         private NameWithLanguage[] _languagesVersions;
         private NameWithLanguage _englishVersion;
@@ -60,7 +60,7 @@ namespace Tests.ExternalApiHandler.Helpers
             };
 
             // Act
-            var result = LanguageVersionFinder.FindEnglishVersion(_languagesVersions);
+            var result = LanguageVersionHelper.FindEnglishVersion(_languagesVersions);
 
             // Assert
             Assert.IsNotNull(result);
@@ -94,7 +94,7 @@ namespace Tests.ExternalApiHandler.Helpers
             };
 
             // Act
-            var result = LanguageVersionFinder.FindEnglishVersion(_languagesVersions);
+            var result = LanguageVersionHelper.FindEnglishVersion(_languagesVersions);
 
             // Assert
             Assert.IsNotNull(result);
