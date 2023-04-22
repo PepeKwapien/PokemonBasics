@@ -37,7 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName1.ToLower(),
-                    names = EnglishNameArrayGenerator.Generate(new []{_typeName1}),
+                    names = SingleEnglishNameWithLanguageGenerator.Generate(_typeName1),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],
@@ -51,7 +51,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName2.ToLower(),
-                    names = EnglishNameArrayGenerator.Generate(new []{_typeName2}),
+                    names = SingleEnglishNameWithLanguageGenerator.Generate(_typeName2),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],

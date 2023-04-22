@@ -36,12 +36,12 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName1.ToLower(),
-                    names = EnglishNameArrayGenerator.Generate(new []{_typeName1}),
+                    names = SingleEnglishNameWithLanguageGenerator.Generate(_typeName1),
                 },
                 new PokemonTypeDto()
                 {
                     name = _typeName2.ToLower(),
-                    names = EnglishNameArrayGenerator.Generate(new []{_typeName2}),
+                    names = SingleEnglishNameWithLanguageGenerator.Generate(_typeName2),
                 },
             };
             _pokemonTypes = new List<PokemonType>()
