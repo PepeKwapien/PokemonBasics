@@ -188,35 +188,9 @@ namespace Tests.ExternalApiHandler.Helpers
 
             // Assert
             Assert.AreEqual(urls.Count, _handler.Invocations.Count(client => client.Method.Name == "SendAsync"));
-        }
-
-        [TestMethod]
-        public async Task GetCollection_SendsToCorrectUrl()
-        {
-            // Arrange
-            List<string> urls = _countDto1.results.Select(result => result.url).ToList();
-            _handler
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage()
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(_pokemonTypeDto), Encoding.UTF8, "application/json")
-                });
-
-            var httpClient = new HttpClient(_handler.Object)
+            foreach (var invocation in _handler.Invocations)
             {
-                BaseAddress = new Uri(_baseAddress)
-            };
-
-            // Act
-            var result1 = await RequesterHelper.GetCollection<PokemonTypeDto>(httpClient, urls);
-
-            // Assert
-            foreach(var invocation in _handler.Invocations)
-            {
-                if(invocation.Method.Name == "SendAsync")
+                if (invocation.Method.Name == "SendAsync")
                 {
                     HttpRequestMessage request = (HttpRequestMessage)invocation.Arguments[0];
                     Assert.IsTrue(urls.Contains(request.RequestUri.ToString()));
