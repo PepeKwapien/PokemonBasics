@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class PokedexDto : IDto
+    public class PokedexDto : IDto, IMultiLanguageNames
     {
         public Description[] descriptions { get; set; }
         public string name { get; set; }

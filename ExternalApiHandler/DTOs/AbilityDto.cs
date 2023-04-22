@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class AbilityDto : IDto
+    public class AbilityDto : IDto, IMultiLanguageNames
     {
         public string name { get; set; }
         public NameWithLanguage[] names { get; set; }

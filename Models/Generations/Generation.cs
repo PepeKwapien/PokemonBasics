@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Models.Generations
 {
-    public class Generation : IModel
+    public class Generation : IModel, IHasName
     {
         [Key]
         public Guid Id { get; set; }

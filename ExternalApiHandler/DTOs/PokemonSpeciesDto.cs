@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class PokemonSpeciesDto : IDto
+    public class PokemonSpeciesDto : IDto, IMultiLanguageNames
     {
         public Name[] egg_groups { get; set; }
         public Name generation { get; set; }

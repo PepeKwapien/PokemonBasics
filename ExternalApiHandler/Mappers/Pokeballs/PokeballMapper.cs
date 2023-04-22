@@ -31,7 +31,7 @@ namespace ExternalApiHandler.Mappers
                 List<Generation> generations= new List<Generation>();
                 foreach (var generationInDto in pokeballDto.game_indices)
                 {
-                    generations.Add(EntityFinderHelper.FindGenerationByDtoName(_dbContext, generationInDto.generation.name, _generationDtos));
+                    generations.Add(EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, generationInDto.generation.name, _generationDtos));
                 }
 
                 pokeballs.Add(new Pokeball

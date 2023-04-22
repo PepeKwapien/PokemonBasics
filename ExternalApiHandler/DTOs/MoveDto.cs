@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class MoveDto : IDto
+    public class MoveDto : IDto, IMultiLanguageNames
     {
         public string name { get; set; }
         public NameWithLanguage[] names { get; set; }

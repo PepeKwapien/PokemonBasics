@@ -28,7 +28,7 @@ namespace ExternalApiHandler.Mappers
             foreach(GamesDto gameDto in _games)
             {
                 // Set up shared game fields
-                Generation generation = EntityFinderHelper.FindGenerationByDtoName(_dbContext, gameDto.VersionGroup.generation.name, _generations);
+                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, gameDto.VersionGroup.generation.name, _generations);
                 Regions[]? regions = gameDto.VersionGroup.regions?.Select(region => EnumHelper.GetEnumValueFromKey<Regions>(region.name)).ToArray();
                 Regions? mainRegion = null;
 

@@ -1,6 +1,6 @@
 ﻿namespace ExternalApiHandler.DTOs
 {
-    public class VersionDto
+    public class VersionDto : IMultiLanguageNames
     {
         public string name { get; set; }
         public NameWithLanguage[] names { get; set; }

@@ -1,5 +1,7 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
+using Microsoft.EntityFrameworkCore;
+using Models;
 using Models.Generations;
 using Models.Types;
 
@@ -12,13 +14,12 @@ namespace ExternalApiHandler.Helpers
             return dbContext.Types.FirstOrDefault(type => type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static Generation FindGenerationByDtoName(IPokemonDatabaseContext dbContext, string generationSimpleName, List<GenerationDto> generationDtos)
+        public static T FindEntityByDtoName<T, TDto>(DbSet<T> dbSet, string simpleName, List<TDto> dtos) where T : class, IModel, IHasName where TDto : class, IDto, IMultiLanguageNames
         {
-            GenerationDto generationDtoWithMatchingName = generationDtos.FirstOrDefault(generationDto =>
-                generationDto.name.Equals(generationSimpleName, StringComparison.OrdinalIgnoreCase));
-            string generationDatabaseName = LanguageVersionHelper.FindEnglishVersion(generationDtoWithMatchingName.names).name;
+            TDto dtoWithMatchingName = dtos.FirstOrDefault(dto => dto.name.Equals(simpleName, StringComparison.OrdinalIgnoreCase));
+            string databaseName = LanguageVersionHelper.FindEnglishVersion(dtoWithMatchingName.names).name;
 
-            return dbContext.Generations.FirstOrDefault(generation => generation.Name.Equals(generationDatabaseName));
+            return dbSet.FirstOrDefault(entity => entity.Name.Equals(databaseName));
         }
     }
 }

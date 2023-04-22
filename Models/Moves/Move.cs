@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Moves
 {
-    public class Move : IModel
+    public class Move : IModel, IHasName
     {
         [Key]
         public Guid Id { get; private set; }

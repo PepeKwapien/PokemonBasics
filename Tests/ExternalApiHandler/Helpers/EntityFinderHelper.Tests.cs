@@ -71,7 +71,7 @@ namespace Tests.ExternalApiHandler.Helpers
         }
 
         [TestMethod]
-        public void FindGenerationByDtoName_FindsCorrectGeneration()
+        public void FindEntityByDtoName_FindsCorrectGeneration()
         {
             // Arrange
             string nameToSearch = "second";
@@ -119,7 +119,7 @@ namespace Tests.ExternalApiHandler.Helpers
             _databaseContext.Setup(dbc => dbc.Generations).Returns(generationSet.Object);
 
             // Act
-            var result = EntityFinderHelper.FindGenerationByDtoName(_databaseContext.Object, nameToSearch, generationDtos);
+            var result = EntityFinderHelper.FindEntityByDtoName(_databaseContext.Object.Generations, nameToSearch, generationDtos);
 
             // Assert
             Assert.IsNotNull(result);

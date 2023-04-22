@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Games
 {
-    public class Game : IModel
+    public class Game : IModel, IHasName
     {
         [Key]
         public Guid Id { get; private set; }

@@ -27,7 +27,7 @@ namespace ExternalApiHandler.Mappers
             foreach(var abilityDto in _abilityDtos)
             {
                 string name = LanguageVersionHelper.FindEnglishVersion(abilityDto.names).name;
-                Generation generation = EntityFinderHelper.FindGenerationByDtoName(_dbContext, abilityDto.generation.name, _generationDtos);
+                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, abilityDto.generation.name, _generationDtos);
                 string rawEffectEntry = LanguageVersionHelper.FindEnglishVersion(abilityDto.effect_entries)?.effect ?? "";
                 string[] effectEntriesInBattleAndOverworld = Regex.Split(rawEffectEntry, @"\s*Overworld:\s*");
                 abilities.Add(new Ability

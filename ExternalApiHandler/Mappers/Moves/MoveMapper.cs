@@ -28,7 +28,7 @@ namespace ExternalApiHandler.Mappers
             foreach(var moveDto in _movesDtos)
             {
                 PokemonType type = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext, moveDto.type.name);
-                Generation generation = EntityFinderHelper.FindGenerationByDtoName(_dbContext, moveDto.generation.name, _generationDtos);
+                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, moveDto.generation.name, _generationDtos);
                 string name = LanguageVersionHelper.FindEnglishVersion(moveDto.names).name;
                 string effect = LanguageVersionHelper.FindEnglishVersion(moveDto.effect_entries).effect;
                 string target = StringHelper.Normalize(moveDto.target.name);
