@@ -16,6 +16,8 @@ namespace ExternalApiHandler.Mappers
         public PokeballMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
+            _pokeballDtos = new List<PokeballDto>();
+            _generationDtos = new List<GenerationDto>();
         }
 
         public override List<Pokeball> Map()

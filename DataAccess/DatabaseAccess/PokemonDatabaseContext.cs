@@ -16,7 +16,7 @@ namespace DataAccess
         #region DbSets
         // Abilities
         public DbSet<Ability> Abilities { get; set; }
-        public DbSet<PokemonAbility> PokemonAbilities { get; set; }
+        public DbSet<Ability> PokemonAbilities { get; set; }
 
         // Games
         public DbSet<Game> Games { get; set; }

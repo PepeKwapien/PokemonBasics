@@ -15,6 +15,7 @@ namespace ExternalApiHandler.Mappers
         public GenerationMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
+            _generationDtos = new List<GenerationDto>();
         }
         public override List<Generation> Map()
         {

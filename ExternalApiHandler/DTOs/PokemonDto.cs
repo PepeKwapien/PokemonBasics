@@ -2,7 +2,7 @@
 {
     public class PokemonDto : IDto
     {
-        public Ability[] abilities { get; set; }
+        public PokemonAbilityDto[] abilities { get; set; }
         public int height { get; set; }
         public int weight { get; set; }
         public bool is_default { get; set; }

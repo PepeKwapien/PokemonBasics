@@ -23,13 +23,13 @@ namespace ExternalApiHandler.Requesters
             _externalApiOptions = externalApiOptions.Value;
         }
 
-        public async Task<List<PokemonAbilityDto>> GetCollection()
+        public async Task<List<AbilityDto>> GetCollection()
         {
-            List<PokemonAbilityDto> pokemonAbilities = new List<PokemonAbilityDto>();
+            List<AbilityDto> pokemonAbilities = new List<AbilityDto>();
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemonAbilities = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonAbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _logger);
+                pokemonAbilities = await RequesterHelper.GetCollectionFromRestfulPoint<AbilityDto>(client, _externalApiOptions.PokemonAbilityPath, _logger);
             }
 
             return pokemonAbilities;

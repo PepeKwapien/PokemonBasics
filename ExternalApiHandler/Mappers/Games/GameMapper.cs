@@ -17,6 +17,8 @@ namespace ExternalApiHandler.Mappers
         public GameMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
+            _games = new List<GamesDto>();
+            _generations = new List<GenerationDto>();
         }
 
         public override List<Game> Map()

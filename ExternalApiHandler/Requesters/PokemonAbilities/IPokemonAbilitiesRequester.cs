@@ -2,7 +2,7 @@
 
 namespace ExternalApiHandler.Requesters
 {
-    internal interface IPokemonAbilitiesRequester : IRequester<PokemonAbilityDto>
+    internal interface IPokemonAbilitiesRequester : IRequester<AbilityDto>
     {
     }
 }

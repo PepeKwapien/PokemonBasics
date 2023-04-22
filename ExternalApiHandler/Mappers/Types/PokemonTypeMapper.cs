@@ -15,6 +15,7 @@ namespace ExternalApiHandler.Mappers
         public PokemonTypeMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
+            _pokemonTypesDto = new List<PokemonTypeDto>();
         }
 
         public override List<PokemonType> Map()
