@@ -8,6 +8,7 @@ using ExternalApiHandler.DTOs;
 using Models.Types;
 using ExternalApiHandler.Helpers;
 using Tests.Mocks;
+using Tests.Helpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -35,26 +36,12 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName1.ToLower(),
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage()
-                        {
-                            name = _typeName1,
-                            language = new Name() { name = "en" }
-                        }
-                    }
+                    names = EnglishNameArrayGenerator.Generate(new []{_typeName1}),
                 },
                 new PokemonTypeDto()
                 {
                     name = _typeName2.ToLower(),
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage()
-                        {
-                            name = _typeName2,
-                            language = new Name() { name = "en" }
-                        }
-                    }
+                    names = EnglishNameArrayGenerator.Generate(new []{_typeName2}),
                 },
             };
             _pokemonTypes = new List<PokemonType>()

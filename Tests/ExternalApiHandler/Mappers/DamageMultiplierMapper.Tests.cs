@@ -8,6 +8,7 @@ using Models.Types;
 using Moq;
 using System;
 using System.Collections.Generic;
+using Tests.Helpers;
 using Tests.Mocks;
 
 namespace Tests.ExternalApiHandler.Mappers
@@ -36,14 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName1.ToLower(),
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage()
-                        {
-                            name = _typeName1,
-                            language = new Name() { name = "en" }
-                        }
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new []{_typeName1}),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],
@@ -57,14 +51,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName2.ToLower(),
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage()
-                        {
-                            name = _typeName2,
-                            language = new Name() { name = "en" }
-                        }
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new []{_typeName2}),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],

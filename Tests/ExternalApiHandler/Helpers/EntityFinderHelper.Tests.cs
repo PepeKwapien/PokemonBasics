@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Tests.Helpers;
 using Tests.Mocks;
 
 namespace Tests.ExternalApiHandler.Helpers
@@ -81,47 +82,17 @@ namespace Tests.ExternalApiHandler.Helpers
                 new GenerationDto
                 {
                     name = "first",
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "1",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        }
-                    }
+                    names = EnglishNameArrayGenerator.Generate(new []{"1"})
                 },
                 new GenerationDto
                 {
                     name = nameToSearch,
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = englishNameToFind,
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        }
-                    }
+                    names = EnglishNameArrayGenerator.Generate(new []{englishNameToFind})
                 },
                 new GenerationDto
                 {
                     name = "third",
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "3",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        }
-                    }
+                    names = EnglishNameArrayGenerator.Generate(new []{"3"})
                 },
             };
 

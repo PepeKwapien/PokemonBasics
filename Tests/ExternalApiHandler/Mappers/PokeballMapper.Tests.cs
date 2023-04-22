@@ -37,47 +37,17 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "first",
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "1",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        },
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new[] { "1" }),
                 },
                 new GenerationDto()
                 {
                     name = "second",
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "2",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        },
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new[] { "2" }),
                 },
                 new GenerationDto()
                 {
                     name = "third",
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "3",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        },
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new[] { "3" }),
                 }
             };
 
@@ -108,7 +78,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokeballDto()
                 {
                     name = "pokeball",
-                    names = NameWithLanguageGenerator.Generate(new string[]{sharedName}),
+                    names = EnglishNameArrayGenerator.Generate(new string[]{sharedName}),
                     effect_entries = new EffectEntry[]
                     {
                         new EffectEntry()

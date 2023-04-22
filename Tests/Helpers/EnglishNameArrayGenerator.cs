@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Tests.Helpers
 {
-    public class NameWithLanguageGenerator
+    public class EnglishNameArrayGenerator
     {
         public static NameWithLanguage[] Generate(string[] names) {
             return names.Select(name => new NameWithLanguage()

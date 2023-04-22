@@ -8,6 +8,7 @@ using Models.Games;
 using Models.Generations;
 using Moq;
 using System.Collections.Generic;
+using Tests.Helpers;
 using Tests.Mocks;
 
 namespace Tests.ExternalApiHandler.Mappers
@@ -36,17 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = _generationName,
-                    names = new NameWithLanguage[]
-                    {
-                        new NameWithLanguage
-                        {
-                            name = "Favorite",
-                            language = new Name
-                            {
-                                name = "en",
-                            }
-                        },
-                    },
+                    names = EnglishNameArrayGenerator.Generate(new []{"Favorite"}),
                 }
             };
 
@@ -75,32 +66,12 @@ namespace Tests.ExternalApiHandler.Mappers
                         new VersionDto
                         {
                             name = "first",
-                            names = new NameWithLanguage[]
-                            {
-                                new NameWithLanguage
-                                {
-                                    name = "First",
-                                    language = new Name
-                                    {
-                                        name = "en",
-                                    }
-                                }
-                            }
+                            names = EnglishNameArrayGenerator.Generate(new []{"First"}),
                         },
                         new VersionDto
                         {
                             name = "second",
-                            names = new NameWithLanguage[]
-                            {
-                                new NameWithLanguage
-                                {
-                                    name = "Second",
-                                    language = new Name
-                                    {
-                                        name = "en",
-                                    }
-                                }
-                            }
+                            names = EnglishNameArrayGenerator.Generate(new[] { "Second" })
                         }
                     }
 

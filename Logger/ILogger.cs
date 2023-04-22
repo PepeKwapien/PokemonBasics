@@ -6,7 +6,6 @@
         bool Debug(string message);
         bool Info(string message);
         bool Warn(string message);
-        bool Success(string message);
         bool Error(string message);
     }
 }

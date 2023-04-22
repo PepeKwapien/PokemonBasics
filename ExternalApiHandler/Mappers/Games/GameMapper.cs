@@ -62,7 +62,7 @@ namespace ExternalApiHandler.Mappers
 
             _dbContext.Games.AddRange(games);
             _dbContext.SaveChanges();
-            _logger.Success($"Saved {games.Count} games");
+            _logger.Info($"Saved {games.Count} games");
 
             return games;
         }

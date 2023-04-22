@@ -83,20 +83,6 @@ namespace Logger
 
             return true;
         }
-        public bool Success(string message)
-        {
-            MinimalLoggerLevel levelForMethod = MinimalLoggerLevel.Success;
-
-            if (!CheckIfShouldBeLogged(levelForMethod))
-            {
-                return false;
-            }
-
-            OpenIfClosed();
-            WriteLine(levelForMethod, message);
-
-            return true;
-        }
         public bool Error(string message)
         {
             MinimalLoggerLevel levelForMethod = MinimalLoggerLevel.Error;

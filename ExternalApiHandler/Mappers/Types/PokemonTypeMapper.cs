@@ -50,7 +50,7 @@ namespace ExternalApiHandler.Mappers
 
             _dbContext.Types.AddRange(pokemonTypes);
             _dbContext.SaveChanges();
-            _logger.Success($"Saved {pokemonTypes.Count} types");
+            _logger.Info($"Saved {pokemonTypes.Count} types");
 
             return pokemonTypes;
         }

@@ -44,7 +44,7 @@ namespace ExternalApiHandler.Mappers
 
             _dbContext.DamageMultipliers.AddRange(damageMultipliers);
             _dbContext.SaveChanges();
-            _logger.Success($"Saved {damageMultipliers.Count} damage relations");
+            _logger.Info($"Saved {damageMultipliers.Count} damage relations");
 
             return damageMultipliers;
         }

@@ -41,7 +41,7 @@ namespace ExternalApiHandler.Mappers
 
             _dbContext.Generations.AddRange(generations);
             _dbContext.SaveChanges();
-            _logger.Success($"Saved {generations.Count} generations");
+            _logger.Info($"Saved {generations.Count} generations");
 
             return generations;
         }
