@@ -1,7 +1,6 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
 using ExternalApiHandler.Mappers;
-using ExternalApiHandler.Mappers.Games;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
@@ -30,6 +29,7 @@ namespace Tests.ExternalApiHandler.Mappers
         {
             _logger = new Mock<ILogger>();
             _databaseContext = new Mock<IPokemonDatabaseContext>();
+
             _generationName = "favorite";
             _generationDtos = new List<GenerationDto>()
             {

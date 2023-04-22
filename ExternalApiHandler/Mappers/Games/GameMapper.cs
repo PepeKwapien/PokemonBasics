@@ -6,7 +6,7 @@ using Models.Enums;
 using Models.Games;
 using Models.Generations;
 
-namespace ExternalApiHandler.Mappers.Games
+namespace ExternalApiHandler.Mappers
 {
     public class GameMapper : Mapper<Game>
     {

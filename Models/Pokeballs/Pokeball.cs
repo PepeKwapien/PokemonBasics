@@ -11,7 +11,7 @@ namespace Models.Pokeballs
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
+        public string Description { get; set; }
         public ICollection<Generation> Generations { get; set; }
-        public ICollection<Game> Games { get; set; }
     }
 }
