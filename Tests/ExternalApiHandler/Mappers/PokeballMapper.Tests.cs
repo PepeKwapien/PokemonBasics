@@ -37,17 +37,17 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "first",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("1"),
+                    names = SingleEnglishNameGenerator.Generate("1"),
                 },
                 new GenerationDto()
                 {
                     name = "second",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("2"),
+                    names = SingleEnglishNameGenerator.Generate("2"),
                 },
                 new GenerationDto()
                 {
                     name = "third",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("3"),
+                    names = SingleEnglishNameGenerator.Generate("3"),
                 }
             };
 
@@ -78,7 +78,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokeballDto()
                 {
                     name = "pokeball",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate(sharedName),
+                    names = SingleEnglishNameGenerator.Generate(sharedName),
                     effect_entries = new EffectEntry[]
                     {
                         new EffectEntry()

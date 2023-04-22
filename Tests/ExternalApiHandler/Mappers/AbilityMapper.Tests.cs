@@ -36,7 +36,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "favorite",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameGenerator.Generate("Favorite"),
                 }
             };
 
@@ -54,7 +54,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new AbilityDto()
                 {
                     name = "stinky",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("Stinky"),
+                    names = SingleEnglishNameGenerator.Generate("Stinky"),
                     is_main_series = true,
                     effect_entries = new EffectEntry[]
                     {

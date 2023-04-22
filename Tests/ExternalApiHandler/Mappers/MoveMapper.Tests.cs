@@ -38,7 +38,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "favorite",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameGenerator.Generate("Favorite"),
                 }
             };
 
@@ -65,7 +65,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new MoveDto()
                 {
                     name = "blink",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("Blink"),
+                    names = SingleEnglishNameGenerator.Generate("Blink"),
                     accuracy = 100,
                     pp = 15,
                     priority = 1,

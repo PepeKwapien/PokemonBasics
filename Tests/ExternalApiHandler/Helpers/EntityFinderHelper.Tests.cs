@@ -82,17 +82,17 @@ namespace Tests.ExternalApiHandler.Helpers
                 new GenerationDto
                 {
                     name = "first",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("1")
+                    names = SingleEnglishNameGenerator.Generate("1")
                 },
                 new GenerationDto
                 {
                     name = nameToSearch,
-                    names = SingleEnglishNameWithLanguageGenerator.Generate(englishNameToFind)
+                    names = SingleEnglishNameGenerator.Generate(englishNameToFind)
                 },
                 new GenerationDto
                 {
                     name = "third",
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("3")
+                    names = SingleEnglishNameGenerator.Generate("3")
                 },
             };
 

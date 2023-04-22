@@ -37,7 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = _generationName,
-                    names = SingleEnglishNameWithLanguageGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameGenerator.Generate("Favorite"),
                 }
             };
 
@@ -66,12 +66,12 @@ namespace Tests.ExternalApiHandler.Mappers
                         new VersionDto
                         {
                             name = "first",
-                            names = SingleEnglishNameWithLanguageGenerator.Generate("First"),
+                            names = SingleEnglishNameGenerator.Generate("First"),
                         },
                         new VersionDto
                         {
                             name = "second",
-                            names = SingleEnglishNameWithLanguageGenerator.Generate("Second")
+                            names = SingleEnglishNameGenerator.Generate("Second")
                         }
                     }
 

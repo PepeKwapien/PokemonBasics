@@ -1,9 +1,8 @@
 ﻿using ExternalApiHandler.DTOs;
-using System.Linq;
 
 namespace Tests.Helpers
 {
-    public class SingleEnglishNameWithLanguageGenerator
+    public class SingleEnglishNameGenerator
     {
         public static NameWithLanguage[] Generate(string name) {
             return new NameWithLanguage[]
