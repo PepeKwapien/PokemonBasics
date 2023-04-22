@@ -4,7 +4,6 @@ using ExternalApiHandler.Helpers;
 using Logger;
 using Models.Abilities;
 using Models.Generations;
-using Models.Pokeballs;
 using System.Text.RegularExpressions;
 
 namespace ExternalApiHandler.Mappers

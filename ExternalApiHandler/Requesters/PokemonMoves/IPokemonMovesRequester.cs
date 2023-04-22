@@ -2,7 +2,7 @@
 
 namespace ExternalApiHandler.Requesters
 {
-    internal interface IPokemonMovesRequester : IRequester<PokemonMoveDto>
+    internal interface IPokemonMovesRequester : IRequester<MoveDto>
     {
     }
 }
