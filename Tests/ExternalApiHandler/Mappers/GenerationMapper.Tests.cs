@@ -1,0 +1,90 @@
+﻿using DataAccess;
+using ExternalApiHandler.DTOs;
+using ExternalApiHandler.Mappers;
+using Logger;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Enums;
+using Models.Generations;
+using Models.Types;
+using Moq;
+using System.Collections.Generic;
+using Tests.Mocks;
+
+namespace Tests.ExternalApiHandler.Mappers
+{
+    [TestClass]
+    public class GenerationMapperTests
+    {
+        private Mock<ILogger> _logger;
+        private Mock<IPokemonDatabaseContext> _databaseContext;
+        private List<GenerationDto> _generationDtos;
+        private List<Generation> _generations;
+        private GenerationMapper _mapper;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _logger = new Mock<ILogger>();
+            _databaseContext= new Mock<IPokemonDatabaseContext>();
+            _generationDtos = new List<GenerationDto>()
+            {
+                new GenerationDto()
+                {
+                    name = "favorite",
+                    names = new NameWithLanguage[]
+                    {
+                        new NameWithLanguage
+                        {
+                            name = "Favorite",
+                            language = new Name
+                            {
+                                name = "en",
+                            }
+                        },
+                        new NameWithLanguage
+                        {
+                            name = "Ulubiona",
+                            language = new Name
+                            {
+                                name = "pl",
+                            }
+                        },
+                    },
+                    main_region = new Name
+                    {
+                        name = "hisui"
+                    }
+                }
+            };
+
+            _generations = new List<Generation>()
+            {
+                new Generation()
+                {
+                    Name = "Favorite",
+                    Region = Regions.Hisui
+                }
+            };
+
+            _mapper = new GenerationMapper(_databaseContext.Object, _logger.Object);
+            _mapper.SetUp(_generationDtos);
+            var gen = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(new List<Generation>());
+            _databaseContext.Setup(dc => dc.Generations).Returns(gen.Object);
+        }
+
+        [TestMethod]
+        public void MapsCorrectly()
+        {
+            // Arrange
+
+            // Act
+            var result = _mapper.Map();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(_generations.Count, result.Count);
+            Assert.AreEqual(_generations[0].Name, result[0].Name);
+            Assert.AreEqual(_generations[0].Region, result[0].Region);
+        }
+    }
+}

@@ -55,7 +55,8 @@ namespace ExternalApiHandler
             // Mappers
             serviceCollection
                 .AddScoped<PokemonTypeMapper>()
-                .AddScoped<DamageMultiplierMapper>();
+                .AddScoped<DamageMultiplierMapper>()
+                .AddScoped<GenerationMapper>();
 
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
             {
@@ -70,18 +71,14 @@ namespace ExternalApiHandler
 
                 Console.WriteLine(options.Value.BaseUrl);
 
-                var requester = scope.ServiceProvider.GetService<IPokemonTypesRequester>();
+                var requester = scope.ServiceProvider.GetService<IGenerationsRequester>();
                 var collection = await requester.GetCollection();
 
-                var mapper1 = scope.ServiceProvider.GetService<PokemonTypeMapper>();
+                var mapper1 = scope.ServiceProvider.GetService<GenerationMapper>();
                 mapper1.SetUp(collection);
                 var mapResult1 = mapper1.Map();
 
-                var mapper2 = scope.ServiceProvider.GetService<DamageMultiplierMapper>();
-                mapper2.SetUp(collection);
-                var mapResult2 = mapper2.Map();
-
-                Console.WriteLine(mapResult2.Count);
+                Console.WriteLine(mapResult1.Count);
             }
         }
     }
