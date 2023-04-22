@@ -5,7 +5,6 @@ using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using Models.Generations;
-using Models.Types;
 using Moq;
 using System.Collections.Generic;
 using Tests.Mocks;
@@ -66,10 +65,11 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            _mapper = new GenerationMapper(_databaseContext.Object, _logger.Object);
-            _mapper.SetUp(_generationDtos);
             var gen = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(new List<Generation>());
             _databaseContext.Setup(dc => dc.Generations).Returns(gen.Object);
+
+            _mapper = new GenerationMapper(_databaseContext.Object, _logger.Object);
+            _mapper.SetUp(_generationDtos);
         }
 
         [TestMethod]

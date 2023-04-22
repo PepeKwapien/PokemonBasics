@@ -35,13 +35,13 @@ namespace ExternalApiHandler.Mappers
 
             foreach(var generation in _dbContext.Generations)
             {
-                _logger.Debug($"Removing type {generation.Name}");
+                _logger.Debug($"Removing generation {generation.Name}");
                 _dbContext.Generations.Remove(generation);
             }
 
             _dbContext.Generations.AddRange(generations);
             _dbContext.SaveChanges();
-            _logger.Success($"Saved {generations.Count} types");
+            _logger.Success($"Saved {generations.Count} generations");
 
             return generations;
         }

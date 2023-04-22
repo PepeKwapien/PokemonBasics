@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using ExternalApiHandler.DTOs;
+using ExternalApiHandler.Helpers;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Models.Types;
@@ -29,7 +30,7 @@ namespace ExternalApiHandler.Mappers
 
             foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
             {
-                PokemonType currentType = FindTypeByNameLowercase(typeDto.name);
+                PokemonType currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext, typeDto.name);
 
                 if(currentType == null)
                 {
@@ -54,11 +55,6 @@ namespace ExternalApiHandler.Mappers
         }
 
         #region Private Methods
-        private PokemonType FindTypeByNameLowercase(string typeName)
-        {
-            return _dbContext.Types.FirstOrDefault(type => type.Name.ToLower() == typeName.ToLower());
-        }
-
         private bool DoesDamageMultiplierExist(PokemonType type, PokemonType against, double multiplyValue, List<DamageMultiplier> damageMultipliers)
         {
             var possiblyExistingMultiplier = damageMultipliers.FirstOrDefault(multiplier =>
@@ -69,7 +65,7 @@ namespace ExternalApiHandler.Mappers
             return possiblyExistingMultiplier != null;
         }
 
-        private List<DamageMultiplier> CreateDamageMultipliers(
+        private List<DamageMultiplier> CreateDamageMultipliersInCurrentCategoryForType(
             PokemonType currentType,
             Name[] typeRelations,
             double multiplyValue,
@@ -82,7 +78,7 @@ namespace ExternalApiHandler.Mappers
 
             foreach(Name typeRelation in typeRelations)
             {
-                PokemonType typeInRelation = FindTypeByNameLowercase(typeRelation.name);
+                PokemonType typeInRelation = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext ,typeRelation.name);
 
                 if (typeInRelation == null)
                 {
@@ -123,12 +119,12 @@ namespace ExternalApiHandler.Mappers
         {
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_to, 2, true, allTypesDamageMultipliers, damageMultipliers));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.double_damage_from, 2, false, allTypesDamageMultipliers, damageMultipliers));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_to, 0.5, true, allTypesDamageMultipliers, damageMultipliers));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.half_damage_from, 0.5, false, allTypesDamageMultipliers, damageMultipliers));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_to, 0, true, allTypesDamageMultipliers, damageMultipliers));
-            damageMultipliers.AddRange(CreateDamageMultipliers(currentType, relations.no_damage_from, 0, false, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.double_damage_to, 2, true, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.double_damage_from, 2, false, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.half_damage_to, 0.5, true, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.half_damage_from, 0.5, false, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.no_damage_to, 0, true, allTypesDamageMultipliers, damageMultipliers));
+            damageMultipliers.AddRange(CreateDamageMultipliersInCurrentCategoryForType(currentType, relations.no_damage_from, 0, false, allTypesDamageMultipliers, damageMultipliers));
 
             return damageMultipliers;
         }
