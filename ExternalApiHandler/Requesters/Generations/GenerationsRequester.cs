@@ -29,7 +29,7 @@ namespace ExternalApiHandler.Requesters
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                generations = await RequesterHelper.GetCollectionFromRestfulPoint<GenerationDto>(client, _externalApiOptions.GenerationPath, _externalApiOptions.BaseUrl, _logger);
+                generations = await RequesterHelper.GetCollectionFromRestfulPoint<GenerationDto>(client, _externalApiOptions.GenerationPath, _logger);
             }
 
             return generations;

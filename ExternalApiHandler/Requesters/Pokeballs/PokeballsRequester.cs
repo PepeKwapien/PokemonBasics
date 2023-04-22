@@ -38,7 +38,7 @@ namespace ExternalApiHandler.Requesters
                     pokeballUrls.AddRange(pokeballCategory.items.Select(item => item.url));
                 }
 
-                pokeballs = await RequesterHelper.GetCollection<PokeballDto>(client, pokeballUrls, _externalApiOptions.BaseUrl, _logger);
+                pokeballs = await RequesterHelper.GetCollection<PokeballDto>(client, pokeballUrls, _logger);
             }
 
             return pokeballs;

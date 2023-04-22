@@ -31,12 +31,12 @@ namespace ExternalApiHandler.Requesters
             {
 
                 List<VersionGroupDto> versionGroups = await RequesterHelper.GetCollectionFromRestfulPoint<VersionGroupDto>
-                    (client, _externalApiOptions.VersionGroupPath, _externalApiOptions.BaseUrl, _logger);
+                    (client, _externalApiOptions.VersionGroupPath, _logger);
 
                 foreach (var versionGroup in versionGroups)
                 {
                     List<string> versionCollection = versionGroup.versions.Select(version => version.url).ToList();
-                    List<VersionDto> versions = await RequesterHelper.GetCollection<VersionDto>(client ,versionCollection, _externalApiOptions.BaseUrl, _logger);
+                    List<VersionDto> versions = await RequesterHelper.GetCollection<VersionDto>(client ,versionCollection, _logger);
 
                     games.Add(new GamesDto { VersionGroup= versionGroup, Versions = versions });
                 }

@@ -29,7 +29,7 @@ namespace ExternalApiHandler.Requesters
 
             using (var client = _externalHttpClientFactory.CreateClient(_externalApiOptions.ClientName))
             {
-                pokemons = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonDto>(client, _externalApiOptions.PokemonPath, _externalApiOptions.BaseUrl, _logger);
+                pokemons = await RequesterHelper.GetCollectionFromRestfulPoint<PokemonDto>(client, _externalApiOptions.PokemonPath, _logger);
             }
 
             return pokemons;

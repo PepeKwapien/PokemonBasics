@@ -3,7 +3,6 @@ using ExternalApiHandler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Protected;
-using Moq.Language.Flow;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -11,6 +10,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Tests.ExternalApiHandler.Helpers
 {
@@ -18,18 +19,54 @@ namespace Tests.ExternalApiHandler.Helpers
     public class RequesterHelperTests
     {
         private Mock<HttpMessageHandler> _handler;
+        private string _baseAddress;
+        private CountDto _countDto1;
+        private CountDto _countDto2;
+        private PokemonTypeDto _pokemonTypeDto;
 
         [TestInitialize]
         public void Initialize()
         {
             _handler = new Mock<HttpMessageHandler>();
-        }
-
-        [TestMethod]
-        public async Task GetDeserializesObject()
-        {
-            // Arrange
-            PokemonTypeDto pokemonTypeDto = new PokemonTypeDto()
+            _baseAddress = "http://example.com";
+            _countDto1 = new CountDto
+            {
+                count = 3,
+                next = "1",
+                results = new Url[]
+                {
+                    new Url
+                    {
+                        url = $"{_baseAddress}/1"
+                    },
+                     new Url
+                    {
+                        url = $"{_baseAddress}/2"
+                    },
+                      new Url
+                    {
+                        url = $"{_baseAddress}/3"
+                    },
+                }
+            };
+            _countDto2 = new CountDto
+            {
+                count = 2,
+                next = "",
+                results = new Url[]
+                {
+                    new Url
+                    {
+                        url = "4"
+                    },
+                     new Url
+                    {
+                        url = "5"
+                    },
+                }
+            };
+            
+            _pokemonTypeDto = new PokemonTypeDto()
             {
                 name = "ice",
                 names = new NameWithLanguage[]
@@ -55,7 +92,13 @@ namespace Tests.ExternalApiHandler.Helpers
                     double_damage_to = new Name[0]
                 }
             };
-            string pokemonTypeDtoJson = JsonConvert.SerializeObject(pokemonTypeDto);
+        }
+
+        [TestMethod]
+        public async Task GetDeserializesObject()
+        {
+            // Arrange
+            string pokemonTypeDtoJson = JsonConvert.SerializeObject(_pokemonTypeDto);
 
             _handler.Protected()
                     .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
@@ -68,7 +111,7 @@ namespace Tests.ExternalApiHandler.Helpers
             // Create a HttpClient with the mock HttpMessageHandler
             var httpClient = new HttpClient(_handler.Object)
             {
-                BaseAddress = new Uri("https://api.example.com/")
+                BaseAddress = new Uri(_baseAddress)
             };
 
             // Act
@@ -76,53 +119,16 @@ namespace Tests.ExternalApiHandler.Helpers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(pokemonTypeDto.name, result.name);
-            Assert.AreEqual(pokemonTypeDto.names.Length, result.names.Length);
-            Assert.AreEqual(pokemonTypeDto.damage_relations.half_damage_to.Length, result.damage_relations.half_damage_to.Length);
+            Assert.AreEqual(_pokemonTypeDto.name, result.name);
+            Assert.AreEqual(_pokemonTypeDto.names.Length, result.names.Length);
+            Assert.AreEqual(_pokemonTypeDto.damage_relations.half_damage_to.Length, result.damage_relations.half_damage_to.Length);
         }
 
         [TestMethod]
         public async Task GetCollectionUrls_GetsCorrectNumberOfUrls()
         {
             // Arrange
-            string baseAddress = "http://example.com";
-            CountDto countDto1 = new CountDto
-            {
-                count = 3,
-                next = "2",
-                results = new Url[]
-                {
-                    new Url
-                    {
-                        url = "1"
-                    },
-                     new Url
-                    {
-                        url = "2"
-                    },
-                      new Url
-                    {
-                        url = "3"
-                    },
-                }
-            };
-
-            CountDto countDto2 = new CountDto
-            {
-                count = 2,
-                next = "",
-                results = new Url[]
-                {
-                    new Url
-                    {
-                        url = "4"
-                    },
-                     new Url
-                    {
-                        url = "5"
-                    },
-                }
-            };
+            _countDto1.next = "2";
             _handler
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -130,7 +136,7 @@ namespace Tests.ExternalApiHandler.Helpers
                 .ReturnsAsync(new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(countDto1), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(_countDto1), Encoding.UTF8, "application/json")
                 });
             
             _handler
@@ -140,21 +146,82 @@ namespace Tests.ExternalApiHandler.Helpers
                 .ReturnsAsync(new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(countDto2), Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(_countDto2), Encoding.UTF8, "application/json")
                 });
 
             // Create a new HttpClient with the mock HttpMessageHandler
             var httpClient = new HttpClient(_handler.Object)
             {
-                BaseAddress = new Uri(baseAddress)
+                BaseAddress = new Uri(_baseAddress)
             };
 
             // Act
-            var result = await RequesterHelper.GetCollectionUrls(httpClient, "1", "notExisting");
+            var result = await RequesterHelper.GetCollectionUrls(httpClient, "1");
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(countDto1.count + countDto2.count, result.Count);
+            Assert.AreEqual(_countDto1.count + _countDto2.count, result.Count);
+        }
+
+        [TestMethod]
+        public async Task GetCollection_IteratesEveryUrl()
+        {
+            // Arrange
+            List<string> urls = _countDto1.results.Select(result => result.url).ToList();
+            _handler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(_pokemonTypeDto), Encoding.UTF8, "application/json")
+                });
+
+            var httpClient = new HttpClient(_handler.Object)
+            {
+                BaseAddress = new Uri(_baseAddress)
+            };
+
+            // Act
+            var result = await RequesterHelper.GetCollection<PokemonTypeDto>(httpClient, urls);
+
+            // Assert
+            Assert.AreEqual(urls.Count, _handler.Invocations.Count(client => client.Method.Name == "SendAsync"));
+        }
+
+        [TestMethod]
+        public async Task GetCollection_SendsToCorrectUrl()
+        {
+            // Arrange
+            List<string> urls = _countDto1.results.Select(result => result.url).ToList();
+            _handler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(JsonConvert.SerializeObject(_pokemonTypeDto), Encoding.UTF8, "application/json")
+                });
+
+            var httpClient = new HttpClient(_handler.Object)
+            {
+                BaseAddress = new Uri(_baseAddress)
+            };
+
+            // Act
+            var result1 = await RequesterHelper.GetCollection<PokemonTypeDto>(httpClient, urls);
+
+            // Assert
+            foreach(var invocation in _handler.Invocations)
+            {
+                if(invocation.Method.Name == "SendAsync")
+                {
+                    HttpRequestMessage request = (HttpRequestMessage)invocation.Arguments[0];
+                    Assert.IsTrue(urls.Contains(request.RequestUri.ToString()));
+                }
+            }
         }
     }
 }
