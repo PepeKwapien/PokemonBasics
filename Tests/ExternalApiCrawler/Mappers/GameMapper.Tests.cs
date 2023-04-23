@@ -6,8 +6,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using Models.Games;
 using Models.Generations;
+using Models.Pokedexes;
 using Moq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tests.Helpers;
 using Tests.Mocks;
 
@@ -60,6 +63,7 @@ namespace Tests.ExternalApiHandler.Mappers
                         {
                             name = _generationName
                         },
+                        pokedexes = new Name[0]
                     },
                     Versions = new List<VersionDto>()
                     {
@@ -100,7 +104,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _databaseContext.Setup(dc => dc.Games).Returns(games.Object);
 
             _mapper = new GameMapper(_databaseContext.Object, _logger.Object);
-            _mapper.SetUp(_gamesDtos, _generationDtos);
+            _mapper.SetUp(_gamesDtos, new List<PokedexDto>(), _generationDtos);
         }
 
         [TestMethod]
@@ -187,6 +191,82 @@ namespace Tests.ExternalApiHandler.Mappers
                 Assert.IsNull(result[i].MainRegion);
                 Assert.AreEqual(_games[i].Name, result[i].Name);
                 Assert.AreEqual(_generations[0], result[i].Generation);
+            }
+        }
+
+        [TestMethod]
+        public void LinksPokedexesCorrectly()
+        {
+            // Arrange
+            List<PokedexDto> pokedexDtos = new List<PokedexDto>()
+            {
+                new PokedexDto
+                {
+                    name = "first",
+                    names = SingleEnglishNameGenerator.Generate("First"),
+
+                },
+                new PokedexDto
+                {
+                    name = "second",
+                    names = SingleEnglishNameGenerator.Generate("Second"),
+                },
+                new PokedexDto
+                {
+                    name = "third",
+                    names = SingleEnglishNameGenerator.Generate("Third"),
+                }
+            };
+
+            List<Pokedex> pokedexes = new List<Pokedex>()
+            {
+                new Pokedex
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "First"
+                },
+                new Pokedex
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Second"
+                },
+                new Pokedex
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Third"
+                },
+            };
+
+            _gamesDtos[0].VersionGroup.pokedexes = new Name[]
+            {
+                new Name
+                {
+                    name = "first"
+                },
+                new Name
+                {
+                    name = "second"
+                },
+                new Name
+                {
+                    name = "third"
+                },
+            };
+
+            var pokedexSet = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(pokedexes);
+            _databaseContext.Setup(dc => dc.Pokedexes).Returns(pokedexSet.Object);
+
+            _mapper.SetUp(_gamesDtos, pokedexDtos, _generationDtos);
+
+            // Act
+            var result = _mapper.Map();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(pokedexDtos.Count, result[0].Pokedexes.Count);
+            for (int i = 0; i < result[0].Pokedexes.Count; i++)
+            {
+                Assert.AreEqual(pokedexes[i].Id, result[0].Pokedexes.ToList()[i].Id);
             }
         }
     }
