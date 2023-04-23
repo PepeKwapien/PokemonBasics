@@ -18,6 +18,7 @@ namespace ExternalApiCrawler.Mappers
         {
             _logger = logger;
             _abilityDtos = new List<AbilityDto>();
+            _generationDtos = new List<GenerationDto>();
         }
 
         public override List<Ability> Map()

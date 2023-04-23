@@ -31,7 +31,7 @@ namespace DataAccess
 
         // Pokedexes
         DbSet<Pokedex> Pokedexes { get; set; }
-        DbSet<PokemonAvailability> PokemonAvailabilities { get; set; }
+        DbSet<PokemonEntry> PokemonEntries { get; set; }
 
         // Pokemons
         DbSet<Pokemon> Pokemons { get; set; }

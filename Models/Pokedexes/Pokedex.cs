@@ -13,7 +13,7 @@ namespace Models.Pokedexes
         public Regions? Region { get; set; }
         [StringLength(128)]
         public string Description { get; set; }
-        public ICollection<PokemonAvailability> Pokemons { get; set; }
+        public ICollection<PokemonEntry> Pokemons { get; set; }
         public ICollection<Game> Games { get; set; }
     }
 }

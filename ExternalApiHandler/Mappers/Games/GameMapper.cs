@@ -20,6 +20,7 @@ namespace ExternalApiCrawler.Mappers
         {
             _logger = logger;
             _games = new List<GamesDto>();
+            _pokedexDtos = new List<PokedexDto>();
             _generations = new List<GenerationDto>();
         }
 

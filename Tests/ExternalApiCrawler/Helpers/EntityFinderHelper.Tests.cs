@@ -4,6 +4,7 @@ using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using Models.Generations;
+using Models.Pokemons;
 using Models.Types;
 using Moq;
 using System;
@@ -124,6 +125,36 @@ namespace Tests.ExternalApiHandler.Helpers
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(englishNameToFind, result.Name);
+        }
+
+        [TestMethod]
+        public void FindPokemonByName_FindsCorrectPokemon()
+        {
+            // Arrange
+            List<Pokemon> pokemons = new List<Pokemon>()
+            {
+                new Pokemon
+                {
+                    Name = "Dani Devito"
+                },
+                new Pokemon
+                {
+                    Name = "Amy Kay"
+                }
+            };
+
+            var pokemonSet = PokemonDatabaseContextMock.SetUpDbSetMock(pokemons);
+            _databaseContext.Setup(dbc => dbc.Pokemons).Returns(pokemonSet.Object);
+
+            // Act
+            var result1 = EntityFinderHelper.FindPokemonByName(_databaseContext.Object.Pokemons, "dani-devito");
+            var result2 = EntityFinderHelper.FindPokemonByName(_databaseContext.Object.Pokemons, "amy_kay");
+
+            // Assert
+            Assert.IsNotNull(result1);
+            Assert.IsNotNull(result2);
+            Assert.AreEqual(pokemons[0], result1);
+            Assert.AreEqual(pokemons[1], result2);
         }
     }
 }

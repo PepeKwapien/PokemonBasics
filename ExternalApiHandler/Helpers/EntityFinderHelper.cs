@@ -2,7 +2,7 @@
 using ExternalApiCrawler.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Models;
-using Models.Generations;
+using Models.Pokemons;
 using Models.Types;
 
 namespace ExternalApiCrawler.Helpers
@@ -20,6 +20,11 @@ namespace ExternalApiCrawler.Helpers
             string databaseName = LanguageVersionHelper.FindEnglishVersion(dtoWithMatchingName.names).name;
 
             return dbSet.FirstOrDefault(entity => entity.Name.Equals(databaseName));
+        }
+
+        public static Pokemon FindPokemonByName(DbSet<Pokemon> pokemonSet, string pokemonName)
+        {
+            return pokemonSet.FirstOrDefault(pokemon => pokemon.Name.Equals(StringHelper.Normalize(pokemonName)));
         }
     }
 }

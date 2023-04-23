@@ -11,7 +11,7 @@ namespace Models.Pokemons
     public class Pokemon : IModel, IHasName
     {
         [Key]
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
@@ -42,7 +42,7 @@ namespace Models.Pokemons
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }
 
-        public ICollection<PokemonAvailability> PokemonAvailabilities { get; set; }
+        public ICollection<PokemonEntry> PokemonAvailabilities { get; set; }
         public ICollection<PokemonAbility> PokemonAbilities { get; set; }
         public ICollection<PokemonMove> PokemonMoves { get; set; }
     }

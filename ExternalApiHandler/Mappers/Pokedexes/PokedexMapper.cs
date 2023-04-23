@@ -15,6 +15,7 @@ namespace ExternalApiCrawler.Mappers
         public PokedexMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
+            _pokedexDtos = new List<PokedexDto>();
         }
 
         public override List<Pokedex> Map()

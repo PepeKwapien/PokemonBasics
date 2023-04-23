@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models.Pokedexes
 {
     [PrimaryKey(nameof(PokemonId), nameof(PokedexId))]
-    public class PokemonAvailability : IModel
+    public class PokemonEntry : IModel
     {
         public Guid PokemonId { get; set; }
         [ForeignKey(nameof(PokemonId))]
