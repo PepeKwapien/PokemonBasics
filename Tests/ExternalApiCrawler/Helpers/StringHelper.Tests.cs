@@ -1,4 +1,5 @@
-﻿using ExternalApiCrawler.Helpers;
+﻿using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.ExternalApiHandler.Helpers
@@ -18,6 +19,32 @@ namespace Tests.ExternalApiHandler.Helpers
 
             // Assert
             Assert.AreEqual(afterString, result);
+        }
+
+        [TestMethod]
+        public void NormalizesNamesArrayCorrectly()
+        {
+            // Arrange
+            Name[] names = new Name[]
+            {
+                new Name
+                {
+                    name = "bacon-pancakes"
+                },
+                new Name
+                {
+                    name = "making_bacon pancakes"
+                },
+            };
+
+            string expectedString = "Bacon Pancakes, Making Bacon Pancakes";
+
+            // Act
+            var result = StringHelper.NormalizeAndJoinNames(names);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedString, result);
         }
     }
 }

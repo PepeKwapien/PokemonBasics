@@ -4,7 +4,6 @@ using ExternalApiCrawler.Mappers;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Abilities;
-using Models.Games;
 using Models.Generations;
 using Moq;
 using System;

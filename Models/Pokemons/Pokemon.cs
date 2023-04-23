@@ -21,7 +21,7 @@ namespace Models.Pokemons
         public Guid? SecondaryTypeId { get; set; }
         [ForeignKey(nameof(SecondaryTypeId))]
         public PokemonType? SecondaryType { get; set; }
-        public int DexNumber { get; set; }
+        public int Order { get; set; }
         public int HP { get; set; }
         public int Attack { get; set; }
         public int SpecialAttack { get; set; }
@@ -30,11 +30,17 @@ namespace Models.Pokemons
         public int Speed { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
+        public string Habitat { get; set; }
+        public string EggGroups { get; set; }
+        public string Genera { get; set; }
+        public bool HasGenderDifferences { get; set; }
+        public bool Baby { get; set; }
+        public bool Legendary { get; set; }
+        public bool Mythical { get; set; }
+        public string Shape { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }
-        [StringLength(512)]
-        public Uri? Image { get; set; }
 
         public ICollection<PokemonAvailability> PokemonAvailabilities { get; set; }
         public ICollection<PokemonAbility> PokemonAbilities { get; set; }

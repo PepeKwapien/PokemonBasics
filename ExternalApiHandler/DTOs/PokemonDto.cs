@@ -7,6 +7,7 @@
         public int weight { get; set; }
         public bool is_default { get; set; }
         public string name { get; set; }
+        public int order { get; set; }
         public InnerPokemonType[] types { get; set; }
         public Stat[] stats { get; set; }
         public Name species { get; set; }

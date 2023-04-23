@@ -3,7 +3,6 @@ using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Mappers;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models.Abilities;
 using Models.Generations;
 using Models.Moves;
 using Models.Types;

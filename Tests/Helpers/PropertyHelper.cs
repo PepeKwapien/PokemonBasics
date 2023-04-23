@@ -18,7 +18,7 @@ namespace Tests.Helpers
 
         public PropertyInfo? GetPropertyOfNameCaseInsesitive(string name)
         {
-            return GetProperties().FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+            return GetProperties().FirstOrDefault(x => x.Name.Equals(name, System.StringComparison.OrdinalIgnoreCase));
         }
     }
 }
