@@ -1,4 +1,4 @@
-﻿namespace ExternalApiHandler.Options
+﻿namespace ExternalApiCrawler.Options
 {
     public class ExternalApiOptions
     {

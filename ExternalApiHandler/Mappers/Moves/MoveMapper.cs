@@ -1,12 +1,12 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Logger;
 using Models.Generations;
 using Models.Moves;
 using Models.Types;
 
-namespace ExternalApiHandler.Mappers
+namespace ExternalApiCrawler.Mappers
 {
     public class MoveMapper : Mapper<Move>
     {

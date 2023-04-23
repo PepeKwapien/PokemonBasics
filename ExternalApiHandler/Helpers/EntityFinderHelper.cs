@@ -1,11 +1,11 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
+using ExternalApiCrawler.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.Generations;
 using Models.Types;
 
-namespace ExternalApiHandler.Helpers
+namespace ExternalApiCrawler.Helpers
 {
     public class EntityFinderHelper
     {

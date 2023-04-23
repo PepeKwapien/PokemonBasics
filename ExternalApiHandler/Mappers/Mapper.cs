@@ -1,7 +1,7 @@
 ﻿using DataAccess;
 using Models;
 
-namespace ExternalApiHandler.Mappers
+namespace ExternalApiCrawler.Mappers
 {
     public abstract class Mapper<T> where T : IModel
     {

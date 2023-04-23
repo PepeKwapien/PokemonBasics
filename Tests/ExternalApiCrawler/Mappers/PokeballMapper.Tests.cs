@@ -1,6 +1,6 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Mappers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Mappers;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Games;

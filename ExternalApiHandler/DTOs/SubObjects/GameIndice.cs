@@ -1,4 +1,4 @@
-﻿namespace ExternalApiHandler.DTOs
+﻿namespace ExternalApiCrawler.DTOs
 {
     public class GameIndice
     {

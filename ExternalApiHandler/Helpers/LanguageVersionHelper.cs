@@ -1,6 +1,6 @@
-﻿using ExternalApiHandler.DTOs;
+﻿using ExternalApiCrawler.DTOs;
 
-namespace ExternalApiHandler.Helpers
+namespace ExternalApiCrawler.Helpers
 {
     public class LanguageVersionHelper
     {

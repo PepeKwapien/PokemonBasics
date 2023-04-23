@@ -1,10 +1,10 @@
-﻿using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
-using ExternalApiHandler.Options;
+﻿using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
+using ExternalApiCrawler.Options;
 using Logger;
 using Microsoft.Extensions.Options;
 
-namespace ExternalApiHandler.Requesters
+namespace ExternalApiCrawler.Requesters
 {
     internal class EvolutionsRequester : IEvolutionsRequester
     {

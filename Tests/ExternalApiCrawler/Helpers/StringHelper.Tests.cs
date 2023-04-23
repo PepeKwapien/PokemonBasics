@@ -1,4 +1,4 @@
-﻿using ExternalApiHandler.Helpers;
+﻿using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.ExternalApiHandler.Helpers

@@ -1,11 +1,11 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Logger;
 using Microsoft.EntityFrameworkCore;
 using Models.Types;
 
-namespace ExternalApiHandler.Mappers
+namespace ExternalApiCrawler.Mappers
 {
     public class PokemonTypeMapper : Mapper<PokemonType>
     {

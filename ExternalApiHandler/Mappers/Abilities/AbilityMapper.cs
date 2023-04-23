@@ -1,12 +1,12 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Logger;
 using Models.Abilities;
 using Models.Generations;
 using System.Text.RegularExpressions;
 
-namespace ExternalApiHandler.Mappers
+namespace ExternalApiCrawler.Mappers
 {
     public class AbilityMapper : Mapper<Ability>
     {

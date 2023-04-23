@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace ExternalApiHandler.Helpers
+namespace ExternalApiCrawler.Helpers
 {
     public class StringHelper
     {

@@ -1,8 +1,8 @@
-﻿using ExternalApiHandler.DTOs;
+﻿using ExternalApiCrawler.DTOs;
 using Logger;
 using System.Text.Json;
 
-namespace ExternalApiHandler.Helpers
+namespace ExternalApiCrawler.Helpers
 {
     public class RequesterHelper
     {

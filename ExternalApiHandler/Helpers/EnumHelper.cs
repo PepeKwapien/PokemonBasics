@@ -1,4 +1,4 @@
-﻿namespace ExternalApiHandler.Helpers
+﻿namespace ExternalApiCrawler.Helpers
 {
     public class EnumHelper
     {

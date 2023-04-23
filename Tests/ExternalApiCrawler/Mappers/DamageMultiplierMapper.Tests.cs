@@ -1,7 +1,7 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
-using ExternalApiHandler.Mappers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
+using ExternalApiCrawler.Mappers;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Types;

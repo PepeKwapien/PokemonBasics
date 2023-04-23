@@ -1,12 +1,12 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Logger;
 using Models.Enums;
 using Models.Games;
 using Models.Generations;
 
-namespace ExternalApiHandler.Mappers
+namespace ExternalApiCrawler.Mappers
 {
     public class GameMapper : Mapper<Game>
     {

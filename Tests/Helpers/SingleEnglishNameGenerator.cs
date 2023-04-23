@@ -1,4 +1,4 @@
-﻿using ExternalApiHandler.DTOs;
+﻿using ExternalApiCrawler.DTOs;
 
 namespace Tests.Helpers
 {

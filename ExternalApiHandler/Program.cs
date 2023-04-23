@@ -1,14 +1,14 @@
-﻿using ExternalApiHandler.Requesters;
-using ExternalApiHandler.Options;
+﻿using ExternalApiCrawler.Requesters;
+using ExternalApiCrawler.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ExternalApiHandler.Mappers;
+using ExternalApiCrawler.Mappers;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Logger;
 
-namespace ExternalApiHandler
+namespace ExternalApiCrawler
 {
     internal class Program
     {

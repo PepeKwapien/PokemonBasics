@@ -1,6 +1,6 @@
-﻿using ExternalApiHandler.DTOs;
+﻿using ExternalApiCrawler.DTOs;
 
-namespace ExternalApiHandler.Requesters
+namespace ExternalApiCrawler.Requesters
 {
     internal interface IPokemonSpeciesRequester : IRequester<PokemonSpeciesDto>
     {

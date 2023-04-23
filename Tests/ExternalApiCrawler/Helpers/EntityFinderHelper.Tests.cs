@@ -1,6 +1,6 @@
 ﻿using DataAccess;
-using ExternalApiHandler.DTOs;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.DTOs;
+using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using Models.Generations;

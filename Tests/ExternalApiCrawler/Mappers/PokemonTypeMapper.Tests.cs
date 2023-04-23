@@ -2,11 +2,11 @@
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using ExternalApiHandler.Mappers;
+using ExternalApiCrawler.Mappers;
 using System.Collections.Generic;
-using ExternalApiHandler.DTOs;
+using ExternalApiCrawler.DTOs;
 using Models.Types;
-using ExternalApiHandler.Helpers;
+using ExternalApiCrawler.Helpers;
 using Tests.Mocks;
 using Tests.Helpers;
 
