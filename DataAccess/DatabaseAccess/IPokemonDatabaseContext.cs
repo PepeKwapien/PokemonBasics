@@ -14,7 +14,7 @@ namespace DataAccess
     {
         // Abilities
         DbSet<Ability> Abilities { get; set; }
-        DbSet<Ability> PokemonAbilities { get; set; }
+        DbSet<PokemonAbility> PokemonAbilities { get; set; }
 
         // Games
         DbSet<Game> Games { get; set; }

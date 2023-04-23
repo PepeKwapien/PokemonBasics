@@ -16,6 +16,7 @@ namespace Models.Abilities
         public Guid AbilityId { get; set; }
         [ForeignKey(nameof(AbilityId))]
         public Ability Ability { get; set; }
-        public bool IsHidden { get; set; } = false;
+        public bool Hidden { get; set; } = false;
+        public int Slot { get; set; }
     }
 }

@@ -8,8 +8,7 @@ namespace Tests.Mocks
 {
     internal class PokemonDatabaseContextMock
     {
-        public static Mock<DbSet<TEntity>> SetUpDbSetMock<TEntity>(List<TEntity> mockCollection)
-         where TEntity : class
+        public static Mock<DbSet<TEntity>> SetUpDbSetMock<TEntity>(List<TEntity> mockCollection) where TEntity : class
         {
             var dbSetMock = new Mock<DbSet<TEntity>>();
 
