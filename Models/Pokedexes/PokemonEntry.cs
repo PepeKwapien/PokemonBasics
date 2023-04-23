@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Pokemons;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Pokedexes
 {
-    [PrimaryKey(nameof(PokemonId), nameof(PokedexId))]
     public class PokemonEntry : IModel
     {
+        [Key]
+        public Guid Id { get; set; }
         public Guid PokemonId { get; set; }
         [ForeignKey(nameof(PokemonId))]
         public Pokemon Pokemon { get; set; }

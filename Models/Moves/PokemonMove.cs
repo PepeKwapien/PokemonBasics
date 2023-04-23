@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Models.Games;
+﻿using Models.Games;
 using Models.Pokemons;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Moves
 {
-    [PrimaryKey(nameof(PokemonId), nameof(MoveId))]
     public class PokemonMove : IModel
     {
+        [Key]
+        public Guid Id { get; set; }
         public Guid PokemonId { get; set; }
         [ForeignKey(nameof(PokemonId))]
         public Pokemon Pokemon { get; set; }

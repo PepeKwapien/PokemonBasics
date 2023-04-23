@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Pokemons
 {
-    [PrimaryKey(nameof(OriginalId), nameof(AlternateId))]
     public class AlternateForm : IModel
     {
+        [Key]
+        public Guid Id { get; set; }
         public Guid OriginalId { get; set; }
         [ForeignKey(nameof(OriginalId))]
         public Pokemon Original { get; set; }
