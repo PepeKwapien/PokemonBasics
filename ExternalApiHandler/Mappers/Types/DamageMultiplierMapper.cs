@@ -20,13 +20,6 @@ namespace ExternalApiCrawler.Mappers
 
         public override List<DamageMultiplier> Map()
         {
-            // Have to clear relations because there is a check whether specific relation already exists
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm => dm.Type).Include(dm => dm.Against))
-            {
-                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
-                _dbContext.DamageMultipliers.Remove(damageMultiplier);
-            }
-
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
             foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
@@ -41,6 +34,12 @@ namespace ExternalApiCrawler.Mappers
 
                 var newDamageMultipliers = CreateAllDamageMultipliersForType(currentType, typeDto.damage_relations, damageMultipliers);
                 damageMultipliers.AddRange(newDamageMultipliers);
+            }
+
+            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm => dm.Type).Include(dm => dm.Against))
+            {
+                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
+                _dbContext.DamageMultipliers.Remove(damageMultiplier);
             }
 
             _dbContext.DamageMultipliers.AddRange(damageMultipliers);

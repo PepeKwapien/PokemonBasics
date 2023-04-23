@@ -1,6 +1,5 @@
 ﻿using Models.Enums;
 using Models.Games;
-using Models.Pokemons;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.Pokedexes
@@ -9,12 +8,12 @@ namespace Models.Pokedexes
     {
         [Key]
         public Guid Id { get; set; }
-        [EnumDataType(typeof(Regions))]
         public string Name { get; set; }
+        [EnumDataType(typeof(Regions))]
         public Regions? Region { get; set; }
         [StringLength(128)]
-        public string? Description { get; set; }
-        public ICollection<Pokemon> Pokemons { get; set; }
+        public string Description { get; set; }
+        public ICollection<PokemonAvailability> Pokemons { get; set; }
         public ICollection<Game> Games { get; set; }
     }
 }
