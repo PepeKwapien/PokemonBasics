@@ -67,7 +67,7 @@ namespace Tests.ExternalApiCrawler.Mappers
         }
 
         [TestMethod]
-        public void MapsCorrectly()
+        public void MapsCorrectly_Simple()
         {
             // Arrange
 

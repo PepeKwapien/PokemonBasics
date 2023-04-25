@@ -73,7 +73,7 @@ namespace Tests.ExternalApiHandler.Mappers
         }
 
         [TestMethod]
-        public void MapsCorrectly()
+        public void MapsCorrectly_Simple()
         {
             // Arrange
 

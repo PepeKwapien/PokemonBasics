@@ -90,7 +90,7 @@ namespace Tests.ExternalApiHandler.Mappers
         }
 
         [TestMethod]
-        public void MapsCorrectly()
+        public void MapsCorrectly_Simple()
         {
             // Arrange
             _pokemonTypeDtos[0].damage_relations.double_damage_to = new Name[] { new Name() { name = _typeName2 }};
