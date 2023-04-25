@@ -161,6 +161,8 @@ namespace Tests.ExternalApiCrawler.Mappers
                 Assert.AreEqual(_pokemons[0].Id, result[i].PokemonId);
                 Assert.AreEqual(_moves[0].Id, result[i].MoveId);
                 Assert.AreEqual(_games[i].Id, result[i].GameId);
+                Assert.AreEqual(16, result[i].MinimalLevel);
+                Assert.AreEqual("Tutor", result[i].Method);   
             }
         }
     }
