@@ -10,8 +10,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -37,17 +37,17 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "first",
-                    names = SingleEnglishNameGenerator.Generate("1"),
+                    names = SingleEnglishNameHelper.Generate("1"),
                 },
                 new GenerationDto()
                 {
                     name = "second",
-                    names = SingleEnglishNameGenerator.Generate("2"),
+                    names = SingleEnglishNameHelper.Generate("2"),
                 },
                 new GenerationDto()
                 {
                     name = "third",
-                    names = SingleEnglishNameGenerator.Generate("3"),
+                    names = SingleEnglishNameHelper.Generate("3"),
                 }
             };
 
@@ -78,7 +78,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokeballDto()
                 {
                     name = "pokeball",
-                    names = SingleEnglishNameGenerator.Generate(sharedName),
+                    names = SingleEnglishNameHelper.Generate(sharedName),
                     effect_entries = new EffectEntry[]
                     {
                         new EffectEntry()
@@ -104,9 +104,9 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            var gens = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(_generations);
+            var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
             _databaseContext.Setup(dc => dc.Generations).Returns(gens.Object);
-            var pokeballs = PokemonDatabaseContextMock.SetUpDbSetMock<Pokeball>(new List<Pokeball>());
+            var pokeballs = PokemonDbSetHelper.SetUpDbSetMock<Pokeball>(new List<Pokeball>());
             _databaseContext.Setup(dc => dc.Pokeballs).Returns(pokeballs.Object);
 
             _mapper = new PokeballMapper(_databaseContext.Object, _logger.Object);

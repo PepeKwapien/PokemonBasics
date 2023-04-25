@@ -10,8 +10,8 @@ using Models.Types;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {
@@ -39,7 +39,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new GenerationDto()
                 {
                     name = "favorite",
-                    names = SingleEnglishNameGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameHelper.Generate("Favorite"),
                 }
             };
 
@@ -224,11 +224,11 @@ namespace Tests.ExternalApiCrawler.Mappers
                 Generation = _generations[0]
             };
 
-            var gens = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(_generations);
+            var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
             _databaseContext.Setup(dc => dc.Generations).Returns(gens.Object);
-            var types = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonType>(_pokemonTypes);
+            var types = PokemonDbSetHelper.SetUpDbSetMock<PokemonType>(_pokemonTypes);
             _databaseContext.Setup(dc => dc.Types).Returns(types.Object);
-            var pokemons = PokemonDatabaseContextMock.SetUpDbSetMock<Pokemon>(new List<Pokemon>());
+            var pokemons = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(new List<Pokemon>());
             _databaseContext.Setup(dc => dc.Pokemons).Returns(pokemons.Object);
 
             _mapper = new PokemonMapper(_databaseContext.Object, _logger.Object);

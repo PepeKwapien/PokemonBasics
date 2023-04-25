@@ -10,8 +10,8 @@ using Models.Pokemons;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {
@@ -81,7 +81,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new MoveDto()
                 {
                     name = "razor-leaf",
-                    names = SingleEnglishNameGenerator.Generate("Razor Leaf")
+                    names = SingleEnglishNameHelper.Generate("Razor Leaf")
                 }
             };
 
@@ -107,12 +107,12 @@ namespace Tests.ExternalApiCrawler.Mappers
                         new VersionDto
                         {
                             name = "red",
-                            names = SingleEnglishNameGenerator.Generate("Red")
+                            names = SingleEnglishNameHelper.Generate("Red")
                         },
                         new VersionDto
                         {
                             name = "blue",
-                            names = SingleEnglishNameGenerator.Generate("Blue")
+                            names = SingleEnglishNameHelper.Generate("Blue")
                         },
                     }
                 },
@@ -132,13 +132,13 @@ namespace Tests.ExternalApiCrawler.Mappers
                 },
             };
 
-            var poks = PokemonDatabaseContextMock.SetUpDbSetMock<Pokemon>(_pokemons);
+            var poks = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(_pokemons);
             _databaseContext.Setup(dc => dc.Pokemons).Returns(poks.Object);
-            var moves = PokemonDatabaseContextMock.SetUpDbSetMock<Move>(_moves);
+            var moves = PokemonDbSetHelper.SetUpDbSetMock<Move>(_moves);
             _databaseContext.Setup(dc => dc.Moves).Returns(moves.Object);
-            var games = PokemonDatabaseContextMock.SetUpDbSetMock<Game>(_games);
+            var games = PokemonDbSetHelper.SetUpDbSetMock<Game>(_games);
             _databaseContext.Setup(dc => dc.Games).Returns(games.Object);
-            var pokemonMoves = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonMove>(new List<PokemonMove>());
+            var pokemonMoves = PokemonDbSetHelper.SetUpDbSetMock<PokemonMove>(new List<PokemonMove>());
             _databaseContext.Setup(dc => dc.PokemonMoves).Returns(pokemonMoves.Object);
 
             _mapper = new PokemonMoveMapper(_databaseContext.Object, _logger.Object);

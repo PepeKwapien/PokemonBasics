@@ -9,8 +9,8 @@ using Models.Pokemons;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {
@@ -82,17 +82,17 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new AbilityDto
                 {
                     name = "veni",
-                    names = SingleEnglishNameGenerator.Generate("Veni"),
+                    names = SingleEnglishNameHelper.Generate("Veni"),
                 },
                 new AbilityDto
                 {
                     name = "vidi",
-                    names = SingleEnglishNameGenerator.Generate("Vidi"),
+                    names = SingleEnglishNameHelper.Generate("Vidi"),
                 },
                 new AbilityDto
                 {
                     name = "vici",
-                    names = SingleEnglishNameGenerator.Generate("Vici"),
+                    names = SingleEnglishNameHelper.Generate("Vici"),
                 },
             };
 
@@ -115,11 +115,11 @@ namespace Tests.ExternalApiCrawler.Mappers
                 },
             };
 
-            var poks = PokemonDatabaseContextMock.SetUpDbSetMock<Pokemon>(_pokemons);
+            var poks = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(_pokemons);
             _databaseContext.Setup(dc => dc.Pokemons).Returns(poks.Object);
-            var abilities = PokemonDatabaseContextMock.SetUpDbSetMock<Ability>(_abilities);
+            var abilities = PokemonDbSetHelper.SetUpDbSetMock<Ability>(_abilities);
             _databaseContext.Setup(dc => dc.Abilities).Returns(abilities.Object);
-            var pokAbilities = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonAbility>(new List<PokemonAbility>());
+            var pokAbilities = PokemonDbSetHelper.SetUpDbSetMock<PokemonAbility>(new List<PokemonAbility>());
             _databaseContext.Setup(dc => dc.PokemonAbilities).Returns(pokAbilities.Object);
 
             _mapper = new PokemonAbilityMapper(_databaseContext.Object, _logger.Object);

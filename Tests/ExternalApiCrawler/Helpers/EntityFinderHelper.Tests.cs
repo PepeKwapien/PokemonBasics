@@ -12,8 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Helpers
 {
@@ -41,12 +41,12 @@ namespace Tests.ExternalApiHandler.Helpers
                         new VersionDto
                         {
                             name = "red",
-                            names = SingleEnglishNameGenerator.Generate("Red")
+                            names = SingleEnglishNameHelper.Generate("Red")
                         },
                         new VersionDto
                         {
                             name = "blue",
-                            names = SingleEnglishNameGenerator.Generate("Blue")
+                            names = SingleEnglishNameHelper.Generate("Blue")
                         },
                     }
                 },
@@ -61,7 +61,7 @@ namespace Tests.ExternalApiHandler.Helpers
                         new VersionDto
                         {
                             name = "arceus",
-                            names = SingleEnglishNameGenerator.Generate("Arceus")
+                            names = SingleEnglishNameHelper.Generate("Arceus")
                         },
                     }
                 }
@@ -93,7 +93,7 @@ namespace Tests.ExternalApiHandler.Helpers
             string[] typeNames = new string[] { "Ice, Grass, Water, Fire, Electric, Ground" };
             List<PokemonType> types = typeNames.ToList().Select(typeName => new PokemonType { Name = typeName }).ToList();
 
-            var typeSet = PokemonDatabaseContextMock.SetUpDbSetMock(types);
+            var typeSet = PokemonDbSetHelper.SetUpDbSetMock(types);
             _databaseContext.Setup(dbc => dbc.Types).Returns(typeSet.Object);
 
             int randomIndex = new Random().Next(typeNames.Length);
@@ -117,7 +117,7 @@ namespace Tests.ExternalApiHandler.Helpers
             })
                 .ToList();
 
-            var typeSet = PokemonDatabaseContextMock.SetUpDbSetMock(types);
+            var typeSet = PokemonDbSetHelper.SetUpDbSetMock(types);
             _databaseContext.Setup(dbc => dbc.Types).Returns(typeSet.Object);
 
             int randomIndex = new Random().Next(typeNames.Length);
@@ -142,17 +142,17 @@ namespace Tests.ExternalApiHandler.Helpers
                 new GenerationDto
                 {
                     name = "first",
-                    names = SingleEnglishNameGenerator.Generate("1")
+                    names = SingleEnglishNameHelper.Generate("1")
                 },
                 new GenerationDto
                 {
                     name = nameToSearch,
-                    names = SingleEnglishNameGenerator.Generate(englishNameToFind)
+                    names = SingleEnglishNameHelper.Generate(englishNameToFind)
                 },
                 new GenerationDto
                 {
                     name = "third",
-                    names = SingleEnglishNameGenerator.Generate("3")
+                    names = SingleEnglishNameHelper.Generate("3")
                 },
             };
 
@@ -175,7 +175,7 @@ namespace Tests.ExternalApiHandler.Helpers
                 }
             };
 
-            var generationSet = PokemonDatabaseContextMock.SetUpDbSetMock(generations);
+            var generationSet = PokemonDbSetHelper.SetUpDbSetMock(generations);
             _databaseContext.Setup(dbc => dbc.Generations).Returns(generationSet.Object);
 
             // Act
@@ -202,7 +202,7 @@ namespace Tests.ExternalApiHandler.Helpers
                 }
             };
 
-            var pokemonSet = PokemonDatabaseContextMock.SetUpDbSetMock(pokemons);
+            var pokemonSet = PokemonDbSetHelper.SetUpDbSetMock(pokemons);
             _databaseContext.Setup(dbc => dbc.Pokemons).Returns(pokemonSet.Object);
 
             // Act
@@ -220,7 +220,7 @@ namespace Tests.ExternalApiHandler.Helpers
         public void FindGamesByVersionGroupName_FindsCorrectSingleGame()
         {
             // Arrange
-            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
             _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
 
             // Act
@@ -236,7 +236,7 @@ namespace Tests.ExternalApiHandler.Helpers
         public void FindGamesByVersionGroupName_FindsMultipleGames()
         {
             // Arrange
-            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
             _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
 
             // Act
@@ -255,7 +255,7 @@ namespace Tests.ExternalApiHandler.Helpers
         public void FindGamesByVersionGroupName_ReturnsEmptyListIfVersionGroupDoesnotExist()
         {
             // Arrange
-            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
             _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
 
             // Act

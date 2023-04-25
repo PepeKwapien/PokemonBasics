@@ -8,8 +8,8 @@ using Models.Types;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -37,7 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName1.ToLower(),
-                    names = SingleEnglishNameGenerator.Generate(_typeName1),
+                    names = SingleEnglishNameHelper.Generate(_typeName1),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],
@@ -51,7 +51,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokemonTypeDto()
                 {
                     name = _typeName2.ToLower(),
-                    names = SingleEnglishNameGenerator.Generate(_typeName2),
+                    names = SingleEnglishNameHelper.Generate(_typeName2),
                     damage_relations = new TypeDamageRelations()
                     {
                         no_damage_from = new Name[0],
@@ -81,9 +81,9 @@ namespace Tests.ExternalApiHandler.Mappers
             };
 
 
-            var dm = PokemonDatabaseContextMock.SetUpDbSetMock<DamageMultiplier>(new List<DamageMultiplier>());
+            var dm = PokemonDbSetHelper.SetUpDbSetMock<DamageMultiplier>(new List<DamageMultiplier>());
             _databaseContext.Setup(dc => dc.DamageMultipliers).Returns(dm.Object);
-            var pt = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonType>(_pokemonTypes);
+            var pt = PokemonDbSetHelper.SetUpDbSetMock<PokemonType>(_pokemonTypes);
             _databaseContext.Setup(dc => dc.Types).Returns(pt.Object);
 
             _damageMultiplierMapper = new DamageMultiplierMapper(_databaseContext.Object, _logger.Object);

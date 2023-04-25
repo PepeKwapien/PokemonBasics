@@ -7,7 +7,7 @@ using Models.Enums;
 using Models.Generations;
 using Moq;
 using System.Collections.Generic;
-using Tests.Mocks;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -65,7 +65,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            var gen = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(new List<Generation>());
+            var gen = PokemonDbSetHelper.SetUpDbSetMock<Generation>(new List<Generation>());
             _databaseContext.Setup(dc => dc.Generations).Returns(gen.Object);
 
             _mapper = new GenerationMapper(_databaseContext.Object, _logger.Object);

@@ -11,8 +11,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -40,7 +40,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = _generationName,
-                    names = SingleEnglishNameGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameHelper.Generate("Favorite"),
                 }
             };
 
@@ -70,12 +70,12 @@ namespace Tests.ExternalApiHandler.Mappers
                         new VersionDto
                         {
                             name = "first",
-                            names = SingleEnglishNameGenerator.Generate("First"),
+                            names = SingleEnglishNameHelper.Generate("First"),
                         },
                         new VersionDto
                         {
                             name = "second",
-                            names = SingleEnglishNameGenerator.Generate("Second")
+                            names = SingleEnglishNameHelper.Generate("Second")
                         }
                     }
 
@@ -98,9 +98,9 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            var gens = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(_generations);
+            var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
             _databaseContext.Setup(dc => dc.Generations).Returns(gens.Object);
-            var games = PokemonDatabaseContextMock.SetUpDbSetMock<Game>(new List<Game>());
+            var games = PokemonDbSetHelper.SetUpDbSetMock<Game>(new List<Game>());
             _databaseContext.Setup(dc => dc.Games).Returns(games.Object);
 
             _mapper = new GameMapper(_databaseContext.Object, _logger.Object);
@@ -203,18 +203,18 @@ namespace Tests.ExternalApiHandler.Mappers
                 new PokedexDto
                 {
                     name = "first",
-                    names = SingleEnglishNameGenerator.Generate("First"),
+                    names = SingleEnglishNameHelper.Generate("First"),
 
                 },
                 new PokedexDto
                 {
                     name = "second",
-                    names = SingleEnglishNameGenerator.Generate("Second"),
+                    names = SingleEnglishNameHelper.Generate("Second"),
                 },
                 new PokedexDto
                 {
                     name = "third",
-                    names = SingleEnglishNameGenerator.Generate("Third"),
+                    names = SingleEnglishNameHelper.Generate("Third"),
                 }
             };
 
@@ -253,7 +253,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 },
             };
 
-            var pokedexSet = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(pokedexes);
+            var pokedexSet = PokemonDbSetHelper.SetUpDbSetMock<Pokedex>(pokedexes);
             _databaseContext.Setup(dc => dc.Pokedexes).Returns(pokedexSet.Object);
 
             _mapper.SetUp(_gamesDtos, pokedexDtos, _generationDtos);

@@ -9,8 +9,8 @@ using Models.Types;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -37,7 +37,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "favorite",
-                    names = SingleEnglishNameGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameHelper.Generate("Favorite"),
                 }
             };
 
@@ -64,7 +64,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new MoveDto()
                 {
                     name = "blink",
-                    names = SingleEnglishNameGenerator.Generate("Blink"),
+                    names = SingleEnglishNameHelper.Generate("Blink"),
                     accuracy = 100,
                     pp = 15,
                     priority = 1,
@@ -120,11 +120,11 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            var gens = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(_generations);
+            var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
             _databaseContext.Setup(dc => dc.Generations).Returns(gens.Object);
-            var types = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonType>(_pokemonTypes);
+            var types = PokemonDbSetHelper.SetUpDbSetMock<PokemonType>(_pokemonTypes);
             _databaseContext.Setup(dc => dc.Types).Returns(types.Object);
-            var moves = PokemonDatabaseContextMock.SetUpDbSetMock<Move>(new List<Move>());
+            var moves = PokemonDbSetHelper.SetUpDbSetMock<Move>(new List<Move>());
             _databaseContext.Setup(dc => dc.Moves).Returns(moves.Object);
 
             _mapper = new MoveMapper(_databaseContext.Object, _logger.Object);

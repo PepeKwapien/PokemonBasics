@@ -10,8 +10,8 @@ using Models.Pokemons;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {
@@ -125,9 +125,9 @@ namespace Tests.ExternalApiCrawler.Mappers
                 },
             };
 
-            var poks = PokemonDatabaseContextMock.SetUpDbSetMock<Pokemon>(_pokemons);
+            var poks = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(_pokemons);
             _databaseContext.Setup(dc => dc.Pokemons).Returns(poks.Object);
-            var entries = PokemonDatabaseContextMock.SetUpDbSetMock<PokemonEntry>(new List<PokemonEntry>());
+            var entries = PokemonDbSetHelper.SetUpDbSetMock<PokemonEntry>(new List<PokemonEntry>());
             _databaseContext.Setup(dc => dc.PokemonEntries).Returns(entries.Object);
 
             _mapper = new PokemonEntryMapper(_databaseContext.Object, _logger.Object);
@@ -142,7 +142,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new PokedexDto
                 {
                     name = "1",
-                    names = SingleEnglishNameGenerator.Generate("Very first"),
+                    names = SingleEnglishNameHelper.Generate("Very first"),
                     pokemon_entries = new PokemonEntryDto[]
                     {
                         new PokemonEntryDto
@@ -166,7 +166,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 }
             };
 
-            var dexes = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(_pokedexes);
+            var dexes = PokemonDbSetHelper.SetUpDbSetMock<Pokedex>(_pokedexes);
             _databaseContext.Setup(dc => dc.Pokedexes).Returns(dexes.Object);
 
             _mapper.SetUp(_pokedexDtos, _speciesDto);
@@ -191,7 +191,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new PokedexDto
                 {
                     name = "1",
-                    names = SingleEnglishNameGenerator.Generate("Very first"),
+                    names = SingleEnglishNameHelper.Generate("Very first"),
                     pokemon_entries = new PokemonEntryDto[]
                     {
                         new PokemonEntryDto
@@ -207,7 +207,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new PokedexDto
                 {
                     name = "2",
-                    names = SingleEnglishNameGenerator.Generate("Very second"),
+                    names = SingleEnglishNameHelper.Generate("Very second"),
                     pokemon_entries = new PokemonEntryDto[]
                     {
                         new PokemonEntryDto
@@ -236,7 +236,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 }
             };
 
-            var dexes = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(_pokedexes);
+            var dexes = PokemonDbSetHelper.SetUpDbSetMock<Pokedex>(_pokedexes);
             _databaseContext.Setup(dc => dc.Pokedexes).Returns(dexes.Object);
 
             _mapper.SetUp(_pokedexDtos, _speciesDto);
@@ -263,7 +263,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new PokedexDto
                 {
                     name = "3",
-                    names = SingleEnglishNameGenerator.Generate("Very third"),
+                    names = SingleEnglishNameHelper.Generate("Very third"),
                     pokemon_entries = new PokemonEntryDto[]
                     {
                         new PokemonEntryDto
@@ -287,7 +287,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 },
             };
 
-            var dexes = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(_pokedexes);
+            var dexes = PokemonDbSetHelper.SetUpDbSetMock<Pokedex>(_pokedexes);
             _databaseContext.Setup(dc => dc.Pokedexes).Returns(dexes.Object);
 
             _mapper.SetUp(_pokedexDtos, _speciesDto);

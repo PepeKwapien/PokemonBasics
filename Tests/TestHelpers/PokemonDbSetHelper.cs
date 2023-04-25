@@ -1,12 +1,11 @@
-﻿using DataAccess;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests.Mocks
+namespace Tests.TestHelpers
 {
-    internal class PokemonDatabaseContextMock
+    internal class PokemonDbSetHelper
     {
         public static Mock<DbSet<TEntity>> SetUpDbSetMock<TEntity>(List<TEntity> mockCollection) where TEntity : class
         {

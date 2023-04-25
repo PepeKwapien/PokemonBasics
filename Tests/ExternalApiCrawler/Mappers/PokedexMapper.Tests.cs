@@ -8,8 +8,8 @@ using Models.Pokedexes;
 using Models.Types;
 using Moq;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {
@@ -33,7 +33,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new PokedexDto()
                 {
                     name = "pepedex",
-                    names = SingleEnglishNameGenerator.Generate("Pepedex"),
+                    names = SingleEnglishNameHelper.Generate("Pepedex"),
                     region = new Name
                     {
                         name = "sinnoh"
@@ -59,7 +59,7 @@ namespace Tests.ExternalApiCrawler.Mappers
                 Description = "Pepe's dex B)",
             };
 
-            var pokedexSet = PokemonDatabaseContextMock.SetUpDbSetMock<Pokedex>(new List<Pokedex>());
+            var pokedexSet = PokemonDbSetHelper.SetUpDbSetMock<Pokedex>(new List<Pokedex>());
             _databaseContext.Setup(dc => dc.Pokedexes).Returns(pokedexSet.Object);
 
             _mapper = new PokedexMapper(_databaseContext.Object, _logger.Object);

@@ -2,7 +2,7 @@
 using System.Reflection;
 
 
-namespace Tests.Helpers
+namespace Tests.TestHelpers
 {
     public class PropertyHelper<T>
     {

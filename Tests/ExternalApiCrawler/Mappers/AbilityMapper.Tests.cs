@@ -8,8 +8,8 @@ using Models.Generations;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.Helpers;
-using Tests.Mocks;
+using Tests.TestHelpers;
+using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
@@ -35,7 +35,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new GenerationDto()
                 {
                     name = "favorite",
-                    names = SingleEnglishNameGenerator.Generate("Favorite"),
+                    names = SingleEnglishNameHelper.Generate("Favorite"),
                 }
             };
 
@@ -53,7 +53,7 @@ namespace Tests.ExternalApiHandler.Mappers
                 new AbilityDto()
                 {
                     name = "stinky",
-                    names = SingleEnglishNameGenerator.Generate("Stinky"),
+                    names = SingleEnglishNameHelper.Generate("Stinky"),
                     is_main_series = true,
                     effect_entries = new EffectEntry[]
                     {
@@ -84,9 +84,9 @@ namespace Tests.ExternalApiHandler.Mappers
                 }
             };
 
-            var gens = PokemonDatabaseContextMock.SetUpDbSetMock<Generation>(_generations);
+            var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
             _databaseContext.Setup(dc => dc.Generations).Returns(gens.Object);
-            var abilities = PokemonDatabaseContextMock.SetUpDbSetMock<Ability>(new List<Ability>());
+            var abilities = PokemonDbSetHelper.SetUpDbSetMock<Ability>(new List<Ability>());
             _databaseContext.Setup(dc => dc.Abilities).Returns(abilities.Object);
 
             _mapper = new AbilityMapper(_databaseContext.Object, _logger.Object);

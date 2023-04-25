@@ -1,8 +1,8 @@
 ﻿using ExternalApiCrawler.DTOs;
 
-namespace Tests.Helpers
+namespace Tests.TestHelpers
 {
-    public class SingleEnglishNameGenerator
+    public class SingleEnglishNameHelper
     {
         public static NameWithLanguage[] Generate(string name) {
             return new NameWithLanguage[]
