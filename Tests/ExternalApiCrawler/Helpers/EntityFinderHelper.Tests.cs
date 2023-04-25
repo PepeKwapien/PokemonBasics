@@ -99,7 +99,7 @@ namespace Tests.ExternalApiHandler.Helpers
             int randomIndex = new Random().Next(typeNames.Length);
 
             // Act
-            var foundType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_databaseContext.Object, typeNames[randomIndex]);
+            var foundType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_databaseContext.Object.Types, typeNames[randomIndex]);
 
             // Assert
             Assert.IsNotNull(foundType);
@@ -123,7 +123,7 @@ namespace Tests.ExternalApiHandler.Helpers
             int randomIndex = new Random().Next(typeNames.Length);
 
             // Act
-            var foundType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_databaseContext.Object, typeNames[randomIndex]);
+            var foundType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_databaseContext.Object.Types, typeNames[randomIndex]);
 
             // Assert
             Assert.IsNotNull(foundType);

@@ -35,11 +35,11 @@ namespace ExternalApiCrawler.Mappers
                 string genera = LanguageVersionHelper.FindEnglishVersion(pokemonSpecies.genera).genus;
                 string habitat = StringHelper.Normalize(pokemonSpecies.habitat.name);
                 string shape = StringHelper.Normalize(pokemonSpecies.shape.name);
-                PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext, pokemonDto.types[0].type.name);
+                PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[0].type.name);
                 PokemonType? secondaryType = null;
                 if(pokemonDto.types.Length > 1)
                 {
-                    secondaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext, pokemonDto.types[1].type.name);
+                    secondaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[1].type.name);
                 }
 
                 int hp = FindStatValue("hp", pokemonDto.stats);

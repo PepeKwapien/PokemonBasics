@@ -10,9 +10,9 @@ namespace ExternalApiCrawler.Helpers
 {
     public class EntityFinderHelper
     {
-        public static PokemonType FindTypeByNameCaseInsensitive(IPokemonDatabaseContext dbContext, string typeName)
+        public static PokemonType FindTypeByNameCaseInsensitive(DbSet<PokemonType> typeSet, string typeName)
         {
-            return dbContext.Types.FirstOrDefault(type => type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+            return typeSet.FirstOrDefault(type => type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
         }
 
         public static T FindEntityByDtoName<T, TDto>(DbSet<T> dbSet, string simpleName, List<TDto> dtos) where T : class, IModel, IHasName where TDto : class, IDto, IMultiLanguageNames

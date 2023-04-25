@@ -24,7 +24,7 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
             {
-                PokemonType currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext, typeDto.name);
+                PokemonType currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, typeDto.name);
 
                 if(currentType == null)
                 {
@@ -78,7 +78,7 @@ namespace ExternalApiCrawler.Mappers
 
             foreach(Name typeRelation in typeRelations)
             {
-                PokemonType typeInRelation = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext ,typeRelation.name);
+                PokemonType typeInRelation = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types ,typeRelation.name);
 
                 if (typeInRelation == null)
                 {
