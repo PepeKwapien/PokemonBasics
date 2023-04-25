@@ -3,6 +3,7 @@ using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
+using Models.Games;
 using Models.Generations;
 using Models.Pokemons;
 using Models.Types;
@@ -20,11 +21,69 @@ namespace Tests.ExternalApiHandler.Helpers
     public class EntityFinderHelperTests
     {
         private Mock<IPokemonDatabaseContext> _databaseContext;
+        private List<GamesDto> _gamesDtos;
+        private List<Game> _games;
 
         [TestInitialize]
         public void Initialize()
         {
             _databaseContext= new Mock<IPokemonDatabaseContext>();
+            _gamesDtos = new List<GamesDto>()
+            {
+                new GamesDto
+                {
+                    VersionGroup = new VersionGroupDto()
+                    {
+                        name = "red-blue"
+                    },
+                    Versions = new List<VersionDto>()
+                    {
+                        new VersionDto
+                        {
+                            name = "red",
+                            names = SingleEnglishNameGenerator.Generate("Red")
+                        },
+                        new VersionDto
+                        {
+                            name = "blue",
+                            names = SingleEnglishNameGenerator.Generate("Blue")
+                        },
+                    }
+                },
+                new GamesDto
+                {
+                    VersionGroup = new VersionGroupDto()
+                    {
+                        name = "legends"
+                    },
+                    Versions = new List<VersionDto>()
+                    {
+                        new VersionDto
+                        {
+                            name = "arceus",
+                            names = SingleEnglishNameGenerator.Generate("Arceus")
+                        },
+                    }
+                }
+            };
+            _games = new List<Game>()
+            {
+                new Game
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Red"
+                },
+                new Game
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Blue"
+                },
+                new Game
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Arceus"
+                },
+            };
         }
 
         [TestMethod]
@@ -155,6 +214,56 @@ namespace Tests.ExternalApiHandler.Helpers
             Assert.IsNotNull(result2);
             Assert.AreEqual(pokemons[0], result1);
             Assert.AreEqual(pokemons[1], result2);
+        }
+
+        [TestMethod]
+        public void FindGamesByVersionGroupName_FindsCorrectSingleGame()
+        {
+            // Arrange
+            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
+
+            // Act
+            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "legends", _gamesDtos);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(_games[2].Id, result[0].Id);
+        }
+
+        [TestMethod]
+        public void FindGamesByVersionGroupName_FindsMultipleGames()
+        {
+            // Arrange
+            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
+
+            // Act
+            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "red-blue", _gamesDtos);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count);
+            for(int i = 0; i < 2; i++)
+            {
+                Assert.AreEqual(_games[i].Id, result[i].Id);
+            }
+        }
+
+        [TestMethod]
+        public void FindGamesByVersionGroupName_ReturnsEmptyListIfVersionGroupDoesnotExist()
+        {
+            // Arrange
+            var gameSet = PokemonDatabaseContextMock.SetUpDbSetMock(_games);
+            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
+
+            // Act
+            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "notexisting", _gamesDtos);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
         }
     }
 }

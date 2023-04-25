@@ -9,7 +9,7 @@ namespace Models.Moves
     public class Move : IModel, IHasName
     {
         [Key]
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         [Required]
         [StringLength(32)]
         public string Name { get; set; }

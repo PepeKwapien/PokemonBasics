@@ -2,6 +2,7 @@
 using ExternalApiCrawler.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Models.Games;
 using Models.Pokemons;
 using Models.Types;
 
@@ -25,6 +26,24 @@ namespace ExternalApiCrawler.Helpers
         public static Pokemon FindPokemonByName(DbSet<Pokemon> pokemonSet, string pokemonName)
         {
             return pokemonSet.FirstOrDefault(pokemon => pokemon.Name.Equals(StringHelper.Normalize(pokemonName)));
+        }
+
+        public static List<Game> FindGamesByVersionGroupName(DbSet<Game> gamesSet, string versionGroupName, List<GamesDto> gamesDtos)
+        {
+            List<Game> games = new List<Game>();
+
+            GamesDto gamesDto = gamesDtos.FirstOrDefault(gamesDto => gamesDto.VersionGroup.name.Equals(versionGroupName));
+
+            if (gamesDto != null)
+            {
+                foreach(var version in gamesDto.Versions)
+                {
+                    Game game = FindEntityByDtoName(gamesSet, version.name, gamesDto.Versions);
+                    games.Add(game);
+                }
+            }
+
+            return games;
         }
     }
 }
