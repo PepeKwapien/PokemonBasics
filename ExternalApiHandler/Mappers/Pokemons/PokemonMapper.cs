@@ -33,7 +33,7 @@ namespace ExternalApiCrawler.Mappers
                 Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, pokemonSpecies.generation.name, _generationDtos);
                 string name = StringHelper.Normalize(pokemonDto.name);
                 string genera = LanguageVersionHelper.FindEnglishVersion(pokemonSpecies.genera).genus;
-                string habitat = StringHelper.Normalize(pokemonSpecies.habitat.name);
+                string habitat = StringHelper.Normalize(pokemonSpecies.habitat?.name ?? "");
                 string shape = StringHelper.Normalize(pokemonSpecies.shape.name);
                 PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[0].type.name);
                 PokemonType? secondaryType = null;
