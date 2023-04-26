@@ -3,14 +3,11 @@ using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Mappers;
 using Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models.Abilities;
-using Models.Generations;
 using Models.Pokedexes;
 using Models.Pokemons;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Tests.TestHelpers;
 using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers

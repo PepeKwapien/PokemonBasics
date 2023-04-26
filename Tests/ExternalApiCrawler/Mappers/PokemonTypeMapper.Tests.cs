@@ -8,7 +8,6 @@ using ExternalApiCrawler.DTOs;
 using Models.Types;
 using ExternalApiCrawler.Helpers;
 using Tests.TestHelpers;
-using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {

@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Tests.TestHelpers;
-using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Helpers
 {

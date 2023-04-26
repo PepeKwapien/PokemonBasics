@@ -11,7 +11,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using Tests.TestHelpers;
-using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {

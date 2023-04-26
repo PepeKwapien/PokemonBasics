@@ -9,7 +9,6 @@ using Models.Types;
 using Moq;
 using System.Collections.Generic;
 using Tests.TestHelpers;
-using Tests.TestHelpers;
 
 namespace Tests.ExternalApiCrawler.Mappers
 {

@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tests.TestHelpers;
-using Tests.TestHelpers;
 
 namespace Tests.ExternalApiHandler.Mappers
 {
