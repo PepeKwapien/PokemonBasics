@@ -7,20 +7,20 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class AlternateFormMapper : Mapper<AlternateForm>
+    public class RegionalVariantMapper : Mapper<RegionalVariant>
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
 
-        public AlternateFormMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
+        public RegionalVariantMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
             _speciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public override List<AlternateForm> Map()
+        public override List<RegionalVariant> Map()
         {
-            List<AlternateForm> alternateForms = new List<AlternateForm>();
+            List<RegionalVariant> regionalVariants = new List<RegionalVariant>();
 
             foreach(PokemonSpeciesDto speciesDto in _speciesDtos)
             {
@@ -32,7 +32,7 @@ namespace ExternalApiCrawler.Mappers
                 ILookup<bool, Variety> varietyGroups = speciesDto.varieties.ToLookup(variety => variety.is_default);
 
                 Pokemon original = null;
-                List<Pokemon> alternates = new List<Pokemon>();
+                List<Pokemon> variants = new List<Pokemon>();
 
                 foreach(var group in varietyGroups)
                 {
@@ -42,35 +42,35 @@ namespace ExternalApiCrawler.Mappers
                     }
                     else
                     {
-                        alternates = varietyGroups[group.Key].Select(varietyDto => EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name)).ToList();
+                        variants = varietyGroups[group.Key].Select(varietyDto => EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name)).ToList();
                     }
                 }
 
-                foreach(Pokemon alternate in alternates)
+                foreach(Pokemon variant in variants)
                 {
-                    alternateForms.Add(new AlternateForm
+                    regionalVariants.Add(new RegionalVariant
                     {
                         OriginalId = original.Id,
                         Original = original,
-                        AlternateId = alternate.Id,
-                        Alternate = alternate,
+                        VariantId = variant.Id,
+                        Variant = variant,
                     });
 
-                    _logger.Debug($"Mapped alternate form {alternate.Name} of pokemon {original.Name}");
+                    _logger.Debug($"Mapped alternate form {variant.Name} of pokemon {original.Name}");
                 }
             }
 
-            foreach(AlternateForm alternateForm in _dbContext.AlternateForms.Include(af => af.Original).Include(af => af.Alternate))
+            foreach(RegionalVariant regionalVariant in _dbContext.RegionalVariants.Include(af => af.Original).Include(af => af.Variant))
             {
-                _logger.Debug($"Removing alternate form {alternateForm.Alternate.Name} of pokemon {alternateForm.Original.Name}");
-                _dbContext.AlternateForms.Remove(alternateForm);
+                _logger.Debug($"Removing regional variant {regionalVariant.Variant.Name} of pokemon {regionalVariant.Original.Name}");
+                _dbContext.RegionalVariants.Remove(regionalVariant);
             }
 
-            _dbContext.AlternateForms.AddRange(alternateForms);
+            _dbContext.RegionalVariants.AddRange(regionalVariants);
             _dbContext.SaveChanges();
-            _logger.Info($"Saved {alternateForms.Count} alternate forms");
+            _logger.Info($"Saved {regionalVariants.Count} regional variants");
 
-            return alternateForms;
+            return regionalVariants;
         }
 
         public void SetUp(List<PokemonSpeciesDto> pokemonSpecies)

@@ -36,7 +36,7 @@ namespace DataAccess
         // Pokemons
         DbSet<Pokemon> Pokemons { get; set; }
         DbSet<Evolution> Evolutions { get; set; }
-        DbSet<AlternateForm> AlternateForms { get; set; }
+        DbSet<RegionalVariant> RegionalVariants { get; set; }
 
         // Types
         DbSet<PokemonType> Types { get; set; }

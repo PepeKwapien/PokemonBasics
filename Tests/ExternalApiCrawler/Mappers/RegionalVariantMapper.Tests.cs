@@ -13,12 +13,12 @@ using Tests.TestHelpers;
 namespace Tests.ExternalApiCrawler.Mappers
 {
     [TestClass]
-    public class AlternateFormMapperTests
+    public class RegionalVariantMapperTests
     {
         private Mock<ILogger> _logger;
         private Mock<IPokemonDatabaseContext> _databaseContext;
         private List<Pokemon> _pokemons;
-        private AlternateFormMapper _mapper;
+        private RegionalVariantMapper _mapper;
 
         [TestInitialize]
         public void Initialize()
@@ -51,10 +51,10 @@ namespace Tests.ExternalApiCrawler.Mappers
 
             var poks = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(_pokemons);
             _databaseContext.Setup(dc => dc.Pokemons).Returns(poks.Object);
-            var alForms = PokemonDbSetHelper.SetUpDbSetMock<AlternateForm>(new List<AlternateForm>());
-            _databaseContext.Setup(dc => dc.AlternateForms).Returns(alForms.Object);
+            var regVar = PokemonDbSetHelper.SetUpDbSetMock<RegionalVariant>(new List<RegionalVariant>());
+            _databaseContext.Setup(dc => dc.RegionalVariants).Returns(regVar.Object);
 
-            _mapper = new AlternateFormMapper(_databaseContext.Object, _logger.Object);
+            _mapper = new RegionalVariantMapper(_databaseContext.Object, _logger.Object);
         }
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             for(int i = 0; i < speciesDtos[0].varieties.Length - 1; i++)
             {
                 Assert.AreEqual(_pokemons[1].Id, result[i].OriginalId);
-                Assert.AreEqual(_pokemons[2 + i].Id, result[i].AlternateId);
+                Assert.AreEqual(_pokemons[2 + i].Id, result[i].VariantId);
             }
         }
     }
