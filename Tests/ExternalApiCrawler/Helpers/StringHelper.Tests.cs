@@ -22,6 +22,44 @@ namespace Tests.ExternalApiHandler.Helpers
         }
 
         [TestMethod]
+        public void NormalizesIfNotNullCorrectly()
+        {
+            // Arrange
+            string beforeString = "i-am_not-normal seriously";
+            string afterString = "I Am Not Normal Seriously";
+
+            // Act
+            var result = StringHelper.NormalizeIfNotNull(beforeString);
+
+            // Assert
+            Assert.AreEqual(afterString, result);
+        }
+
+        [TestMethod]
+        public void NormalizeIfNotNullReturnsNullIfEmpty()
+        {
+            // Arrange
+
+            // Act
+            var result = StringHelper.NormalizeIfNotNull("");
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void NormalizeIfNotNullReturnsNullIfNull()
+        {
+            // Arrange
+
+            // Act
+            var result = StringHelper.NormalizeIfNotNull(null);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
         public void NormalizesNamesArrayCorrectly()
         {
             // Arrange

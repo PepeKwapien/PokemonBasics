@@ -12,6 +12,15 @@ namespace ExternalApiCrawler.Helpers
             return String.Join(" ", titleCaseParts);
         }
 
+        public static string? NormalizeIfNotNull(string? value)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            return StringHelper.Normalize(value);
+        }
+
         public static string NormalizeAndJoinNames(Name[] names)
         {
             List<string> result = new List<string>();

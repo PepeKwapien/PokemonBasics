@@ -264,5 +264,78 @@ namespace Tests.ExternalApiHandler.Helpers
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.Count);
         }
+
+        [TestMethod]
+        public void FindVarietiesInPokemonSpecies_FindsAllVarieties()
+        {
+            // Arrange
+            List<Pokemon> pokemons = new List<Pokemon>()
+            {
+                new Pokemon
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Bulbasaur Lovely"
+                },
+                new Pokemon
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Bulbasaur Wobbly"
+                },
+                new Pokemon
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Bulbasaur Godly"
+                }
+            };
+
+            var pokemonSet = PokemonDbSetHelper.SetUpDbSetMock(pokemons);
+            _databaseContext.Setup(dbc => dbc.Pokemons).Returns(pokemonSet.Object);
+
+            List<PokemonSpeciesDto> pokemonSpeciesDtos = new List<PokemonSpeciesDto>()
+            {
+                new PokemonSpeciesDto
+                {
+                    name = "bulbasaur",
+                    varieties = new Variety[]
+                    {
+                        new Variety
+                        {
+                            is_default= true,
+                            pokemon = new Name
+                            {
+                                name = "bulbasaur-lovely"
+                            }
+                        },
+                        new Variety
+                        {
+                            is_default= true,
+                            pokemon = new Name
+                            {
+                                name = "bulbasaur-wobbly"
+                            }
+                        },
+                        new Variety
+                        {
+                            is_default= true,
+                            pokemon = new Name
+                            {
+                                name = "bulbasaur-godly"
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Act
+            var result = EntityFinderHelper.FindVarietiesInPokemonSpecies(_databaseContext.Object.Pokemons, "bulbasaur", pokemonSpeciesDtos);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(pokemons.Count, result.Count);
+            for(int i = 0; i < pokemons.Count; i++)
+            {
+                Assert.AreEqual(pokemons[i], result[i]);
+            }
+        }
     }
 }

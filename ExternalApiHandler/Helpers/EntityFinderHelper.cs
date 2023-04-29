@@ -45,5 +45,19 @@ namespace ExternalApiCrawler.Helpers
 
             return games;
         }
+
+        public static List<Pokemon> FindVarietiesInPokemonSpecies(DbSet<Pokemon> pokemonSet, string speciesName, List<PokemonSpeciesDto> pokemonSpeciesDtos)
+        {
+            List<Pokemon> pokemons = new List<Pokemon>();
+
+            PokemonSpeciesDto matchingSpecies = pokemonSpeciesDtos.FirstOrDefault(psd => psd.name == speciesName);
+
+            foreach (var variety in matchingSpecies.varieties)
+            {
+                pokemons.Add(FindPokemonByName(pokemonSet, variety.pokemon.name));
+            }
+
+            return pokemons;
+        }
     }
 }
