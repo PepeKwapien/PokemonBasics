@@ -7,7 +7,7 @@ using Models.Moves;
 using Models.Pokemons;
 using Models.Types;
 
-namespace ExternalApiCrawler.Mappers.Pokemons
+namespace ExternalApiCrawler.Mappers
 {
     public class EvolutionMapper : Mapper<Evolution>
     {
