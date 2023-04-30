@@ -27,11 +27,11 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (PokemonDto pokemonDto in _pokemonDtos)
             {
-                Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name);
+                Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name, _logger);
 
                 foreach (PokemonAbilityDto pokemonAbility in pokemonDto.abilities)
                 {
-                    Ability ability = EntityFinderHelper.FindEntityByDtoName(_dbContext.Abilities, pokemonAbility.ability.name, _abilityDtos);
+                    Ability ability = EntityFinderHelper.FindEntityByDtoName(_dbContext.Abilities, pokemonAbility.ability.name, _abilityDtos, _logger);
 
                     pokemonAbilities.Add(new PokemonAbility
                     {

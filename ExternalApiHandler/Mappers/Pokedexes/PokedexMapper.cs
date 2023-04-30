@@ -28,7 +28,7 @@ namespace ExternalApiCrawler.Mappers
                 Regions? region = null;
                 if(pokedexDto.region != null)
                 {
-                    region = EnumHelper.GetEnumValueFromKey<Regions>(pokedexDto.region.name);
+                    region = EnumHelper.GetEnumValueFromKey<Regions>(pokedexDto.region.name, _logger);
                 }
                 string description = LanguageVersionHelper.FindEnglishVersion(pokedexDto.descriptions).description;
 

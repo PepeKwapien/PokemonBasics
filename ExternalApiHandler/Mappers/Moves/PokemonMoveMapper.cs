@@ -30,16 +30,16 @@ namespace ExternalApiCrawler.Mappers
 
             foreach(PokemonDto pokemonDto in _pokemonDtos)
             {
-                Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name);
+                Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name, _logger);
 
                 foreach(InnerPokemonMove innerPokemonMove in pokemonDto.moves)
                 {
-                    Move move = EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, innerPokemonMove.move.name, _moveDtos);
+                    Move move = EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, innerPokemonMove.move.name, _moveDtos, _logger);
 
                     foreach (VersionGroupDetails versionGroupDetails in innerPokemonMove.version_group_details)
                     {
                         string method = StringHelper.Normalize(versionGroupDetails.move_learned_method.name);
-                        List<Game> games = EntityFinderHelper.FindGamesByVersionGroupName(_dbContext.Games, versionGroupDetails.version_group.name, _gamesDtos);
+                        List<Game> games = EntityFinderHelper.FindGamesByVersionGroupName(_dbContext.Games, versionGroupDetails.version_group.name, _gamesDtos, _logger);
 
                         foreach (Game game in games)
                         {

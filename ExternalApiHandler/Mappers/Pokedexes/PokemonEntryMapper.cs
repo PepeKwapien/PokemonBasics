@@ -27,7 +27,7 @@ namespace ExternalApiCrawler.Mappers
 
             foreach(PokedexDto pokedexDto in _pokedexDtos)
             {
-                Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexDto.name, _pokedexDtos);
+                Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexDto.name, _pokedexDtos, _logger);
 
                 foreach (var pokemonEntry in pokedexDto.pokemon_entries)
                 {
@@ -35,7 +35,7 @@ namespace ExternalApiCrawler.Mappers
 
                     foreach (var variety in matchingSpecies.varieties)
                     {
-                        Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, variety.pokemon.name);
+                        Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, variety.pokemon.name, _logger);
 
                         pokemonEntries.Add(new PokemonEntry
                         {

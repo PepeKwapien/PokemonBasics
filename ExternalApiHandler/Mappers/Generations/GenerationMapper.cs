@@ -24,7 +24,7 @@ namespace ExternalApiCrawler.Mappers
             foreach(GenerationDto generationDto in _generationDtos)
             {
                 string name = LanguageVersionHelper.FindEnglishVersion(generationDto.names).name;
-                Regions region = EnumHelper.GetEnumValueFromKey<Regions>(generationDto.main_region.name);
+                Regions region = EnumHelper.GetEnumValueFromKey<Regions>(generationDto.main_region.name, _logger);
 
                 generations.Add(new Generation
                 {

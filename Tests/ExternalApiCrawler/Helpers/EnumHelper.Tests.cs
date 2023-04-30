@@ -26,13 +26,12 @@ namespace Tests.ExternalApiHandler.Helpers
         public void ThrowsErrorIfEmptyString()
         {
             // Arrange
-            string key = "";
 
             // Act
-            
 
             // Assert
-            Assert.ThrowsException<ArgumentException>(()=>EnumHelper.GetEnumValueFromKey<Regions>(key));
+            var exception = Assert.ThrowsException<ArgumentException>(()=>EnumHelper.GetEnumValueFromKey<Regions>(""));
+            Assert.AreEqual("The key cannot be null or empty", exception.Message);
         }
 
         [TestMethod]
@@ -43,9 +42,9 @@ namespace Tests.ExternalApiHandler.Helpers
 
             // Act
 
-
             // Assert
-            Assert.ThrowsException<ArgumentException>(() => EnumHelper.GetEnumValueFromKey<Regions>(key));
+            var exception = Assert.ThrowsException<ArgumentException>(() => EnumHelper.GetEnumValueFromKey<Regions>(key));
+            Assert.AreEqual($"No enum value found for key {key}", exception.Message);
         }
     }
 }

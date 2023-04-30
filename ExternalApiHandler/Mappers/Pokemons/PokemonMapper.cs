@@ -30,16 +30,16 @@ namespace ExternalApiCrawler.Mappers
             foreach(var pokemonDto in _pokemonDtos)
             {
                 PokemonSpeciesDto pokemonSpecies = FindMatchingPokemonSpecies(pokemonDto.species.name);
-                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, pokemonSpecies.generation.name, _generationDtos);
+                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, pokemonSpecies.generation.name, _generationDtos, _logger);
                 string name = StringHelper.Normalize(pokemonDto.name);
                 string genera = LanguageVersionHelper.FindEnglishVersion(pokemonSpecies.genera).genus;
                 string habitat = StringHelper.Normalize(pokemonSpecies.habitat?.name ?? "");
                 string shape = StringHelper.Normalize(pokemonSpecies.shape.name);
-                PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[0].type.name);
+                PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[0].type.name, _logger);
                 PokemonType? secondaryType = null;
                 if(pokemonDto.types.Length > 1)
                 {
-                    secondaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[1].type.name);
+                    secondaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[1].type.name, _logger);
                 }
 
                 int hp = FindStatValue("hp", pokemonDto.stats);

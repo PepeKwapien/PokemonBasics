@@ -1,19 +1,17 @@
-﻿namespace ExternalApiCrawler.Helpers
+﻿using Logger;
+
+namespace ExternalApiCrawler.Helpers
 {
     public class EnumHelper
     {
-        public static T GetEnumValueFromKey<T>(string key) where T : Enum
+        public static T GetEnumValueFromKey<T>(string key, ILogger? logger = null) where T : Enum
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                throw new ArgumentException("The key cannot be null or empty");
+                ExceptionHelper.LogAndThrow<ArgumentException>("The key cannot be null or empty", logger);
             }
 
             var enumType = typeof(T);
-            if (!enumType.IsEnum)
-            {
-                throw new ArgumentException($"{enumType} is not an enumerated type");
-            }
 
             var enumNames = Enum.GetNames(enumType);
             foreach (var enumName in enumNames)
@@ -24,7 +22,8 @@
                 }
             }
 
-            throw new ArgumentException($"No enum value found for key {key}");
+            ExceptionHelper.LogAndThrow<ArgumentException>($"No enum value found for key {key}", logger);
+            throw new Exception("I had to because compiler thinks that I do not return value here");
         }
     }
 }

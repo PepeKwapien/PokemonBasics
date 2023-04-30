@@ -63,15 +63,17 @@ namespace ExternalApiCrawler.Mappers
                 return evolutions;
             }
 
-            List<Pokemon> basePokemons = EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, evolvesTo.species.name, _speciesDtos);
+            List<Pokemon> basePokemons =
+                EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, evolvesTo.species.name, _speciesDtos, _logger);
             List<EvolutionTriggerPair> evolutionTriggerPairs = new List<EvolutionTriggerPair>(); 
 
             foreach (EvolvesTo innerEvolvesTo in evolvesTo.evolves_to)
             {
-                // recursion
+                // Recursion
                 evolutions.AddRange(AnalizeEvolutionTree(innerEvolvesTo, babyItem));
 
-                List<Pokemon> evolutionPokemons = EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, innerEvolvesTo.species.name, _speciesDtos);
+                List<Pokemon> evolutionPokemons =
+                    EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, innerEvolvesTo.species.name, _speciesDtos, _logger);
 
                 int numberOfEvolutions = evolutionPokemons.Count;
                 int numberOfDetails = innerEvolvesTo.evolution_details.Length;
@@ -122,11 +124,16 @@ namespace ExternalApiCrawler.Mappers
 
         private Evolution CreateEvolution(Pokemon pokemon, Pokemon evolutionPokemon, EvolutionDetail detail, string? babyItem)
         {
-            Pokemon? partyPokemon = detail.party_species != null ? EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, detail.party_species.name) : null;
-            Pokemon? tradePokemon = detail.trade_species != null ? EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, detail.trade_species.name) : null;
-            PokemonType? knownMoveType = detail.known_move_type != null ? EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, detail.known_move_type.name) : null;
-            PokemonType? partyType = detail.party_type != null ? EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, detail.party_type.name) : null;
-            Move? knownMove = detail.known_move != null ? EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, detail.known_move.name, _moveDtos) : null;
+            Pokemon? partyPokemon = detail.party_species != null ?
+                EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, detail.party_species.name, _logger) : null;
+            Pokemon? tradePokemon = detail.trade_species != null ?
+                EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, detail.trade_species.name, _logger) : null;
+            PokemonType? knownMoveType = detail.known_move_type != null ?
+                EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, detail.known_move_type.name, _logger) : null;
+            PokemonType? partyType = detail.party_type != null ?
+                EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, detail.party_type.name, _logger) : null;
+            Move? knownMove = detail.known_move != null ?
+                EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, detail.known_move.name, _moveDtos, _logger) : null;
 
             Evolution evolution = new Evolution()
             {

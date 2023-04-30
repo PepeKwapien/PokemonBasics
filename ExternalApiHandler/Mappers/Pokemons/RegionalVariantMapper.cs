@@ -38,11 +38,12 @@ namespace ExternalApiCrawler.Mappers
                 {
                     if (group.Key)
                     {
-                        original = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyGroups[group.Key].First().pokemon.name);
+                        original = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyGroups[group.Key].First().pokemon.name, _logger);
                     }
                     else
                     {
-                        variants = varietyGroups[group.Key].Select(varietyDto => EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name)).ToList();
+                        variants = varietyGroups[group.Key].Select(varietyDto =>
+                            EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name, _logger)).ToList();
                     }
                 }
 

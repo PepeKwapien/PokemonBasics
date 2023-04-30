@@ -31,14 +31,14 @@ namespace ExternalApiCrawler.Mappers
             foreach(GamesDto gameDto in _games)
             {
                 // Set up shared game fields
-                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, gameDto.VersionGroup.generation.name, _generations);
-                Regions[]? regions = gameDto.VersionGroup.regions?.Select(region => EnumHelper.GetEnumValueFromKey<Regions>(region.name)).ToArray();
+                Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, gameDto.VersionGroup.generation.name, _generations, _logger);
+                Regions[]? regions = gameDto.VersionGroup.regions?.Select(region => EnumHelper.GetEnumValueFromKey<Regions>(region.name, _logger)).ToArray();
                 Regions? mainRegion = null;
 
                 List<Pokedex> pokedexes = new List<Pokedex>();
                 foreach(var pokedexName in gameDto.VersionGroup.pokedexes)
                 {
-                    Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexName.name, _pokedexDtos);
+                    Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexName.name, _pokedexDtos, _logger);
                     pokedexes.Add(pokedex);
                 }
 

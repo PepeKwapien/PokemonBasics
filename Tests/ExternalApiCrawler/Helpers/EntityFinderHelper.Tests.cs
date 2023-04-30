@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using Models.Games;
@@ -22,6 +23,8 @@ namespace Tests.ExternalApiHandler.Helpers
         private Mock<IPokemonDatabaseContext> _databaseContext;
         private List<GamesDto> _gamesDtos;
         private List<Game> _games;
+        private List<GenerationDto> _generationDtos;
+        private List<Generation> _generations;
 
         [TestInitialize]
         public void Initialize()
@@ -83,6 +86,37 @@ namespace Tests.ExternalApiHandler.Helpers
                     Name = "Arceus"
                 },
             };
+            _generationDtos = new List<GenerationDto>()
+            {
+                new GenerationDto
+                {
+                    name = "first",
+                    names = SingleEnglishNameHelper.Generate("1")
+                },
+                new GenerationDto
+                {
+                    name = "second",
+                    names = SingleEnglishNameHelper.Generate("2")
+                },
+                new GenerationDto
+                {
+                    name = "third",
+                    names = SingleEnglishNameHelper.Generate("3")
+                },
+            };
+            _generations = new List<Generation>()
+            {
+                new Generation
+                {
+                    Name = "1",
+                    Region = Regions.Kanto
+                },
+                new Generation
+                {
+                    Name = "2",
+                    Region = Regions.Johto
+                },
+            };
         }
 
         [TestMethod]
@@ -130,59 +164,62 @@ namespace Tests.ExternalApiHandler.Helpers
         }
 
         [TestMethod]
+        public void FindTypeByNameCaseInsensitive_ReturnsExceptionWhenNameNotExisting()
+        {
+            // Arrange
+            string notExistingType = "i dont exist";
+            var typeSet = PokemonDbSetHelper.SetUpDbSetMock(new List<PokemonType>());
+            _databaseContext.Setup(dbc => dbc.Types).Returns(typeSet.Object);
+
+            // Act
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindTypeByNameCaseInsensitive(_databaseContext.Object.Types, notExistingType));
+            Assert.AreEqual($"Type {notExistingType} does not exist in the database", exception.Message);
+        }
+
+        [TestMethod]
         public void FindEntityByDtoName_FindsCorrectGeneration()
         {
             // Arrange
-            string nameToSearch = "second";
-            string englishNameToFind = "2";
-
-            List<GenerationDto> generationDtos = new List<GenerationDto>()
-            {
-                new GenerationDto
-                {
-                    name = "first",
-                    names = SingleEnglishNameHelper.Generate("1")
-                },
-                new GenerationDto
-                {
-                    name = nameToSearch,
-                    names = SingleEnglishNameHelper.Generate(englishNameToFind)
-                },
-                new GenerationDto
-                {
-                    name = "third",
-                    names = SingleEnglishNameHelper.Generate("3")
-                },
-            };
-
-            List<Generation> generations = new List<Generation>()
-            {
-                new Generation
-                {
-                    Name = "1",
-                    Region = Regions.Kanto
-                },
-                new Generation
-                {
-                    Name = "2",
-                    Region = Regions.Johto
-                },
-                new Generation
-                {
-                    Name = "3",
-                    Region = Regions.Hoenn
-                }
-            };
-
-            var generationSet = PokemonDbSetHelper.SetUpDbSetMock(generations);
+            var generationSet = PokemonDbSetHelper.SetUpDbSetMock(_generations);
             _databaseContext.Setup(dbc => dbc.Generations).Returns(generationSet.Object);
 
             // Act
-            var result = EntityFinderHelper.FindEntityByDtoName(_databaseContext.Object.Generations, nameToSearch, generationDtos);
+            var result = EntityFinderHelper.FindEntityByDtoName(_databaseContext.Object.Generations, "second", _generationDtos);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(englishNameToFind, result.Name);
+            Assert.AreEqual("2", result.Name);
+        }
+
+        [TestMethod]
+        public void FindEntityByDtoName_ThrowsErrorWhenNoMatchingDto()
+        {
+            // Arrange
+            string dtoName = "forth";
+            var generationSet = PokemonDbSetHelper.SetUpDbSetMock(_generations);
+            _databaseContext.Setup(dbc => dbc.Generations).Returns(generationSet.Object);
+
+            // Act
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindEntityByDtoName(_databaseContext.Object.Generations, dtoName, _generationDtos));
+            Assert.AreEqual($"No dto of type {typeof(GenerationDto).Name} was found to match name {dtoName}", exception.Message);
+        }
+
+        [TestMethod]
+        public void FindEntityByDtoName_ThrowsErrorWhenNoEntityInDb()
+        {
+            // Arrange
+            var generationSet = PokemonDbSetHelper.SetUpDbSetMock(_generations);
+            _databaseContext.Setup(dbc => dbc.Generations).Returns(generationSet.Object);
+
+            // Act
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindEntityByDtoName(_databaseContext.Object.Generations, "third", _generationDtos));
+            Assert.AreEqual($"No entity of type {typeof(Generation).Name} was found to match name 3", exception.Message);
         }
 
         [TestMethod]
@@ -213,6 +250,21 @@ namespace Tests.ExternalApiHandler.Helpers
             Assert.IsNotNull(result2);
             Assert.AreEqual(pokemons[0], result1);
             Assert.AreEqual(pokemons[1], result2);
+        }
+
+        [TestMethod]
+        public void FindPokemonByName_ThrowsIfPokemonDoesNotExist()
+        {
+            // Arrange
+            string pokemonName = "dani-devito";
+            var pokemonSet = PokemonDbSetHelper.SetUpDbSetMock(new List<Pokemon>());
+            _databaseContext.Setup(dbc => dbc.Pokemons).Returns(pokemonSet.Object);
+
+            // Act
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindPokemonByName(_databaseContext.Object.Pokemons, pokemonName));
+            Assert.AreEqual($"Pokemon with name {StringHelper.Normalize(pokemonName)} does not exist in the database", exception.Message);
         }
 
         [TestMethod]
@@ -251,18 +303,18 @@ namespace Tests.ExternalApiHandler.Helpers
         }
 
         [TestMethod]
-        public void FindGamesByVersionGroupName_ReturnsEmptyListIfVersionGroupDoesnotExist()
+        public void FindGamesByVersionGroupName_ThrowsIfVersionGroupDoesnotExist()
         {
             // Arrange
+            string versionGroupName = "notexisting";
             var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
             _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
 
             // Act
-            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "notexisting", _gamesDtos);
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Count);
+            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, versionGroupName, _gamesDtos));
+            Assert.AreEqual($"No game dto was found to match version group name {versionGroupName}", exception.Message);
         }
 
         [TestMethod]
@@ -336,6 +388,20 @@ namespace Tests.ExternalApiHandler.Helpers
             {
                 Assert.AreEqual(pokemons[i], result[i]);
             }
+        }
+
+        [TestMethod]
+        public void FindVarietiesInPokemonSpecies_ThrowsIfSpeciesNotFound()
+        {
+            // Arrange
+            string speciesName = "bulbasaur";
+
+            // Act
+
+            // Assert
+            var exception = Assert.ThrowsException<Exception>(() =>
+                EntityFinderHelper.FindVarietiesInPokemonSpecies(_databaseContext.Object.Pokemons, speciesName, new List<PokemonSpeciesDto>()));
+            Assert.AreEqual($"No matching pokemon species was found under the name {speciesName}", exception.Message);
         }
     }
 }
