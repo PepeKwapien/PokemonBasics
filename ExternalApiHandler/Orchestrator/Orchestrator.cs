@@ -144,12 +144,12 @@ namespace ExternalApiCrawler
             try
             {
                 _evolutionChainDtos = await _evolutionsRequester.GetCollection();
-                //_gamesDtos = await _gamesRequester.GetCollection();
+                _gamesDtos = await _gamesRequester.GetCollection();
                 _generationDtos = await _generationsRequester.GetCollection();
-                //_pokeballDtos = await _pokeballsRequester.GetCollection();
-                //_pokedexDtos = await _pokedexesRequester.GetCollection();
+                _pokeballDtos = await _pokeballsRequester.GetCollection();
+                _pokedexDtos = await _pokedexesRequester.GetCollection();
                 _pokemonDtos = await _pokemonsRequester.GetCollection();
-                //_pokemonAbilitiesDtos = await _pokemonAbilitiesRequester.GetCollection();
+                _pokemonAbilitiesDtos = await _pokemonAbilitiesRequester.GetCollection();
                 _pokemonMovesDtos = await _pokemonMovesRequester.GetCollection();
                 _pokemonSpeciesDtos = await _pokemonSpeciesRequester.GetCollection();
                 _pokemonTypesDtos = await _pokemonTypesRequester.GetCollection();
