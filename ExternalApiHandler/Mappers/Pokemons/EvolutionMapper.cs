@@ -250,6 +250,7 @@ namespace ExternalApiCrawler.Mappers
                 EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, detail.party_type.name, _logger) : null;
             Move? knownMove = detail.known_move != null ?
                 EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, detail.known_move.name, _moveDtos, _logger) : null;
+            string trigger = StringHelper.Normalize(detail.trigger.name);
 
             Evolution evolution = new Evolution()
             {
@@ -257,7 +258,7 @@ namespace ExternalApiCrawler.Mappers
                 Pokemon = pokemon,
                 IntoId = evolutionPokemon.Id,
                 Into = evolutionPokemon,
-                Trigger = StringHelper.Normalize(detail.trigger.name),
+                Trigger = trigger,
                 Gender = ConvertGender(detail.gender),
                 HeldItem = StringHelper.NormalizeIfNotNull(detail.held_item?.name),
                 Item = StringHelper.NormalizeIfNotNull(detail.item?.name),
@@ -283,7 +284,7 @@ namespace ExternalApiCrawler.Mappers
                 BabyItem = babyItem
             };
 
-            _logger.Debug($"Mapped evolution from {pokemon.Name} to {evolutionPokemon.Name}");
+            _logger.Debug($"Mapped evolution from {pokemon.Name} to {evolutionPokemon.Name} by method {trigger}");
 
             return evolution;
         }
