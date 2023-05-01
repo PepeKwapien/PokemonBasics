@@ -30,6 +30,7 @@ namespace ExternalApiCrawler.Mappers
                 "pikachu",
                 "eevee",
                 "basculin",
+                "darumaka",
                 "rockruff"
             };
 
@@ -215,6 +216,13 @@ namespace ExternalApiCrawler.Mappers
                     {
                         var currentPair = evolutionTriggerPairs[i];
                         evolutions.Add(CreateEvolution(evolvesFrom[evolvesFrom.Count - 1], currentPair.pokemon, currentPair.detail, babyItem));
+                    }
+                    break;
+                case "darumaka":
+                    for (int i = 0; i < evolutionTriggerPairs.Count; i++)
+                    {
+                        var currentPair = evolutionTriggerPairs[i];
+                        evolutions.Add(CreateEvolution(evolvesFrom[i / evolutionTriggerPairs.Count], currentPair.pokemon, currentPair.detail, babyItem));
                     }
                     break;
                 case "rockruff":
