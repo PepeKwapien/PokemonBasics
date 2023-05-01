@@ -4,6 +4,7 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PokemonDatabaseContext))]
-    partial class PokemonDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230501142644_longereffectMoveCrazy")]
+    partial class longereffectMoveCrazy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,7 +63,8 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Effect")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<Guid>("GenerationId")
                         .HasColumnType("uniqueidentifier");
@@ -71,7 +75,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("OverworldEffect")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.HasKey("Id");
 
@@ -165,6 +170,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Effect")
                         .IsRequired()
+                        .HasMaxLength(16384)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("GenerationId")
@@ -213,6 +219,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Method")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MinimalLevel")
@@ -427,6 +434,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Habitat")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("HasGenderDifferences")
@@ -453,6 +461,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Shape")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SpecialAttack")

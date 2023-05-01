@@ -12,7 +12,7 @@
         public bool is_mythical { get; set; }
         public string name { get; set; }
         public NameWithLanguage[] names { get; set; }
-        public Name shape { get; set; }
+        public Name? shape { get; set; }
         public Variety[] varieties { get; set; }
     }
 }

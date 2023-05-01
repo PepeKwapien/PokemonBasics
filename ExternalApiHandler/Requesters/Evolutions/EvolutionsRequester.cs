@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal class EvolutionsRequester : IEvolutionsRequester
+    public class EvolutionsRequester : IEvolutionsRequester
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly ILogger _logger;

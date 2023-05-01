@@ -12,9 +12,9 @@ namespace ExternalApiCrawler.Helpers
     {
         public static PokemonType FindTypeByNameCaseInsensitive(DbSet<PokemonType> typeSet, string typeName, ILogger? logger = null)
         {
-            PokemonType? foundType = typeSet.FirstOrDefault(type => type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+            PokemonType? foundType = typeSet.FirstOrDefault(type => type.Name.ToLower() == typeName.ToLower());
 
-            if(foundType == null)
+            if(foundType == null && typeName != "unknown") // One annoying exception
             {
                 ExceptionHelper.LogAndThrow<Exception>($"Type {typeName} does not exist in the database", logger);
             }
@@ -26,14 +26,14 @@ namespace ExternalApiCrawler.Helpers
             where T : class, IModel, IHasName
             where TDto : class, IDto, IMultiLanguageNames
         {
-            TDto dtoWithMatchingName = dtos.FirstOrDefault(dto => dto.name.Equals(simpleName, StringComparison.OrdinalIgnoreCase));
+            TDto dtoWithMatchingName = dtos.FirstOrDefault(dto => dto.name.ToLower() == simpleName.ToLower());
 
             if(dtoWithMatchingName == null)
             {
                 ExceptionHelper.LogAndThrow<Exception>($"No dto of type {typeof(TDto).Name} was found to match name {simpleName}", logger);
             }
 
-            string databaseName = LanguageVersionHelper.FindEnglishVersion(dtoWithMatchingName.names).name;
+            string databaseName = LanguageVersionHelper.FindEnglishVersion(dtoWithMatchingName.names)?.name ?? StringHelper.Normalize(simpleName);
             T foundEntity = dbSet.FirstOrDefault(entity => entity.Name.Equals(databaseName));
 
             if(foundEntity == null)
@@ -93,7 +93,12 @@ namespace ExternalApiCrawler.Helpers
 
             foreach (var variety in matchingSpecies.varieties)
             {
-                pokemons.Add(FindPokemonByName(pokemonSet, variety.pokemon.name, logger));
+                if (!variety.pokemon.name.Contains("-totem")
+                    && !variety.pokemon.name.Contains("-mega")
+                    && !variety.pokemon.name.Contains("-gmax")) // For some reason totems and megas are considered a variety
+                {
+                    pokemons.Add(FindPokemonByName(pokemonSet, variety.pokemon.name, logger));
+                }
             }
 
             return pokemons;

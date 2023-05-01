@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal class PokemonsRequester : IPokemonsRequester
+    public class PokemonsRequester : IPokemonsRequester
     {
         private readonly IHttpClientFactory _externalHttpClientFactory;
         private readonly ILogger _logger;

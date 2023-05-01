@@ -9,12 +9,14 @@ using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class EvolutionMapper : Mapper<Evolution>
+    public class EvolutionMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
         private List<EvolutionChainDto> _evolutionChainDtos;
         private List<MoveDto> _moveDtos;
+        private string[] _exceptionSpeciesEvolutions; // Insanely annoying that I have to do it this way
+        private string[] _exceptionSpeciesDetails; // Insanely annoying that I have to do it this way
 
         public EvolutionMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
@@ -22,9 +24,22 @@ namespace ExternalApiCrawler.Mappers
             _speciesDtos = new List<PokemonSpeciesDto>();
             _evolutionChainDtos = new List<EvolutionChainDto>();
             _moveDtos = new List<MoveDto>();
+
+            _exceptionSpeciesEvolutions = new string[]
+            {
+                "pikachu",
+                "eevee",
+                "basculin",
+                "rockruff"
+            };
+
+            _exceptionSpeciesDetails = new string[]
+            {
+                "darmanitan"
+            };
         }
 
-        public override List<Evolution> Map()
+        public List<Evolution> Map()
         {
             List<Evolution> evolutions = new List<Evolution>();
 
@@ -34,17 +49,16 @@ namespace ExternalApiCrawler.Mappers
                 evolutions.AddRange(AnalizeEvolutionTree(evolutionChainDto.chain, babyItem));
             }
 
-            foreach (Evolution evolution in _dbContext.Evolutions.Include(e => e.Into).Include(e => e.Pokemon))
-            {
-                _logger.Debug($"Removing evolution from {evolution.Pokemon.Name} to {evolution.Into.Name}");
-                _dbContext.Evolutions.Remove(evolution);
-            }
+            return evolutions;
+        }
+
+        public override void MapAndSave()
+        {
+            List<Evolution> evolutions = Map();
 
             _dbContext.Evolutions.AddRange(evolutions);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {evolutions.Count} evolutions");
-
-            return evolutions;
         }
 
         public void SetUp(List<PokemonSpeciesDto> species, List<EvolutionChainDto> evolutions, List<MoveDto> moves)
@@ -54,69 +68,163 @@ namespace ExternalApiCrawler.Mappers
             _moveDtos = moves;
         }
 
-        private List<Evolution> AnalizeEvolutionTree(EvolvesTo evolvesTo, string? babyItem)
+        private List<Evolution> AnalizeEvolutionTree(EvolvesTo startOfTheChain, string? babyItem)
         {
             List<Evolution> evolutions = new List<Evolution>();
 
-            if(evolvesTo.evolves_to.Length == 0)
+            if(startOfTheChain.evolves_to.Length == 0)
             {
                 return evolutions;
             }
 
-            List<Pokemon> basePokemons =
-                EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, evolvesTo.species.name, _speciesDtos, _logger);
-            List<EvolutionTriggerPair> evolutionTriggerPairs = new List<EvolutionTriggerPair>(); 
+            List<Pokemon> evolvingFromPokemons =
+                EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, startOfTheChain.species.name, _speciesDtos, _logger);
 
-            foreach (EvolvesTo innerEvolvesTo in evolvesTo.evolves_to)
+            List<EvolutionTriggerPair> evolutionTriggerPairs = new List<EvolutionTriggerPair>();
+
+            foreach (EvolvesTo nextEvolvesTo in startOfTheChain.evolves_to)
             {
                 // Recursion
-                evolutions.AddRange(AnalizeEvolutionTree(innerEvolvesTo, babyItem));
+                evolutions.AddRange(AnalizeEvolutionTree(nextEvolvesTo, babyItem));
 
-                List<Pokemon> evolutionPokemons =
-                    EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, innerEvolvesTo.species.name, _speciesDtos, _logger);
-
-                int numberOfEvolutions = evolutionPokemons.Count;
-                int numberOfDetails = innerEvolvesTo.evolution_details.Length;
-
-                if (numberOfEvolutions != numberOfDetails && numberOfDetails != 1 && numberOfEvolutions != 1) // unclear how to pair details and varieties
+                if (nextEvolvesTo.evolution_details.Length == 0)
                 {
-                    _logger.Error($"Unclear expected behavior for species {innerEvolvesTo.species.name} with {numberOfEvolutions} varieties and {numberOfDetails} evolution methods");
-                    throw new Exception($"Unclear expected behavior for species {innerEvolvesTo.species.name} with {numberOfEvolutions} varieties and {numberOfDetails} evolution methods");
-                }
-
-                int max = Math.Max(numberOfEvolutions, numberOfDetails);
-                for(int i = 0; i < max; i++)
-                {
-                    evolutionTriggerPairs.Add(new EvolutionTriggerPair
+                    _logger.Warn($"Evolution into {nextEvolvesTo.species.name} has no details");
+                    nextEvolvesTo.evolution_details = new EvolutionDetail[]
                     {
-                        pokemon = evolutionPokemons[i% numberOfEvolutions],
-                        detail = innerEvolvesTo.evolution_details[i% numberOfDetails]
-                    });
+                        new EvolutionDetail
+                        {
+                            trigger = new Name
+                            {
+                                name = ""
+                            }
+                        }
+                    };
                 }
-            }
 
-            int numberOfBaseForms = basePokemons.Count;
+                List<Pokemon> evolvingIntoPokemons =
+                    EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, nextEvolvesTo.species.name, _speciesDtos, _logger);
+
+                int numberOfEvolutionsInto = evolvingIntoPokemons.Count;
+                int numberOfDetails = nextEvolvesTo.evolution_details.Length;
+
+                if (numberOfEvolutionsInto != numberOfDetails &&
+                    numberOfDetails != 1 &&
+                    numberOfEvolutionsInto != 1 &&
+                    !_exceptionSpeciesDetails.Contains(nextEvolvesTo.species.name)) // Unclear how to pair details and varieties
+                {
+                    ExceptionHelper.LogAndThrow<Exception>(
+                        $"Unclear expected behavior for species {nextEvolvesTo.species.name} with {numberOfEvolutionsInto} varieties and {numberOfDetails} evolution methods",
+                        _logger);
+                }
+                else if(numberOfEvolutionsInto*numberOfDetails == 0)
+                {
+                    ExceptionHelper.LogAndThrow<Exception>(
+                        $"Inconsistent data somewhere. Species {nextEvolvesTo.species.name}. Number of varieties: {numberOfEvolutionsInto}. Number of details {numberOfDetails}",
+                        _logger);
+                }
+
+                if (_exceptionSpeciesDetails.Contains(nextEvolvesTo.species.name))
+                {
+                    evolutionTriggerPairs.AddRange(HandleExceptionsInEvolutionDetails(nextEvolvesTo.species.name, evolvingIntoPokemons, nextEvolvesTo.evolution_details));
+                }
+                else
+                {
+                    int max = Math.Max(numberOfEvolutionsInto, numberOfDetails);
+                    for (int i = 0; i < max; i++)
+                    {
+                        evolutionTriggerPairs.Add(new EvolutionTriggerPair
+                        {
+                            pokemon = evolvingIntoPokemons[i % numberOfEvolutionsInto],
+                            detail = nextEvolvesTo.evolution_details[i % numberOfDetails]
+                        });
+                    }
+                }
+            } // foreach (EvolvesTo nextEvolvesTo in startOfTheChain.evolves_to)
+
+            int numberOfBaseForms = evolvingFromPokemons.Count;
             int numberOfEvolutionPairs = evolutionTriggerPairs.Count;
 
-            // 1-1, n-n (regional variants), 1-n (multiple evolutions), n-2n (e.g. slowpoke)
-            if(numberOfBaseForms <= numberOfEvolutionPairs && numberOfEvolutionPairs%numberOfBaseForms == 0)
+            // Annoying exceptions that I am too tired to handle in a unified way - I tried, you should have seen my notes
+            if (_exceptionSpeciesEvolutions.Contains(startOfTheChain.species.name))
             {
-                for(int i = 0; i < numberOfEvolutionPairs; i++)
+                evolutions.AddRange(HandleExceptionsInEvolutionSpecies(startOfTheChain.species.name, evolvingFromPokemons, evolutionTriggerPairs, babyItem));
+            }
+            // 1-1, n-n (regional variants), 1-n (multiple evolutions), n-2n (e.g. slowpoke)
+            else if (numberOfBaseForms <= numberOfEvolutionPairs && numberOfEvolutionPairs % numberOfBaseForms == 0)
+            {
+                for (int i = 0; i < numberOfEvolutionPairs; i++)
                 {
                     EvolutionTriggerPair currentPair = evolutionTriggerPairs[i];
-                    evolutions.Add(CreateEvolution(basePokemons[i%numberOfBaseForms], currentPair.pokemon, currentPair.detail, babyItem));
+                    evolutions.Add(CreateEvolution(evolvingFromPokemons[i % numberOfBaseForms], currentPair.pokemon, currentPair.detail, babyItem));
                 }
             }
-            // regional evolution - add evolution only to the latest variant
-            else if(numberOfBaseForms > numberOfEvolutionPairs && numberOfEvolutionPairs == 1)
+            // Regional evolution - add evolution only to the latest variant
+            else if (numberOfBaseForms > numberOfEvolutionPairs && numberOfEvolutionPairs == 1)
             {
-                evolutions.Add(CreateEvolution(basePokemons[numberOfBaseForms - 1], evolutionTriggerPairs[0].pokemon, evolutionTriggerPairs[0].detail, babyItem));
+                evolutions.Add(CreateEvolution(evolvingFromPokemons[numberOfBaseForms - 1], evolutionTriggerPairs[0].pokemon, evolutionTriggerPairs[0].detail, babyItem));
             }
-            // unclear what to do
+            // Unclear what to do
             else
             {
-                _logger.Error($"Unclear expected behavior for species {evolvesTo} while evoling. Number of base forms {numberOfBaseForms}, number of evolutions {numberOfEvolutionPairs}");
-                throw new Exception($"Unclear expected behavior for species {evolvesTo} while evoling. Number of base forms {numberOfBaseForms}, number of evolutions {numberOfEvolutionPairs}");
+                ExceptionHelper.LogAndThrow<Exception>(
+                    $"Unclear expected behavior for species {startOfTheChain.species.name} while evolving. Number of base forms {numberOfBaseForms}, number of evolutions {numberOfEvolutionPairs}",
+                    _logger);
+            }
+
+            return evolutions;
+        }
+
+        private List<EvolutionTriggerPair> HandleExceptionsInEvolutionDetails(string speciesName, List<Pokemon> varieties, EvolutionDetail[] details)
+        {
+            List<EvolutionTriggerPair> evolutionTriggerPairs = new List<EvolutionTriggerPair>();
+
+            switch (speciesName)
+            {
+                case "darmanitan":
+                    for(int i = 0; i < varieties.Count; i++)
+                    {
+                        evolutionTriggerPairs.Add(new EvolutionTriggerPair
+                        {
+                            pokemon = varieties[i],
+                            detail = details[i / varieties.Count]
+                        });
+                    }
+                    break;
+            };
+
+            return evolutionTriggerPairs;
+        }
+
+        private List<Evolution> HandleExceptionsInEvolutionSpecies(string speciesName, List<Pokemon> evolvesFrom, List<EvolutionTriggerPair> evolutionTriggerPairs, string? babyItem)
+        {
+            List<Evolution> evolutions= new List<Evolution>();
+
+            switch (speciesName)
+            {
+                case "pikachu":
+                case "eevee":
+                    for (int i = 0; i < evolutionTriggerPairs.Count; i++)
+                    {
+                        var currentPair = evolutionTriggerPairs[i];
+                        evolutions.Add(CreateEvolution(evolvesFrom[0], currentPair.pokemon, currentPair.detail, babyItem));
+                    }
+                    break;
+                case "basculin":
+                    for (int i = 0; i < evolutionTriggerPairs.Count; i++)
+                    {
+                        var currentPair = evolutionTriggerPairs[i];
+                        evolutions.Add(CreateEvolution(evolvesFrom[evolvesFrom.Count - 1], currentPair.pokemon, currentPair.detail, babyItem));
+                    }
+                    break;
+                case "rockruff":
+                    for(int i = 0; i < 2; i++)
+                    {
+                        var currentPair = evolutionTriggerPairs[i];
+                        evolutions.Add(CreateEvolution(evolvesFrom[0], currentPair.pokemon, currentPair.detail, babyItem));
+                    }
+                    evolutions.Add(CreateEvolution(evolvesFrom[1], evolutionTriggerPairs[2].pokemon, evolutionTriggerPairs[2].detail, babyItem));
+                    break;
             }
 
             return evolutions;

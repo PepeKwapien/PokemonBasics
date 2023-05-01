@@ -14,10 +14,12 @@ namespace ExternalApiCrawler
     {
         static async Task Main(string[] args)
         {
+            // Set up configuration builder
             IConfiguration config = new ConfigurationBuilder()
                .AddJsonFile("Config/appsettings.json")
                .Build();
 
+            // Bind class with options for http client
             ExternalApiOptions externalOptions = new ExternalApiOptions();
             config.GetRequiredSection("ExternalApiSettings").Bind(externalOptions);
 
@@ -29,6 +31,12 @@ namespace ExternalApiCrawler
             // DbContext
             serviceCollection
                 .AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
+
+            // Http client
+            serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
+            {
+                client.BaseAddress = new Uri(externalOptions.BaseUrl);
+            });
 
             // Logger
             serviceCollection
@@ -54,31 +62,32 @@ namespace ExternalApiCrawler
 
             // Mappers
             serviceCollection
-                .AddScoped<PokemonTypeMapper>()
+                .AddScoped<AbilityMapper>()
+                .AddScoped<PokemonAbilityMapper>()
+                .AddScoped<GameMapper>()
+                .AddScoped<GenerationMapper>()
+                .AddScoped<MoveMapper>()
+                .AddScoped<PokemonMoveMapper>()
+                .AddScoped<PokeballMapper>()
+                .AddScoped<PokedexMapper>()
+                .AddScoped<PokemonEntryMapper>()
+                .AddScoped<EvolutionMapper>()
+                .AddScoped<PokemonMapper>()
+                .AddScoped<RegionalVariantMapper>()
                 .AddScoped<DamageMultiplierMapper>()
-                .AddScoped<GenerationMapper>();
+                .AddScoped<PokemonTypeMapper>();
 
-            serviceCollection.AddHttpClient(externalOptions.ClientName, client =>
-            {
-                client.BaseAddress = new Uri(externalOptions.BaseUrl);
-            });
+            // Orchestrator
+            serviceCollection.AddScoped<IOrchestrator, Orchestrator>();
             
+            // Build service provider
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             using (var scope = serviceProvider.CreateScope())
             {
-                var options = scope.ServiceProvider.GetService<IOptions<ExternalApiOptions>>();
-
-                Console.WriteLine(options.Value.BaseUrl);
-
-                var requester = scope.ServiceProvider.GetService<IGenerationsRequester>();
-                var collection = await requester.GetCollection();
-
-                var mapper1 = scope.ServiceProvider.GetService<GenerationMapper>();
-                mapper1.SetUp(collection);
-                var mapResult1 = mapper1.Map();
-
-                Console.WriteLine(mapResult1.Count);
+                var orchestrator = scope.ServiceProvider.GetService<IOrchestrator>();
+                bool result = await orchestrator.Start();
+                Console.WriteLine($"{(result ? "Yay" : "Nay")}");
             }
         }
     }

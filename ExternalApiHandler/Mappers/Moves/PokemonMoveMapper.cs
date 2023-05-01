@@ -9,7 +9,7 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonMoveMapper : Mapper<PokemonMove>
+    public class PokemonMoveMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonDto> _pokemonDtos;
@@ -24,21 +24,21 @@ namespace ExternalApiCrawler.Mappers
             _gamesDtos = new List<GamesDto>();
         }
 
-        public override List<PokemonMove> Map()
+        public List<PokemonMove> Map()
         {
-            List<PokemonMove> pokemonMoves= new List<PokemonMove>();
+            List<PokemonMove> pokemonMoves = new List<PokemonMove>();
 
-            foreach(PokemonDto pokemonDto in _pokemonDtos)
+            foreach (PokemonDto pokemonDto in _pokemonDtos)
             {
                 Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name, _logger);
 
-                foreach(InnerPokemonMove innerPokemonMove in pokemonDto.moves)
+                foreach (InnerPokemonMove innerPokemonMove in pokemonDto.moves)
                 {
                     Move move = EntityFinderHelper.FindEntityByDtoName(_dbContext.Moves, innerPokemonMove.move.name, _moveDtos, _logger);
 
                     foreach (VersionGroupDetails versionGroupDetails in innerPokemonMove.version_group_details)
                     {
-                        string method = StringHelper.Normalize(versionGroupDetails.move_learned_method.name);
+                        string? method = StringHelper.NormalizeIfNotNull(versionGroupDetails.move_learned_method?.name);
                         List<Game> games = EntityFinderHelper.FindGamesByVersionGroupName(_dbContext.Games, versionGroupDetails.version_group.name, _gamesDtos, _logger);
 
                         foreach (Game game in games)
@@ -60,17 +60,16 @@ namespace ExternalApiCrawler.Mappers
                 } // End loop finding moves
             } // End loop finding pokemons
 
-            foreach (PokemonMove pokemonMove in _dbContext.PokemonMoves.Include(pm => pm.Move).Include(pm => pm.Pokemon).Include(pm => pm.Game))
-            {
-                _logger.Debug($"Removing move {pokemonMove.Move.Name} for pokemon {pokemonMove.Pokemon.Name} in game {pokemonMove.Game.Name}");
-                _dbContext.PokemonMoves.Remove(pokemonMove);
-            }
+            return pokemonMoves;
+        }
+
+        public override void MapAndSave()
+        {
+            List<PokemonMove> pokemonMoves = Map();
 
             _dbContext.PokemonMoves.AddRange(pokemonMoves);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonMoves.Count} pokemon moves");
-
-            return pokemonMoves;
         }
 
         public void SetUp(List<PokemonDto> pokemons, List<MoveDto> moves, List<GamesDto> games)

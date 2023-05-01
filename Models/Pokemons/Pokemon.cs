@@ -29,14 +29,14 @@ namespace Models.Pokemons
         public int Speed { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
-        public string Habitat { get; set; }
+        public string? Habitat { get; set; }
         public string EggGroups { get; set; }
         public string Genera { get; set; }
         public bool HasGenderDifferences { get; set; }
         public bool Baby { get; set; }
         public bool Legendary { get; set; }
         public bool Mythical { get; set; }
-        public string Shape { get; set; }
+        public string? Shape { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }

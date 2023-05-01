@@ -143,7 +143,7 @@ namespace Tests.ExternalApiHandler.Mappers
             Assert.IsNotNull(result);
             Assert.AreEqual(_abilities.Count, result.Count);
             Assert.AreEqual(_abilities[0].Name, result[0].Name);
-            Assert.AreEqual("", result[0].Effect);
+            Assert.AreEqual("-", result[0].Effect);
             Assert.IsNull(result[0].OverworldEffect);
             Assert.AreEqual(_abilities[0].GenerationId, result[0].GenerationId);
         }

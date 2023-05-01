@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class AbilityMapper : Mapper<Ability>
+    public class AbilityMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<AbilityDto> _abilityDtos;
@@ -21,15 +21,15 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public override List<Ability> Map()
+        public List<Ability> Map()
         {
-            List<Ability> abilities= new List<Ability>();
+            List<Ability> abilities = new List<Ability>();
 
-            foreach(var abilityDto in _abilityDtos)
+            foreach (var abilityDto in _abilityDtos)
             {
                 string name = LanguageVersionHelper.FindEnglishVersion(abilityDto.names).name;
                 Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, abilityDto.generation.name, _generationDtos, _logger);
-                string rawEffectEntry = LanguageVersionHelper.FindEnglishVersion(abilityDto.effect_entries)?.effect ?? "";
+                string rawEffectEntry = LanguageVersionHelper.FindEnglishVersion(abilityDto.effect_entries)?.effect ?? "-";
                 string[] effectEntriesInBattleAndOverworld = Regex.Split(rawEffectEntry, @"\s*Overworld:\s*");
                 abilities.Add(new Ability
                 {
@@ -43,17 +43,16 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped ability {name}");
             }
 
-            foreach (var ability in _dbContext.Abilities)
-            {
-                _logger.Debug($"Removing ability {ability.Name}");
-                _dbContext.Abilities.Remove(ability);
-            }
+            return abilities;
+        }
+
+        public override void MapAndSave()
+        {
+            List<Ability> abilities = Map();
 
             _dbContext.Abilities.AddRange(abilities);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {abilities.Count} abilities");
-
-            return abilities;
         }
 
         public void SetUp(List<AbilityDto> pokemonAbilities, List<GenerationDto> generations)

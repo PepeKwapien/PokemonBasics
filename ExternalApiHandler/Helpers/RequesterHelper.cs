@@ -9,7 +9,18 @@ namespace ExternalApiCrawler.Helpers
         // Method to get dto object from given endpoint and deserialize it
         public static async Task<T> Get<T>(HttpClient client, string path, ILogger? logger = null)
         {
-            var result = await client.GetAsync(path);
+            HttpResponseMessage result = null;
+            try
+            {
+                result = await client.GetAsync(path);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                logger?.Error($"There was an error while getting object of type {typeof(T).Name} from path {path}. Error: {ex.Message}");
+                throw;
+            }
+            
             var stringifiedContent = await result.Content.ReadAsStringAsync();
             T dto = JsonSerializer.Deserialize<T>(stringifiedContent);
 

@@ -73,7 +73,6 @@ namespace Tests.ExternalApiCrawler.Mappers
                     weight = 880,
                     is_default = true,
                     name = "bulbasaur",
-                    order = 1,
                     types = new InnerPokemonType[]
                     {
                         new InnerPokemonType
@@ -202,7 +201,6 @@ namespace Tests.ExternalApiCrawler.Mappers
                 PrimaryType = _pokemonTypes[0],
                 SecondaryTypeId = _pokemonTypes[1].Id,
                 SecondaryType = _pokemonTypes[1],
-                Order = 1,
                 HP = 10,
                 Attack = 20,
                 Defense = 30,
@@ -248,7 +246,6 @@ namespace Tests.ExternalApiCrawler.Mappers
             Assert.AreEqual(_expectedPokemon.Name, result[0].Name);
             Assert.AreEqual(_expectedPokemon.PrimaryTypeId, result[0].PrimaryTypeId);
             Assert.AreEqual(_expectedPokemon.SecondaryTypeId, result[0].SecondaryTypeId);
-            Assert.AreEqual(_expectedPokemon.Order, result[0].Order);
             Assert.AreEqual(_expectedPokemon.HP, result[0].HP);
             Assert.AreEqual(_expectedPokemon.Attack, result[0].Attack);
             Assert.AreEqual(_expectedPokemon.Defense, result[0].Defense);

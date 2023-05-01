@@ -15,7 +15,7 @@ namespace Models.Moves
         public Guid MoveId { get; set; }
         [ForeignKey(nameof(MoveId))]
         public Move Move { get; set; }
-        public string Method { get; set; }
+        public string? Method { get; set; }
         public int MinimalLevel { get; set; }
         public Guid GameId { get; set; }
         [ForeignKey(nameof(GameId))]

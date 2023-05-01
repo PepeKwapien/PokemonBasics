@@ -105,12 +105,13 @@ namespace Logger
             {
                 try
                 {
-                    this._writer.Flush();
-                    this._writer.Dispose();
+                    _writer.Flush();
+                    _writer.Dispose();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+                    throw;
                 }
             }
         }
@@ -118,21 +119,23 @@ namespace Logger
         #region Private Methods
         private void CloseIfOpen()
         {
-            if (this._writer != null && this._writer.BaseStream != null)
+            if (_writer != null && _writer.BaseStream != null)
             {
                 try
                 {
-                    this._writer.Close();
+                    _writer.Flush();
+                    _writer.Close();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+                    throw;
                 }
             }
         }
         private void OpenIfClosed()
         {
-            if(this._writer == null || this._writer.BaseStream == null)
+            if(_writer == null || _writer.BaseStream == null)
             {
                 try
                 {
@@ -141,6 +144,7 @@ namespace Logger
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+                    throw;
                 }
             }
         }
@@ -153,11 +157,11 @@ namespace Logger
             string logDate = DateTime.Now.ToString("yyyy-MM-dd");
 
 
-            return String.IsNullOrEmpty(_fileName) ? $"{logDate}.log" : $"{logDate}-{this._fileName}.log";
+            return String.IsNullOrEmpty(_fileName) ? $"{logDate}.log" : $"{logDate}-{_fileName}.log";
         }
         private bool CheckIfShouldBeLogged(MinimalLoggerLevel level)
         {
-            return level >= this._level;
+            return level >= _level;
         }
         private void WriteLine(MinimalLoggerLevel level, string message)
         {
@@ -166,7 +170,16 @@ namespace Logger
 
             string lineMessage = $"{timestamp}{_delimiter}{levelName}{_delimiter}{message}";
 
-            this._writer?.WriteLine(lineMessage);
+            try
+            {
+                _writer?.WriteLine(lineMessage);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Dispose();
+                throw;
+            }
         }
         #endregion
     }

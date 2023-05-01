@@ -7,7 +7,7 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class RegionalVariantMapper : Mapper<RegionalVariant>
+    public class RegionalVariantMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
@@ -18,13 +18,13 @@ namespace ExternalApiCrawler.Mappers
             _speciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public override List<RegionalVariant> Map()
+        public List<RegionalVariant> Map()
         {
             List<RegionalVariant> regionalVariants = new List<RegionalVariant>();
 
-            foreach(PokemonSpeciesDto speciesDto in _speciesDtos)
+            foreach (PokemonSpeciesDto speciesDto in _speciesDtos)
             {
-                if(speciesDto.varieties.Length < 2)
+                if (speciesDto.varieties.Length < 2)
                 {
                     continue;
                 }
@@ -34,7 +34,7 @@ namespace ExternalApiCrawler.Mappers
                 Pokemon original = null;
                 List<Pokemon> variants = new List<Pokemon>();
 
-                foreach(var group in varietyGroups)
+                foreach (var group in varietyGroups)
                 {
                     if (group.Key)
                     {
@@ -47,7 +47,7 @@ namespace ExternalApiCrawler.Mappers
                     }
                 }
 
-                foreach(Pokemon variant in variants)
+                foreach (Pokemon variant in variants)
                 {
                     regionalVariants.Add(new RegionalVariant
                     {
@@ -61,17 +61,16 @@ namespace ExternalApiCrawler.Mappers
                 }
             }
 
-            foreach(RegionalVariant regionalVariant in _dbContext.RegionalVariants.Include(af => af.Original).Include(af => af.Variant))
-            {
-                _logger.Debug($"Removing regional variant {regionalVariant.Variant.Name} of pokemon {regionalVariant.Original.Name}");
-                _dbContext.RegionalVariants.Remove(regionalVariant);
-            }
+            return regionalVariants;
+        }
+
+        public override void MapAndSave()
+        {
+            List<RegionalVariant> regionalVariants = Map();
 
             _dbContext.RegionalVariants.AddRange(regionalVariants);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {regionalVariants.Count} regional variants");
-
-            return regionalVariants;
         }
 
         public void SetUp(List<PokemonSpeciesDto> pokemonSpecies)

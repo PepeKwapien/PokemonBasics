@@ -7,7 +7,7 @@ using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class DamageMultiplierMapper : Mapper<DamageMultiplier>
+    public class DamageMultiplierMapper : Mapper
     {
         private List<PokemonTypeDto> _pokemonTypesDto;
         private readonly ILogger _logger;
@@ -18,7 +18,7 @@ namespace ExternalApiCrawler.Mappers
             _pokemonTypesDto = new List<PokemonTypeDto>();
         }
 
-        public override List<DamageMultiplier> Map()
+        public List<DamageMultiplier> Map()
         {
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
@@ -26,7 +26,7 @@ namespace ExternalApiCrawler.Mappers
             {
                 PokemonType currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, typeDto.name, _logger);
 
-                if(currentType == null)
+                if (currentType == null)
                 {
                     _logger.Warn($"No type with name {typeDto.name} was found. Skipping creating its relations");
                     continue;
@@ -36,17 +36,16 @@ namespace ExternalApiCrawler.Mappers
                 damageMultipliers.AddRange(newDamageMultipliers);
             }
 
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm => dm.Type).Include(dm => dm.Against))
-            {
-                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
-                _dbContext.DamageMultipliers.Remove(damageMultiplier);
-            }
+            return damageMultipliers;
+        }
+
+        public override void MapAndSave()
+        {
+            List<DamageMultiplier> damageMultipliers = Map();
 
             _dbContext.DamageMultipliers.AddRange(damageMultipliers);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {damageMultipliers.Count} damage relations");
-
-            return damageMultipliers;
         }
 
         public void SetUp(List<PokemonTypeDto> pokemonTypesDto)

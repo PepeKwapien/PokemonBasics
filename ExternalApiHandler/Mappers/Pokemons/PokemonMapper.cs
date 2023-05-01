@@ -2,13 +2,15 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
+using Microsoft.EntityFrameworkCore;
 using Models.Generations;
+using Models.Moves;
 using Models.Pokemons;
 using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonMapper : Mapper<Pokemon>
+    public class PokemonMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonDto> _pokemonDtos;
@@ -23,21 +25,21 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public override List<Pokemon> Map()
+        public List<Pokemon> Map()
         {
-            List<Pokemon> pokemons= new List<Pokemon>();
+            List<Pokemon> pokemons = new List<Pokemon>();
 
-            foreach(var pokemonDto in _pokemonDtos)
+            foreach (var pokemonDto in _pokemonDtos)
             {
                 PokemonSpeciesDto pokemonSpecies = FindMatchingPokemonSpecies(pokemonDto.species.name);
                 Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, pokemonSpecies.generation.name, _generationDtos, _logger);
                 string name = StringHelper.Normalize(pokemonDto.name);
-                string genera = LanguageVersionHelper.FindEnglishVersion(pokemonSpecies.genera).genus;
-                string habitat = StringHelper.Normalize(pokemonSpecies.habitat?.name ?? "");
-                string shape = StringHelper.Normalize(pokemonSpecies.shape.name);
+                string genera = LanguageVersionHelper.FindEnglishVersion(pokemonSpecies.genera)?.genus ?? "-";
+                string? habitat = StringHelper.NormalizeIfNotNull(pokemonSpecies.habitat?.name);
+                string? shape = StringHelper.NormalizeIfNotNull(pokemonSpecies.shape?.name);
                 PokemonType primaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[0].type.name, _logger);
                 PokemonType? secondaryType = null;
-                if(pokemonDto.types.Length > 1)
+                if (pokemonDto.types.Length > 1)
                 {
                     secondaryType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, pokemonDto.types[1].type.name, _logger);
                 }
@@ -81,17 +83,16 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped pokemon {name}");
             }
 
-            foreach(var pokemon in _dbContext.Pokemons)
-            {
-                _logger.Debug($"Removing pokemon {pokemon.Name}");
-                _dbContext.Pokemons.Remove(pokemon);
-            }
+            return pokemons;
+        }
+
+        public override void MapAndSave()
+        {
+            List<Pokemon> pokemons = Map();
 
             _dbContext.Pokemons.AddRange(pokemons);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemons.Count} pokemons");
-
-            return pokemons;
         }
 
         public void SetUp(List<PokemonDto> pokemons, List<PokemonSpeciesDto> pokemonSpecies, List<GenerationDto> generations)
@@ -103,7 +104,7 @@ namespace ExternalApiCrawler.Mappers
 
         private PokemonSpeciesDto FindMatchingPokemonSpecies(string name)
         {
-            return _pokemonSpeciesDtos.FirstOrDefault(psd => psd.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return _pokemonSpeciesDtos.FirstOrDefault(psd => psd.name.ToLower() == name.ToLower());
         }
 
         private int FindStatValue(string statName, Stat[] stats)

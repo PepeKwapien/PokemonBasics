@@ -8,7 +8,7 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonEntryMapper : Mapper<PokemonEntry>
+    public class PokemonEntryMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokedexDto> _pokedexDtos;
@@ -21,11 +21,11 @@ namespace ExternalApiCrawler.Mappers
             _pokemonSpeciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public override List<PokemonEntry> Map()
+        public List<PokemonEntry> Map()
         {
             List<PokemonEntry> pokemonEntries = new List<PokemonEntry>();
 
-            foreach(PokedexDto pokedexDto in _pokedexDtos)
+            foreach (PokedexDto pokedexDto in _pokedexDtos)
             {
                 Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexDto.name, _pokedexDtos, _logger);
 
@@ -50,17 +50,16 @@ namespace ExternalApiCrawler.Mappers
                 } // End loop through pokemon entries
             } // End loop through pokedex dtos
 
-            foreach (PokemonEntry pokemonEntry in _dbContext.PokemonEntries.Include(pe => pe.Pokemon).Include(pe => pe.Pokedex))
-            {
-                _logger.Debug($"Removing pokemon {pokemonEntry.Pokemon.Name} entry in pokedex {pokemonEntry.Pokedex.Name}");
-                _dbContext.PokemonEntries.Remove(pokemonEntry);
-            }
+            return pokemonEntries;
+        }
+
+        public override void MapAndSave()
+        {
+            List<PokemonEntry> pokemonEntries = Map();
 
             _dbContext.PokemonEntries.AddRange(pokemonEntries);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonEntries.Count} pokemon entries");
-
-            return pokemonEntries;
         }
 
         public void SetUp(List<PokedexDto> pokedexes, List<PokemonSpeciesDto> pokemonSpecies)

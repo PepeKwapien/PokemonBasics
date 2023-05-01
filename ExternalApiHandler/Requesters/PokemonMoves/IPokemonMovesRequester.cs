@@ -2,7 +2,7 @@
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal interface IPokemonMovesRequester : IRequester<MoveDto>
+    public interface IPokemonMovesRequester : IRequester<MoveDto>
     {
     }
 }

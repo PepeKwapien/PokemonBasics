@@ -2,7 +2,7 @@
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal interface IGamesRequester : IRequester<GamesDto>
+    public interface IGamesRequester : IRequester<GamesDto>
     {
     }
 }

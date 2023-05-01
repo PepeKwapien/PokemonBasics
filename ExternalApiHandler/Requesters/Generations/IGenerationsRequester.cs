@@ -2,7 +2,7 @@
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal interface IGenerationsRequester : IRequester<GenerationDto>
+    public interface IGenerationsRequester : IRequester<GenerationDto>
     {
     }
 }

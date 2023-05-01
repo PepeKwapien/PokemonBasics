@@ -2,7 +2,7 @@
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal interface IRequester<T> where T: IDto
+    public interface IRequester<T> where T: IDto
     {
         Task<List<T>> GetCollection();
     }

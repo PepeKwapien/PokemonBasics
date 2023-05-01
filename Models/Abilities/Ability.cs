@@ -12,9 +12,7 @@ namespace Models.Abilities
         [StringLength(16)]
         public string Name { get; set; }
         [Required]
-        [StringLength(256)]
         public string Effect { get; set; }
-        [StringLength(256)]
         public string? OverworldEffect { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]

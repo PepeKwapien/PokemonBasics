@@ -22,7 +22,6 @@ namespace Models.Moves
         public PokemonType Type { get; set; }
         [StringLength(32)]
         public string Category { get; set; }
-        [StringLength(256)]
         public string Effect { get; set; }
         public int? SpecialEffectChance { get; set; }
         public string Target { get; set; }

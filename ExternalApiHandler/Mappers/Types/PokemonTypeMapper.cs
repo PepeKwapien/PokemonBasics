@@ -7,7 +7,7 @@ using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonTypeMapper : Mapper<PokemonType>
+    public class PokemonTypeMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonTypeDto> _pokemonTypesDto;
@@ -18,11 +18,11 @@ namespace ExternalApiCrawler.Mappers
             _pokemonTypesDto = new List<PokemonTypeDto>();
         }
 
-        public override List<PokemonType> Map()
+        public List<PokemonType> Map()
         {
             List<PokemonType> pokemonTypes = new List<PokemonType>();
 
-            foreach(PokemonTypeDto typeDto in _pokemonTypesDto)
+            foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
             {
                 string name = LanguageVersionHelper.FindEnglishVersion(typeDto.names).name;
                 string color = TypeColorHelper.GetTypeColor(typeDto.name);
@@ -37,23 +37,16 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped type {name} with color {color}");
             }
 
-            // Due to annoying foreign key structure I have to remove multipliers manually
-            foreach (var damageMultiplier in _dbContext.DamageMultipliers.Include(dm=>dm.Type).Include(dm=>dm.Against))
-            {
-                _logger.Debug($"Removing damage multiplier when {damageMultiplier.Type.Name} is attacking {damageMultiplier.Against.Name}");
-                _dbContext.DamageMultipliers.Remove(damageMultiplier);
-            }
-            foreach (var type in _dbContext.Types)
-            {
-                _logger.Debug($"Removing type {type.Name}");
-                _dbContext.Types.Remove(type);
-            }
+            return pokemonTypes;
+        }
+
+        public override void MapAndSave()
+        {
+            List<PokemonType> pokemonTypes = Map();
 
             _dbContext.Types.AddRange(pokemonTypes);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonTypes.Count} types");
-
-            return pokemonTypes;
         }
 
         public void SetUp(List<PokemonTypeDto> pokemonTypesDto)

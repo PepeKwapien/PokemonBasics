@@ -2,7 +2,7 @@
 
 namespace ExternalApiCrawler.Requesters
 {
-    internal interface IPokemonTypesRequester : IRequester<PokemonTypeDto>
+    public interface IPokemonTypesRequester : IRequester<PokemonTypeDto>
     {
     }
 }

@@ -8,7 +8,7 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonAbilityMapper : Mapper<PokemonAbility>
+    public class PokemonAbilityMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonDto> _pokemonDtos;
@@ -21,7 +21,7 @@ namespace ExternalApiCrawler.Mappers
             _abilityDtos = new List<AbilityDto>();
         }
 
-        public override List<PokemonAbility> Map()
+        public List<PokemonAbility> Map()
         {
             List<PokemonAbility> pokemonAbilities = new List<PokemonAbility>();
 
@@ -46,17 +46,16 @@ namespace ExternalApiCrawler.Mappers
                 }
             }
 
-            foreach (PokemonAbility pokemonAbility in _dbContext.PokemonAbilities.Include(pa => pa.Pokemon).Include(pa => pa.Ability))
-            {
-                _logger.Debug($"Removing ability {pokemonAbility.Ability.Name} for pokemon {pokemonAbility.Pokemon.Name}");
-                _dbContext.PokemonAbilities.Remove(pokemonAbility);
-            }
+            return pokemonAbilities;
+        }
+
+        public override void MapAndSave()
+        {
+            List<PokemonAbility> pokemonAbilities = Map();
 
             _dbContext.PokemonAbilities.AddRange(pokemonAbilities);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonAbilities.Count} pokemon abilities");
-
-            return pokemonAbilities;
         }
 
         public void SetUp(List<PokemonDto> pokemons, List<AbilityDto> abilities)
