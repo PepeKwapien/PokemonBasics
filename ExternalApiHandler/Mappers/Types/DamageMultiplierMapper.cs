@@ -24,10 +24,15 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (PokemonTypeDto typeDto in _pokemonTypesDto)
             {
-                PokemonType currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, typeDto.name, _logger);
+                PokemonType currentType;
 
-                if (currentType == null)
+                try
                 {
+                    currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, typeDto.name, _logger);
+                }
+                catch(Exception)
+                {
+                    // Type 'unkown' causing issues
                     _logger.Warn($"No type with name {typeDto.name} was found. Skipping creating its relations");
                     continue;
                 }

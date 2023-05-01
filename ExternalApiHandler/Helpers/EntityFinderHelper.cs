@@ -14,7 +14,7 @@ namespace ExternalApiCrawler.Helpers
         {
             PokemonType? foundType = typeSet.FirstOrDefault(type => type.Name.ToLower() == typeName.ToLower());
 
-            if(foundType == null && typeName != "unknown") // One annoying exception
+            if(foundType == null)
             {
                 ExceptionHelper.LogAndThrow<Exception>($"Type {typeName} does not exist in the database", logger);
             }
