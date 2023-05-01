@@ -188,7 +188,7 @@ namespace ExternalApiCrawler.Mappers
                         evolutionTriggerPairs.Add(new EvolutionTriggerPair
                         {
                             pokemon = varieties[i],
-                            detail = details[i / varieties.Count]
+                            detail = details[i / details.Length]
                         });
                     }
                     break;
@@ -222,7 +222,7 @@ namespace ExternalApiCrawler.Mappers
                     for (int i = 0; i < evolutionTriggerPairs.Count; i++)
                     {
                         var currentPair = evolutionTriggerPairs[i];
-                        evolutions.Add(CreateEvolution(evolvesFrom[i / evolutionTriggerPairs.Count], currentPair.pokemon, currentPair.detail, babyItem));
+                        evolutions.Add(CreateEvolution(evolvesFrom[i / evolvesFrom.Count], currentPair.pokemon, currentPair.detail, babyItem));
                     }
                     break;
                 case "rockruff":
