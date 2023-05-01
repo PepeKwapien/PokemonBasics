@@ -95,7 +95,9 @@ namespace ExternalApiCrawler.Helpers
             {
                 if (!variety.pokemon.name.Contains("-totem")
                     && !variety.pokemon.name.Contains("-mega")
-                    && !variety.pokemon.name.Contains("-gmax")) // For some reason totems and megas are considered a variety
+                    && !variety.pokemon.name.Contains("-gmax")
+                    && !variety.pokemon.name.Contains("-eternal")
+                    && !variety.pokemon.name.Contains("-roaming")) // Ignore totems, gmax, megas, roaming gimighoul and floette eternal (like what even is this)
                 {
                     pokemons.Add(FindPokemonByName(pokemonSet, variety.pokemon.name, logger));
                 }
