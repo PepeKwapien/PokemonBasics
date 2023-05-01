@@ -58,7 +58,6 @@ namespace ExternalApiCrawler.Mappers
                     PrimaryType = primaryType,
                     SecondaryTypeId = secondaryType?.Id,
                     SecondaryType = secondaryType,
-                    Order = pokemonDto.order,
                     HP = hp,
                     Attack = attack,
                     Defense = defense,

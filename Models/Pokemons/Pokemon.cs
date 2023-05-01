@@ -21,7 +21,6 @@ namespace Models.Pokemons
         public Guid? SecondaryTypeId { get; set; }
         [ForeignKey(nameof(SecondaryTypeId))]
         public PokemonType? SecondaryType { get; set; }
-        public int Order { get; set; }
         public int HP { get; set; }
         public int Attack { get; set; }
         public int SpecialAttack { get; set; }
