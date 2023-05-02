@@ -79,7 +79,7 @@ namespace ExternalApiCrawler.Mappers
             }
 
             List<Pokemon> evolvingFromPokemons =
-                EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, startOfTheChain.species.name, _speciesDtos, _logger);
+                EntityFinderHelper.FindRegionalFormsInSpecies(_dbContext.Pokemons, startOfTheChain.species.name, _speciesDtos, _logger);
 
             List<EvolutionTriggerPair> evolutionTriggerPairs = new List<EvolutionTriggerPair>();
 
@@ -104,7 +104,7 @@ namespace ExternalApiCrawler.Mappers
                 }
 
                 List<Pokemon> evolvingIntoPokemons =
-                    EntityFinderHelper.FindVarietiesInPokemonSpecies(_dbContext.Pokemons, nextEvolvesTo.species.name, _speciesDtos, _logger);
+                    EntityFinderHelper.FindRegionalFormsInSpecies(_dbContext.Pokemons, nextEvolvesTo.species.name, _speciesDtos, _logger);
 
                 int numberOfEvolutionsInto = evolvingIntoPokemons.Count;
                 int numberOfDetails = nextEvolvesTo.evolution_details.Length;

@@ -31,7 +31,7 @@ namespace ExternalApiCrawler
         private readonly PokemonEntryMapper _pokemonEntryMapper;
         private readonly EvolutionMapper _evolutionMapper;
         private readonly PokemonMapper _pokemonMapper;
-        private readonly RegionalVariantMapper _regionalVariantMapper;
+        private readonly AlternateFormMapper _regionalVariantMapper;
         private readonly DamageMultiplierMapper _damageMultiplierMapper;
         private readonly PokemonTypeMapper _pokemonTypeMapper;
         private readonly ILogger _logger;
@@ -72,7 +72,7 @@ namespace ExternalApiCrawler
             PokemonEntryMapper pokemonEntryMapper,
             EvolutionMapper evolutionMapper,
             PokemonMapper pokemonMapper,
-            RegionalVariantMapper regionalVariantMapper,
+            AlternateFormMapper regionalVariantMapper,
             DamageMultiplierMapper damageMultiplierMapper,
             PokemonTypeMapper pokemonTypeMapper,
             ILogger logger
@@ -169,7 +169,7 @@ namespace ExternalApiCrawler
             try
             {
                 _databaseContext.Evolutions.RemoveRange(_databaseContext.Evolutions);
-                _databaseContext.RegionalVariants.RemoveRange(_databaseContext.RegionalVariants);
+                _databaseContext.AlternateForms.RemoveRange(_databaseContext.AlternateForms);
                 _databaseContext.PokemonEntries.RemoveRange(_databaseContext.PokemonEntries);
                 _databaseContext.PokemonAbilities.RemoveRange(_databaseContext.PokemonAbilities);
                 _databaseContext.PokemonMoves.RemoveRange(_databaseContext.PokemonMoves);

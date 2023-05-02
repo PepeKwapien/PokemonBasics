@@ -12,12 +12,12 @@ using Tests.TestHelpers;
 namespace Tests.ExternalApiCrawler.Mappers
 {
     [TestClass]
-    public class RegionalVariantMapperTests
+    public class AlternateFormMapperTests
     {
         private Mock<ILogger> _logger;
         private Mock<IPokemonDatabaseContext> _databaseContext;
         private List<Pokemon> _pokemons;
-        private RegionalVariantMapper _mapper;
+        private AlternateFormMapper _mapper;
 
         [TestInitialize]
         public void Initialize()
@@ -50,10 +50,10 @@ namespace Tests.ExternalApiCrawler.Mappers
 
             var poks = PokemonDbSetHelper.SetUpDbSetMock<Pokemon>(_pokemons);
             _databaseContext.Setup(dc => dc.Pokemons).Returns(poks.Object);
-            var regVar = PokemonDbSetHelper.SetUpDbSetMock<RegionalVariant>(new List<RegionalVariant>());
-            _databaseContext.Setup(dc => dc.RegionalVariants).Returns(regVar.Object);
+            var regVar = PokemonDbSetHelper.SetUpDbSetMock<AlternateForm>(new List<AlternateForm>());
+            _databaseContext.Setup(dc => dc.AlternateForms).Returns(regVar.Object);
 
-            _mapper = new RegionalVariantMapper(_databaseContext.Object, _logger.Object);
+            _mapper = new AlternateFormMapper(_databaseContext.Object, _logger.Object);
         }
 
         [TestMethod]

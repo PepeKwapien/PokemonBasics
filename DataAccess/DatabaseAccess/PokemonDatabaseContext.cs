@@ -38,7 +38,7 @@ namespace DataAccess
         // Pokemons
         public DbSet<Pokemon> Pokemons { get; set; }
         public DbSet<Evolution> Evolutions { get; set; }
-        public DbSet<RegionalVariant> RegionalVariants { get; set; }
+        public DbSet<AlternateForm> AlternateForms { get; set; }
 
         // Types
         public DbSet<PokemonType> Types { get; set; }
@@ -70,13 +70,13 @@ namespace DataAccess
                 .HasForeignKey(dm => dm.AgainstId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<RegionalVariant>()
+            modelBuilder.Entity<AlternateForm>()
                 .HasOne(af => af.Original)
                 .WithMany()
                 .HasForeignKey(af => af.OriginalId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<RegionalVariant>()
+            modelBuilder.Entity<AlternateForm>()
                 .HasOne(af => af.Variant)
                 .WithMany()
                 .HasForeignKey(af => af.VariantId)

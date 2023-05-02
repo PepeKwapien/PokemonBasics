@@ -7,20 +7,20 @@ using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class RegionalVariantMapper : Mapper
+    public class AlternateFormMapper : Mapper
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
 
-        public RegionalVariantMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
+        public AlternateFormMapper(IPokemonDatabaseContext dbContext, ILogger logger) : base(dbContext)
         {
             _logger = logger;
             _speciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public List<RegionalVariant> Map()
+        public List<AlternateForm> Map()
         {
-            List<RegionalVariant> regionalVariants = new List<RegionalVariant>();
+            List<AlternateForm> alternateForms = new List<AlternateForm>();
 
             foreach (PokemonSpeciesDto speciesDto in _speciesDtos)
             {
@@ -49,7 +49,7 @@ namespace ExternalApiCrawler.Mappers
 
                 foreach (Pokemon variant in variants)
                 {
-                    regionalVariants.Add(new RegionalVariant
+                    alternateForms.Add(new AlternateForm
                     {
                         OriginalId = original.Id,
                         Original = original,
@@ -61,14 +61,14 @@ namespace ExternalApiCrawler.Mappers
                 }
             }
 
-            return regionalVariants;
+            return alternateForms;
         }
 
         public override void MapAndSave()
         {
-            List<RegionalVariant> regionalVariants = Map();
+            List<AlternateForm> regionalVariants = Map();
 
-            _dbContext.RegionalVariants.AddRange(regionalVariants);
+            _dbContext.AlternateForms.AddRange(regionalVariants);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {regionalVariants.Count} regional variants");
         }

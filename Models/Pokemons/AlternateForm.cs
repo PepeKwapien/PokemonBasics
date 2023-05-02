@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models.Pokemons
 {
-    public class RegionalVariant : IModel
+    public class AlternateForm : IModel
     {
         [Key]
         public Guid Id { get; set; }

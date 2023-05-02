@@ -73,7 +73,7 @@ namespace ExternalApiCrawler
                 .AddScoped<PokemonEntryMapper>()
                 .AddScoped<EvolutionMapper>()
                 .AddScoped<PokemonMapper>()
-                .AddScoped<RegionalVariantMapper>()
+                .AddScoped<AlternateFormMapper>()
                 .AddScoped<DamageMultiplierMapper>()
                 .AddScoped<PokemonTypeMapper>();
 

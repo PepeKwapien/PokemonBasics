@@ -76,7 +76,7 @@ namespace ExternalApiCrawler.Helpers
             return games;
         }
 
-        public static List<Pokemon> FindVarietiesInPokemonSpecies(
+        public static List<Pokemon> FindRegionalFormsInSpecies(
             DbSet<Pokemon> pokemonSet,
             string speciesName,
             List<PokemonSpeciesDto> pokemonSpeciesDtos,

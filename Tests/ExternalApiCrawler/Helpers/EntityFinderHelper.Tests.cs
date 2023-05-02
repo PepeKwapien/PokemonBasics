@@ -379,7 +379,7 @@ namespace Tests.ExternalApiHandler.Helpers
             };
 
             // Act
-            var result = EntityFinderHelper.FindVarietiesInPokemonSpecies(_databaseContext.Object.Pokemons, "bulbasaur", pokemonSpeciesDtos);
+            var result = EntityFinderHelper.FindRegionalFormsInSpecies(_databaseContext.Object.Pokemons, "bulbasaur", pokemonSpeciesDtos);
 
             // Assert
             Assert.IsNotNull(result);
@@ -400,7 +400,7 @@ namespace Tests.ExternalApiHandler.Helpers
 
             // Assert
             var exception = Assert.ThrowsException<Exception>(() =>
-                EntityFinderHelper.FindVarietiesInPokemonSpecies(_databaseContext.Object.Pokemons, speciesName, new List<PokemonSpeciesDto>()));
+                EntityFinderHelper.FindRegionalFormsInSpecies(_databaseContext.Object.Pokemons, speciesName, new List<PokemonSpeciesDto>()));
             Assert.AreEqual($"No matching pokemon species was found under the name {speciesName}", exception.Message);
         }
     }
