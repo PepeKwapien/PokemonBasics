@@ -2,12 +2,11 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonTypeMapper : Mapper
+    public class PokemonTypeMapper : Mapper<PokemonType>
     {
         private readonly ILogger _logger;
         private List<PokemonTypeDto> _pokemonTypesDto;
@@ -18,7 +17,7 @@ namespace ExternalApiCrawler.Mappers
             _pokemonTypesDto = new List<PokemonTypeDto>();
         }
 
-        public List<PokemonType> Map()
+        public override List<PokemonType> MapToDb()
         {
             List<PokemonType> pokemonTypes = new List<PokemonType>();
 
@@ -37,16 +36,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped type {name} with color {color}");
             }
 
-            return pokemonTypes;
-        }
-
-        public override void MapAndSave()
-        {
-            List<PokemonType> pokemonTypes = Map();
-
             _dbContext.Types.AddRange(pokemonTypes);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonTypes.Count} types");
+
+            return pokemonTypes;
         }
 
         public void SetUp(List<PokemonTypeDto> pokemonTypesDto)

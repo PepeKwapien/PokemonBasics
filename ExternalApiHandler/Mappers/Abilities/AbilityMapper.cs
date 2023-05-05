@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class AbilityMapper : Mapper
+    public class AbilityMapper : Mapper<Ability>
     {
         private readonly ILogger _logger;
         private List<AbilityDto> _abilityDtos;
@@ -21,7 +21,7 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public List<Ability> Map()
+        public override List<Ability> MapToDb()
         {
             List<Ability> abilities = new List<Ability>();
 
@@ -43,16 +43,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped ability {name}");
             }
 
-            return abilities;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Ability> abilities = Map();
-
             _dbContext.Abilities.AddRange(abilities);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {abilities.Count} abilities");
+
+            return abilities;
         }
 
         public void SetUp(List<AbilityDto> pokemonAbilities, List<GenerationDto> generations)

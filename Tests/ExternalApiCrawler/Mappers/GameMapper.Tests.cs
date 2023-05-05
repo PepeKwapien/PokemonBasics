@@ -125,7 +125,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -161,7 +161,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -180,7 +180,7 @@ namespace Tests.ExternalApiHandler.Mappers
             // Arrange
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -258,7 +258,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _mapper.SetUp(_gamesDtos, pokedexDtos, _generationDtos);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

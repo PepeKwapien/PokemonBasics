@@ -3,7 +3,7 @@ using Models;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public abstract class Mapper
+    public abstract class Mapper<T> : IChainLink where T : class, IModel
     {
         protected readonly IPokemonDatabaseContext _dbContext;
 
@@ -12,26 +12,26 @@ namespace ExternalApiCrawler.Mappers
             _dbContext = dbContext;
         }
 
-        public Mapper NextHandler { get; set; }
+        public IChainLink? NextChainLink { get; set; }
 
         // Method to create a chain in a fluent API style
-        public Mapper Next(Mapper nextHandler)
+        public IChainLink Next(IChainLink nextChainLink)
         {
-            NextHandler = nextHandler;
+            NextChainLink = nextChainLink;
 
-            return nextHandler;
+            return nextChainLink;
         }
         public void StartChain()
         {
-            MapAndSave();
+            MapToDb();
 
-            if (NextHandler != null)
+            if (NextChainLink != null)
             {
-                NextHandler.StartChain();
+                NextChainLink.StartChain();
             }
         }
        
         // Method to map DTOs to the model collection
-        public abstract void MapAndSave();
+        public abstract List<T> MapToDb();
     }
 }

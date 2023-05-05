@@ -2,12 +2,11 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class AlternateFormMapper : Mapper
+    public class AlternateFormMapper : Mapper<AlternateForm>
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
@@ -18,7 +17,7 @@ namespace ExternalApiCrawler.Mappers
             _speciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public List<AlternateForm> Map()
+        public override List<AlternateForm> MapToDb()
         {
             List<AlternateForm> alternateForms = new List<AlternateForm>();
 
@@ -61,16 +60,11 @@ namespace ExternalApiCrawler.Mappers
                 }
             }
 
-            return alternateForms;
-        }
-
-        public override void MapAndSave()
-        {
-            List<AlternateForm> regionalVariants = Map();
-
-            _dbContext.AlternateForms.AddRange(regionalVariants);
+            _dbContext.AlternateForms.AddRange(alternateForms);
             _dbContext.SaveChanges();
-            _logger.Info($"Saved {regionalVariants.Count} regional variants");
+            _logger.Info($"Saved {alternateForms.Count} regional variants");
+
+            return alternateForms;
         }
 
         public void SetUp(List<PokemonSpeciesDto> pokemonSpecies)

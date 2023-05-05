@@ -137,7 +137,7 @@ namespace Tests.ExternalApiHandler.Mappers
             var expectedMove = _moves[0];
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
             var actualMove = result[0];
 
             // Assert

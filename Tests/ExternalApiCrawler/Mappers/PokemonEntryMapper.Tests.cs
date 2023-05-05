@@ -169,7 +169,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_pokedexDtos, _speciesDto);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -239,7 +239,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_pokedexDtos, _speciesDto);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -290,7 +290,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_pokedexDtos, _speciesDto);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

@@ -72,7 +72,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _pokemonTypeMapper.SetUp(_pokemonTypeDtos);
 
             // Act
-            var result = _pokemonTypeMapper.Map();
+            var result = _pokemonTypeMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

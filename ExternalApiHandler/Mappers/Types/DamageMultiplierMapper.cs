@@ -2,12 +2,11 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class DamageMultiplierMapper : Mapper
+    public class DamageMultiplierMapper : Mapper<DamageMultiplier>
     {
         private List<PokemonTypeDto> _pokemonTypesDto;
         private readonly ILogger _logger;
@@ -18,7 +17,7 @@ namespace ExternalApiCrawler.Mappers
             _pokemonTypesDto = new List<PokemonTypeDto>();
         }
 
-        public List<DamageMultiplier> Map()
+        public override List<DamageMultiplier> MapToDb()
         {
             List<DamageMultiplier> damageMultipliers = new List<DamageMultiplier>();
 
@@ -30,7 +29,7 @@ namespace ExternalApiCrawler.Mappers
                 {
                     currentType = EntityFinderHelper.FindTypeByNameCaseInsensitive(_dbContext.Types, typeDto.name, _logger);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     // Type 'unkown' causing issues
                     _logger.Warn($"No type with name {typeDto.name} was found. Skipping creating its relations");
@@ -41,16 +40,11 @@ namespace ExternalApiCrawler.Mappers
                 damageMultipliers.AddRange(newDamageMultipliers);
             }
 
-            return damageMultipliers;
-        }
-
-        public override void MapAndSave()
-        {
-            List<DamageMultiplier> damageMultipliers = Map();
-
             _dbContext.DamageMultipliers.AddRange(damageMultipliers);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {damageMultipliers.Count} damage relations");
+
+            return damageMultipliers;
         }
 
         public void SetUp(List<PokemonTypeDto> pokemonTypesDto)

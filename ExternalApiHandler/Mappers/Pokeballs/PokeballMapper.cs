@@ -7,7 +7,7 @@ using Models.Pokeballs;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokeballMapper : Mapper
+    public class PokeballMapper : Mapper<Pokeball>
     {
         private readonly ILogger _logger;
         private List<PokeballDto> _pokeballDtos;
@@ -20,7 +20,7 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public List<Pokeball> Map()
+        public override List<Pokeball> MapToDb()
         {
             List<Pokeball> pokeballs = new List<Pokeball>();
 
@@ -44,16 +44,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped pokeball {name}");
             }
 
-            return pokeballs;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Pokeball> pokeballs = Map();
-
             _dbContext.Pokeballs.AddRange(pokeballs);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokeballs.Count} pokeballs");
+
+            return pokeballs;
         }
 
         public void SetUp(List<PokeballDto> pokeballs, List<GenerationDto> generations)

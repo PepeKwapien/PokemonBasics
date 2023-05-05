@@ -82,7 +82,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(speciesDtos);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -131,7 +131,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(speciesDtos);
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

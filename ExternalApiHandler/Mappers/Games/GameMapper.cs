@@ -9,7 +9,7 @@ using Models.Pokedexes;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class GameMapper : Mapper
+    public class GameMapper : Mapper<Game>
     {
         private readonly ILogger _logger;
         private List<GamesDto> _games;
@@ -24,7 +24,7 @@ namespace ExternalApiCrawler.Mappers
             _generations = new List<GenerationDto>();
         }
 
-        public List<Game> Map()
+        public override List<Game> MapToDb()
         {
             List<Game> games = new List<Game>();
 
@@ -43,7 +43,7 @@ namespace ExternalApiCrawler.Mappers
                         Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexName.name, _pokedexDtos, _logger);
                         pokedexes.Add(pokedex);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         // TODO Remove in the future once the S/V DLCs are out
                         // Unlucky inconsistent restful API
@@ -76,16 +76,11 @@ namespace ExternalApiCrawler.Mappers
                 }
             }
 
-            return games;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Game> games = Map();
-
             _dbContext.Games.AddRange(games);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {games.Count} games");
+
+            return games;
         }
 
         public void SetUp(List<GamesDto> games, List<PokedexDto> pokedexes, List<GenerationDto> generations)

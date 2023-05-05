@@ -2,13 +2,12 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Pokedexes;
 using Models.Pokemons;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonEntryMapper : Mapper
+    public class PokemonEntryMapper : Mapper<PokemonEntry>
     {
         private readonly ILogger _logger;
         private List<PokedexDto> _pokedexDtos;
@@ -21,7 +20,7 @@ namespace ExternalApiCrawler.Mappers
             _pokemonSpeciesDtos = new List<PokemonSpeciesDto>();
         }
 
-        public List<PokemonEntry> Map()
+        public override List<PokemonEntry> MapToDb()
         {
             List<PokemonEntry> pokemonEntries = new List<PokemonEntry>();
 
@@ -50,16 +49,11 @@ namespace ExternalApiCrawler.Mappers
                 } // End loop through pokemon entries
             } // End loop through pokedex dtos
 
-            return pokemonEntries;
-        }
-
-        public override void MapAndSave()
-        {
-            List<PokemonEntry> pokemonEntries = Map();
-
             _dbContext.PokemonEntries.AddRange(pokemonEntries);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemonEntries.Count} pokemon entries");
+
+            return pokemonEntries;
         }
 
         public void SetUp(List<PokedexDto> pokedexes, List<PokemonSpeciesDto> pokemonSpecies)

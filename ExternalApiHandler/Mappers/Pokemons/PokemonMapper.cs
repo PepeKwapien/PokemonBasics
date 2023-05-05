@@ -2,15 +2,13 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Generations;
-using Models.Moves;
 using Models.Pokemons;
 using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokemonMapper : Mapper
+    public class PokemonMapper : Mapper<Pokemon>
     {
         private readonly ILogger _logger;
         private List<PokemonDto> _pokemonDtos;
@@ -25,7 +23,7 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public List<Pokemon> Map()
+        public override List<Pokemon> MapToDb()
         {
             List<Pokemon> pokemons = new List<Pokemon>();
 
@@ -83,16 +81,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped pokemon {name}");
             }
 
-            return pokemons;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Pokemon> pokemons = Map();
-
             _dbContext.Pokemons.AddRange(pokemons);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokemons.Count} pokemons");
+
+            return pokemons;
         }
 
         public void SetUp(List<PokemonDto> pokemons, List<PokemonSpeciesDto> pokemonSpecies, List<GenerationDto> generations)

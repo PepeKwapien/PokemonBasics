@@ -479,7 +479,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_speciesDtos, evolutionChainDtos, new List<MoveDto>());
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -516,7 +516,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_speciesDtos, evolutionChainDtos, new List<MoveDto>());
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -549,7 +549,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_speciesDtos, evolutionChainDtos, new List<MoveDto>());
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -618,7 +618,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_speciesDtos, evolutionChainDtos, new List<MoveDto>());
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -673,7 +673,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             _mapper.SetUp(_speciesDtos, evolutionChainDtos, new List<MoveDto>());
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

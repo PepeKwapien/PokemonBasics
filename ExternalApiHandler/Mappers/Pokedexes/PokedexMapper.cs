@@ -7,7 +7,7 @@ using Models.Pokedexes;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class PokedexMapper : Mapper
+    public class PokedexMapper : Mapper<Pokedex>
     {
         private readonly ILogger _logger;
         private List<PokedexDto> _pokedexDtos;
@@ -18,7 +18,7 @@ namespace ExternalApiCrawler.Mappers
             _pokedexDtos = new List<PokedexDto>();
         }
 
-        public List<Pokedex> Map()
+        public override List<Pokedex> MapToDb()
         {
             List<Pokedex> pokedexes = new List<Pokedex>();
 
@@ -42,16 +42,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped pokedex {name}");
             }
 
-            return pokedexes;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Pokedex> pokedexes = Map();
-
             _dbContext.Pokedexes.AddRange(pokedexes);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {pokedexes.Count} pokedexes");
+
+            return pokedexes;
         }
 
         public void SetUp(List<PokedexDto> pokedexes)

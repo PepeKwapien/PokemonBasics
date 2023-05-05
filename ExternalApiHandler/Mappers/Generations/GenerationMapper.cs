@@ -7,7 +7,7 @@ using Models.Generations;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class GenerationMapper : Mapper
+    public class GenerationMapper : Mapper<Generation>
     {
         private readonly ILogger _logger;
         private List<GenerationDto> _generationDtos;
@@ -18,7 +18,7 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos = new List<GenerationDto>();
         }
 
-        public List<Generation> Map()
+        public override List<Generation> MapToDb()
         {
             List<Generation> generations = new List<Generation>();
 
@@ -35,16 +35,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped generation {name} in a region {region}");
             }
 
-            return generations;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Generation> generations = Map();
-
             _dbContext.Generations.AddRange(generations);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {generations.Count} generations");
+
+            return generations;
         }
 
         public void SetUp(List<GenerationDto> generationDtos)

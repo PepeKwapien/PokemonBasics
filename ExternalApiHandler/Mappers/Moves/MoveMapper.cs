@@ -2,14 +2,13 @@
 using ExternalApiCrawler.DTOs;
 using ExternalApiCrawler.Helpers;
 using Logger;
-using Microsoft.EntityFrameworkCore;
 using Models.Generations;
 using Models.Moves;
 using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class MoveMapper : Mapper
+    public class MoveMapper : Mapper<Move>
     {
         private readonly ILogger _logger;
         private List<MoveDto> _movesDtos;
@@ -22,7 +21,7 @@ namespace ExternalApiCrawler.Mappers
             _generationDtos= new List<GenerationDto>();
         }
 
-        public List<Move> Map()
+        public override List<Move> MapToDb()
         {
             List<Move> moves = new List<Move>();
 
@@ -55,16 +54,11 @@ namespace ExternalApiCrawler.Mappers
                 _logger.Debug($"Mapped move {name}");
             }
 
-            return moves;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Move> moves = Map();
-
             _dbContext.Moves.AddRange(moves);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {moves.Count} moves");
+
+            return moves;
         }
 
         public void SetUp(List<MoveDto> moves, List<GenerationDto> generations)

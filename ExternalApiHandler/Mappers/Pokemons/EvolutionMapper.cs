@@ -9,7 +9,7 @@ using Models.Types;
 
 namespace ExternalApiCrawler.Mappers
 {
-    public class EvolutionMapper : Mapper
+    public class EvolutionMapper : Mapper<Evolution>
     {
         private readonly ILogger _logger;
         private List<PokemonSpeciesDto> _speciesDtos;
@@ -40,7 +40,7 @@ namespace ExternalApiCrawler.Mappers
             };
         }
 
-        public List<Evolution> Map()
+        public override List<Evolution> MapToDb()
         {
             List<Evolution> evolutions = new List<Evolution>();
 
@@ -50,16 +50,11 @@ namespace ExternalApiCrawler.Mappers
                 evolutions.AddRange(AnalizeEvolutionTree(evolutionChainDto.chain, babyItem));
             }
 
-            return evolutions;
-        }
-
-        public override void MapAndSave()
-        {
-            List<Evolution> evolutions = Map();
-
             _dbContext.Evolutions.AddRange(evolutions);
             _dbContext.SaveChanges();
             _logger.Info($"Saved {evolutions.Count} evolutions");
+
+            return evolutions;
         }
 
         public void SetUp(List<PokemonSpeciesDto> species, List<EvolutionChainDto> evolutions, List<MoveDto> moves)

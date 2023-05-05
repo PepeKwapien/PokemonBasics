@@ -150,7 +150,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             // Arrange
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

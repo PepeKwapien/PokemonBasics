@@ -98,7 +98,7 @@ namespace Tests.ExternalApiHandler.Mappers
             // Arrange
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -118,7 +118,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _abilityDtos[0].effect_entries[0].effect = $"{effect} Overworld:\t{overworldEffect}";
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -137,7 +137,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _abilityDtos[0].effect_entries = new EffectEntry[0]; 
 
             // Act
-            var result = _mapper.Map();
+            var result = _mapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);

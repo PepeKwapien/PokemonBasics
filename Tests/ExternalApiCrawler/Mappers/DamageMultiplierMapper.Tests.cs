@@ -113,7 +113,7 @@ namespace Tests.ExternalApiHandler.Mappers
             _damageMultiplierMapper.SetUp(_pokemonTypeDtos);
 
             // Act
-            var result = _damageMultiplierMapper.Map();
+            var result = _damageMultiplierMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -139,7 +139,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }; ;
 
             // Act
-            var result = _damageMultiplierMapper.Map();
+            var result = _damageMultiplierMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -166,7 +166,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }; ;
 
             // Act
-            var result = _damageMultiplierMapper.Map();
+            var result = _damageMultiplierMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -193,7 +193,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }; ;
 
             // Act
-            var result = _damageMultiplierMapper.Map();
+            var result = _damageMultiplierMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
@@ -238,7 +238,7 @@ namespace Tests.ExternalApiHandler.Mappers
             }; ;
 
             // Act
-            var result = _damageMultiplierMapper.Map();
+            var result = _damageMultiplierMapper.MapToDb();
 
             // Assert
             Assert.IsNotNull(result);
