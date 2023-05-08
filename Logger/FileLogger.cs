@@ -50,7 +50,6 @@ namespace Logger
                 return false;
             }
 
-            OpenIfClosed();
             WriteLine(levelForMethod, message);
 
             return true;
@@ -64,7 +63,6 @@ namespace Logger
                 return false;
             }
 
-            OpenIfClosed();
             WriteLine(levelForMethod, message);
 
             return true;
@@ -78,7 +76,6 @@ namespace Logger
                 return false;
             }
 
-            OpenIfClosed();
             WriteLine(levelForMethod, message);
 
             return true;
@@ -92,7 +89,6 @@ namespace Logger
                 return false;
             }
 
-            OpenIfClosed();
             WriteLine(levelForMethod, message);
 
             return true;
@@ -165,6 +161,8 @@ namespace Logger
         }
         private void WriteLine(MinimalLoggerLevel level, string message)
         {
+            OpenIfClosed();
+
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string levelName = level.ToString().ToUpper();
 
