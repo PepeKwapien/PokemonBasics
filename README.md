@@ -19,7 +19,7 @@ Each project had a different purpose and they were split based on their responsi
 - <b>Logger</b>: My own logging class (wanted to try it)
 - <b>Tests</b>: Tests for my <b>ExternalApiCrawler</b> project
 - <b>ExternalApiCrawler</b>: will be covered in a [seperate section](#external-api-crawler)
-- <b>PokemonAPI</b>: Work in progress
+- <b>PokemonAPI (TBD)</b>: This project will have endpoints used by future projects
 
 ## External API Crawler
 
