@@ -115,7 +115,7 @@ namespace Logger
         #region Private Methods
         private void CloseIfOpen()
         {
-            if (_writer != null && _writer.BaseStream != null)
+            if (!IsWriterClosed())
             {
                 try
                 {
@@ -131,7 +131,7 @@ namespace Logger
         }
         private void OpenIfClosed()
         {
-            if(_writer == null || _writer.BaseStream == null)
+            if (IsWriterClosed())
             {
                 try
                 {
@@ -144,6 +144,10 @@ namespace Logger
                 }
             }
         }
+        private bool IsWriterClosed()
+        {
+            return _writer == null || _writer.BaseStream == null;
+        }
         private string GetPathForWriter()
         {
             return $"{_path}\\{GetFileNameWithDate()}";
@@ -151,7 +155,6 @@ namespace Logger
         private string GetFileNameWithDate()
         {
             string logDate = DateTime.Now.ToString("yyyy-MM-dd");
-
 
             return String.IsNullOrEmpty(_fileName) ? $"{logDate}.log" : $"{logDate}-{_fileName}.log";
         }
