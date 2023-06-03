@@ -169,7 +169,7 @@ namespace Logger
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             string levelName = level.ToString().ToUpper();
 
-            string lineMessage = $"{timestamp}{_delimiter}{levelName}{_delimiter}{message}";
+            string lineMessage = string.Join(_delimiter, new string[] { timestamp, levelName, message });
 
             try
             {
