@@ -38,7 +38,8 @@ namespace ExternalApiCrawler.Mappers
                 {
                     Name = name,
                     Description = description,
-                    Generations = generations
+                    Generations = generations,
+                    Sprite = pokeballDto.sprites.@default
                 });
 
                 _logger.Debug($"Mapped pokeball {name}");

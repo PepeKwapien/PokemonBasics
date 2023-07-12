@@ -145,6 +145,10 @@ namespace Tests.ExternalApiCrawler.Mappers
                     {
                         name = "bulba"
                     },
+                    sprites = new Sprites
+                    {
+                        front_default = "bulba.png"
+                    }
                 }
             };
 
@@ -218,7 +222,8 @@ namespace Tests.ExternalApiCrawler.Mappers
                 Mythical = true,
                 Shape = "Round",
                 GenerationId = _generations[0].Id,
-                Generation = _generations[0]
+                Generation = _generations[0],
+                Sprite = "bulba.png"
             };
 
             var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);
@@ -263,6 +268,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             Assert.AreEqual(_expectedPokemon.Mythical, result[0].Mythical);
             Assert.AreEqual(_expectedPokemon.Shape, result[0].Shape);
             Assert.AreEqual(_expectedPokemon.GenerationId, result[0].GenerationId);
+            Assert.AreEqual(_expectedPokemon.Sprite, result[0].Sprite);
         }
 
         [TestMethod]

@@ -6,5 +6,6 @@
         public NameWithLanguage[] names { get; set; }
         public EffectEntry[] effect_entries { get; set; }
         public GameIndice[] game_indices { get; set; }
+        public Sprites sprites { get; set; }
     }
 }

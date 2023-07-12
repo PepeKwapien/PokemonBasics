@@ -37,6 +37,7 @@ namespace Models.Pokemons
         public bool Legendary { get; set; }
         public bool Mythical { get; set; }
         public string? Shape { get; set; }
+        public string? Sprite { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }

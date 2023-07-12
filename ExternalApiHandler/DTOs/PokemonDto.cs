@@ -11,5 +11,6 @@
         public Stat[] stats { get; set; }
         public Name species { get; set; }
         public InnerPokemonMove[] moves { get; set; }
+        public Sprites sprites { get; set; }
     }
 }

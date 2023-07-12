@@ -15,5 +15,9 @@
         public string PokemonPath { get; set; }
         public string PokemonSpeciesPath { get; set; }
         public string EvolutionChainPath { get; set; }
+        public bool DownloadImages { get; set; }
+        public string ImagesLocation { get; set; }
+        public string ImgurUrl { get; set; }
+        public string AccessToken { get; set; }
     }
 }

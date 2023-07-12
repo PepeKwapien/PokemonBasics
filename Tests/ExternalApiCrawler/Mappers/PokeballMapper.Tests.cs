@@ -89,7 +89,11 @@ namespace Tests.ExternalApiHandler.Mappers
                             }
                         }
                     },
-                    game_indices = new GameIndice[0]
+                    game_indices = new GameIndice[0],
+                    sprites = new Sprites
+                    {
+                        @default = "ball.png"
+                    }
                 }
             };
 
@@ -99,7 +103,8 @@ namespace Tests.ExternalApiHandler.Mappers
                 {
                     Name = sharedName,
                     Description = sharedDescription,
-                    Generations = new List<Generation>()
+                    Generations = new List<Generation>(),
+                    Sprite = "ball.png"
                 }
             };
 
@@ -125,6 +130,7 @@ namespace Tests.ExternalApiHandler.Mappers
             Assert.AreEqual(_pokeballs.Count, result.Count);
             Assert.AreEqual(_pokeballs[0].Name, result[0].Name);
             Assert.AreEqual(_pokeballs[0].Description, result[0].Description);
+            Assert.AreEqual(_pokeballs[0].Sprite, result[0].Sprite);
             Assert.AreEqual(0, result[0].Generations.Count);
         }
 

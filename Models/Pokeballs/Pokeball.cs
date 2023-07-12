@@ -12,6 +12,7 @@ namespace Models.Pokeballs
         [StringLength(32)]
         public string Name { get; set; }
         public string Description { get; set; }
+        public string? Sprite { get; set; }
         public ICollection<Generation> Generations { get; set; }
     }
 }

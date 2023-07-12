@@ -75,7 +75,8 @@ namespace ExternalApiCrawler.Mappers
                     Mythical = pokemonSpecies.is_mythical,
                     Shape = shape,
                     GenerationId = generation.Id,
-                    Generation = generation
+                    Generation = generation,
+                    Sprite = pokemonDto.sprites.front_default
                 });
 
                 _logger.Debug($"Mapped pokemon {name}");
