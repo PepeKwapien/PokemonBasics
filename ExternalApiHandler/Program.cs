@@ -7,7 +7,7 @@ using ExternalApiCrawler.Mappers;
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Logger;
-using ExternalApiCrawler.Helpers;
+using ExternalApiCrawler.ImageManagerNS;
 
 namespace ExternalApiCrawler
 {
@@ -27,7 +27,8 @@ namespace ExternalApiCrawler
             // Options
             var serviceCollection = new ServiceCollection()
                 .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"))
-                .Configure<LoggerOptions>(config.GetRequiredSection("LoggerSettings"));
+                .Configure<LoggerOptions>(config.GetRequiredSection("LoggerSettings"))
+                .Configure<ImageOptions>(config.GetRequiredSection("ImageSettings"));
 
             // DbContext
             serviceCollection
@@ -78,6 +79,9 @@ namespace ExternalApiCrawler
                 .AddScoped<DamageMultiplierMapper>()
                 .AddScoped<PokemonTypeMapper>();
 
+            // ImageManager
+            serviceCollection.AddScoped<IImageManager, ImageManager>();
+
             // Orchestrator
             serviceCollection.AddScoped<IOrchestrator, Orchestrator>();
             
@@ -89,6 +93,9 @@ namespace ExternalApiCrawler
                 var orchestrator = scope.ServiceProvider.GetService<IOrchestrator>();
                 bool result = await orchestrator.Start();
                 Console.WriteLine($"{(result ? "Yay" : "Nay")}");
+
+                var imageManager = scope.ServiceProvider.GetService<IImageManager>();
+                await imageManager.Run();
             }
         }
     }

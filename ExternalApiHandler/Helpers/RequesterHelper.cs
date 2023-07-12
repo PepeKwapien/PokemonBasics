@@ -127,7 +127,6 @@ namespace ExternalApiCrawler.Helpers
             catch (Exception ex)
             {
                 logger?.Error($"There was error uploading the image: {ex.Message}");
-                link = "something stupid";
             }
 
             return link;
