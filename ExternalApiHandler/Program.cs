@@ -86,15 +86,9 @@ namespace ExternalApiCrawler
 
             using (var scope = serviceProvider.CreateScope())
             {
-                /* var orchestrator = scope.ServiceProvider.GetService<IOrchestrator>();
-                 bool result = await orchestrator.Start();
-                 Console.WriteLine($"{(result ? "Yay" : "Nay")}");*/
-                var logger = scope.ServiceProvider.GetService<ILogger>();
-                var orchestrator = scope.ServiceProvider.GetService<IHttpClientFactory>();
-                var client = orchestrator.CreateClient("External");
-                await RequesterHelper.DownloadImage(client, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png", "../../../../Images/ditto.png", logger);
-                string link = await RequesterHelper.UploadImage(client, "https://api.imgur.com/3/image", "../../../../Images/ditto.png", "8861f27667ef1b30c1b9ddea793fdeb783e1ca7e", logger);
-                Console.WriteLine(link);
+                var orchestrator = scope.ServiceProvider.GetService<IOrchestrator>();
+                bool result = await orchestrator.Start();
+                Console.WriteLine($"{(result ? "Yay" : "Nay")}");
             }
         }
     }
