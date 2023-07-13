@@ -8,7 +8,7 @@ using Models.Pokedexes;
 
 namespace Models.Pokemons
 {
-    public class Pokemon : IModel, IHasName
+    public class Pokemon : IModel, IHasName, IHasSprite
     {
         [Key]
         public Guid Id { get; set; }

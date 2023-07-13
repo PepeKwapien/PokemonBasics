@@ -101,9 +101,9 @@ namespace ExternalApiCrawler.Helpers
             logger?.Debug($"Image from {url} copied to file {filePath}");
         }
 
-        public static async Task<string> UploadImage(HttpClient client, string url, string filePath, string apiKey, ILogger? logger = null)
+        public static async Task<string> UploadImage(HttpClient client, string url, string filePath, string authHeader, ILogger? logger = null)
         {
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            client.DefaultRequestHeaders.Add("Authorization", authHeader);
             string link = "";
 
             try

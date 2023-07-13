@@ -3,8 +3,11 @@ using DataAccess;
 using ExternalApiCrawler.Helpers;
 using ExternalApiCrawler.Options;
 using Logger;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Models;
 using Models.Pokeballs;
+using Models.Pokemons;
 
 namespace ExternalApiCrawler.ImageManagerNS
 {
@@ -22,56 +25,91 @@ namespace ExternalApiCrawler.ImageManagerNS
             _logger = logger;
             _options = options.Value;
         }
-        private async Task CopyAndUploadPokemonImages()
-        {
-            foreach(var pokemon in _databaseContext.Pokemons)
-            {
-                if(pokemon.Sprite == null)
-                {
-                    continue;
-                }
-
-                using (var client = _httpClientFactory.CreateClient())
-                {
-                    string filePath = $"{_options.ImagesLocation}/Pokemons/{pokemon.Name}.png";
-                    await RequesterHelper.DownloadImage(client, pokemon.Sprite, filePath, _logger);
-                    string link = await RequesterHelper.UploadImage(client, _options.ImgurUrl, filePath, _options.AccessToken, _logger);
-                    pokemon.Sprite = String.IsNullOrEmpty(link) ? pokemon.Sprite : link;
-                }
-            }
-
-            _databaseContext.SaveChanges();
-        }
-
-        private async Task CopyAndUploadPokeballImages()
-        {
-            foreach (var pokeball in _databaseContext.Pokeballs)
-            {
-                if (pokeball.Sprite == null)
-                {
-                    continue;
-                }
-
-                using (var client = _httpClientFactory.CreateClient())
-                {
-                    string filePath = $"{_options.ImagesLocation}/Pokeballs/{pokeball.Name}.png";
-                    await RequesterHelper.DownloadImage(client, pokeball.Sprite, filePath, _logger);
-                    string link = await RequesterHelper.UploadImage(client, _options.ImgurUrl, filePath, _options.AccessToken, _logger);
-                    
-                    pokeball.Sprite = String.IsNullOrEmpty(link) ? pokeball.Sprite : link;
-                }
-            }
-
-            _databaseContext.SaveChanges();
-        }
 
         public async Task Run()
         {
+            await RunPokemons();
+            await RunPokeballs();
+        }
+
+        private async Task DownloadImages<T>(DbSet<T> collection, string directoryPath) where T : class, IHasSprite, IHasName
+        {
+            foreach (var entity in collection)
+            {
+                if (entity.Sprite == null)
+                {
+                    continue;
+                }
+
+                using (var client = _httpClientFactory.CreateClient())
+                {
+                    await RequesterHelper.DownloadImage(client, entity.Sprite, CreateFilePath(directoryPath, entity.Name), _logger);
+                }
+            }
+
+            _databaseContext.SaveChanges();
+        }
+
+        private async Task UploadImages<T>(DbSet<T> collection, string directoryPath) where T : class, IHasSprite, IHasName
+        {
+            foreach (var entity in collection)
+            {
+                if (entity.Sprite == null)
+                {
+                    continue;
+                }
+
+                using (var client = _httpClientFactory.CreateClient())
+                {
+                    string link = await RequesterHelper.UploadImage(client, _options.ImgurUrl, CreateFilePath(directoryPath, entity.Name),
+                        CreateAuthHeader(_options.AccessToken, _options.ClientId), _logger);
+                    entity.Sprite = String.IsNullOrEmpty(link) ? entity.Sprite : link;
+                }
+            }
+
+            _databaseContext.SaveChanges();
+        }
+
+        private async Task RunPokemons()
+        {
+            string directoryPath = $"{_options.ImagesLocation}{_options.PokemonImagesLocation}";
+            DbSet<Pokemon> pokemons = _databaseContext.Pokemons;
+
             if (_options.DownloadImages)
             {
-                await CopyAndUploadPokemonImages();
-                await CopyAndUploadPokeballImages();
+                await DownloadImages<Pokemon>(pokemons, directoryPath);
             }
+
+            if (_options.UploadImages)
+            {
+                await UploadImages<Pokemon>(pokemons, directoryPath);
+            }
+        }
+
+        private async Task RunPokeballs()
+        {
+            string directoryPath = $"{_options.ImagesLocation}{_options.PokeballImagesLocation}";
+            DbSet<Pokeball> pokeballs = _databaseContext.Pokeballs;
+
+            if (_options.DownloadImages)
+            {
+                await DownloadImages<Pokeball>(pokeballs, directoryPath);
+            }
+
+            if (_options.UploadImages)
+            {
+                await UploadImages<Pokeball>(pokeballs, directoryPath);
+            }
+        }
+        
+        private string CreateFilePath(string directoryPath, string fileName)
+        {
+            return $"{directoryPath}/{fileName}.png";
+        }
+
+        private string CreateAuthHeader(string accessToken, string clientId)
+        {
+            return String.IsNullOrEmpty(accessToken) ? $"Client-ID {clientId}" : $"Bearer {accessToken}";
         }
     }
 }
