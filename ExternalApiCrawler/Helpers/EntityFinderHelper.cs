@@ -5,6 +5,7 @@ using Models;
 using Models.Games;
 using Models.Pokemons;
 using Models.Types;
+using System.Collections.Generic;
 
 namespace ExternalApiCrawler.Helpers
 {
@@ -74,6 +75,21 @@ namespace ExternalApiCrawler.Helpers
             }
 
             return games;
+        }
+
+        public static Game FindGameBySimpleName(DbSet<Game> gamesSet, string versionGroupName, List<GamesDto> gamesDtos, ILogger? logger = null)
+        {
+            GamesDto gamesDto = gamesDtos.FirstOrDefault(gamesDto => gamesDto.VersionGroup.name.Equals(versionGroupName));
+
+            if (gamesDto == null)
+            {
+                ExceptionHelper.LogAndThrow<Exception>($"No game dto was found to match version group name {versionGroupName}", logger);
+            }
+
+            string databaseName = StringHelper.Normalize(versionGroupName);
+            Game foundGame = gamesSet.FirstOrDefault(game => game.Name.Equals(databaseName));
+
+            return foundGame;
         }
 
         public static List<Pokemon> FindRegionalFormsInSpecies(

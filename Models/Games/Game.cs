@@ -14,6 +14,9 @@ namespace Models.Games
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(64)]
+        public string PrettyName { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }
@@ -21,5 +24,6 @@ namespace Models.Games
 
         public ICollection<Pokeball> Pokeballs { get; set; }
         public ICollection<Pokedex> Pokedexes { get; set; }
+        public ICollection<GameVersion> GameVersions { get; set; }
     }
 }

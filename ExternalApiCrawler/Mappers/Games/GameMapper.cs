@@ -30,10 +30,10 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (GamesDto gameDto in _games)
             {
-                // Set up shared game fields
                 Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, gameDto.VersionGroup.generation.name, _generations, _logger);
                 Regions[]? regions = gameDto.VersionGroup.regions?.Select(region => EnumHelper.GetEnumValueFromKey<Regions>(region.name, _logger)).ToArray();
                 Regions? mainRegion = null;
+                string name = StringHelper.Normalize(gameDto.VersionGroup.name);
 
                 List<Pokedex> pokedexes = new List<Pokedex>();
                 foreach (var pokedexName in gameDto.VersionGroup.pokedexes)
@@ -60,35 +60,21 @@ namespace ExternalApiCrawler.Mappers
                     mainRegion = regions[regions.Length - 1];
                 }
 
-                List<string> versionNames = new List<string>();
+                List<string> versionNames = gameDto.Versions.Select(version =>
+                    LanguageVersionHelper.FindEnglishVersion(version.names)?.name ?? StringHelper.Normalize(version.name)).ToList();
 
-                foreach (VersionDto versionDto in gameDto.Versions)
-                {
-                    string name = LanguageVersionHelper.FindEnglishVersion(versionDto.names)?.name ?? StringHelper.Normalize(versionDto.name);
-                    versionNames.Add(name);
-
-                    /*games.Add(new Game
-                    {
-                        Name = name,
-                        MainRegion = mainRegion,
-                        GenerationId = generation.Id,
-                        Generation = generation,
-                        Pokedexes = pokedexes,
-                    });
-                    _logger.Debug($"Mapped game {name} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");*/
-                }
-
-                string finalName = String.Join(" & ", versionNames);
+                string prettyName = String.Join(" & ", versionNames);
 
                 games.Add(new Game
                 {
-                    Name = finalName,
+                    Name = name,
+                    PrettyName = prettyName,
                     MainRegion = mainRegion,
                     GenerationId = generation.Id,
                     Generation = generation,
                     Pokedexes = pokedexes,
                 });
-                _logger.Debug($"Mapped game {finalName} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");
+                _logger.Debug($"Mapped game {prettyName} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");
             }
 
             _dbContext.Games.AddRange(games);

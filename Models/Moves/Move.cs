@@ -1,5 +1,4 @@
-﻿using Models.Games;
-using Models.Generations;
+﻿using Models.Generations;
 using Models.Types;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

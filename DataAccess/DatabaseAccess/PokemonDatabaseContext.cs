@@ -20,6 +20,7 @@ namespace DataAccess
 
         // Games
         public DbSet<Game> Games { get; set; }
+        public DbSet<GameVersion> GameVersions { get; set; }
 
         // Generations
         public DbSet<Generation> Generations { get; set; }

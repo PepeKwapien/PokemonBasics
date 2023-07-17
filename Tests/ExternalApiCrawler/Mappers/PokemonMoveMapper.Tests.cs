@@ -122,12 +122,8 @@ namespace Tests.ExternalApiCrawler.Mappers
                 new Game
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Red"
-                },
-                new Game
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Blue"
+                    Name = "Red Blue",
+                    PrettyName = "Red & Blue"
                 },
             };
 

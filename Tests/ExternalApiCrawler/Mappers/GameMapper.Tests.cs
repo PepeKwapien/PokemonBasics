@@ -85,7 +85,8 @@ namespace Tests.ExternalApiCrawler.Mappers
             {
                 new Game()
                 {
-                    Name = "First One & Second Two",
+                    Name = "Version Group",
+                    PrettyName = "First One & Second Two",
                     GenerationId = _generations[0].Id,
                     Generation = _generations[0],
                 },
@@ -128,6 +129,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             {
                 Assert.AreEqual(_games[i].MainRegion, result[i].MainRegion);
                 Assert.AreEqual(_games[i].Name, result[i].Name);
+                Assert.AreEqual(_games[i].PrettyName, result[i].PrettyName);
                 Assert.AreEqual(_generations[0], result[i].Generation);
             }
         }
@@ -164,6 +166,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             {
                 Assert.AreEqual(_games[i].MainRegion, result[i].MainRegion);
                 Assert.AreEqual(_games[i].Name, result[i].Name);
+                Assert.AreEqual(_games[i].PrettyName, result[i].PrettyName);
                 Assert.AreEqual(_generations[0], result[i].Generation);
             }
         }
@@ -183,6 +186,7 @@ namespace Tests.ExternalApiCrawler.Mappers
             {
                 Assert.IsNull(result[i].MainRegion);
                 Assert.AreEqual(_games[i].Name, result[i].Name);
+                Assert.AreEqual(_games[i].PrettyName, result[i].PrettyName);
                 Assert.AreEqual(_generations[0], result[i].Generation);
             }
         }
