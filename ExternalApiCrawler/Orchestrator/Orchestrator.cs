@@ -23,6 +23,7 @@ namespace ExternalApiCrawler
         private readonly AbilityMapper _abilityMapper;
         private readonly PokemonAbilityMapper _pokemonAbilityMapper;
         private readonly GameMapper _gameMapper;
+        private readonly GameVersionMapper _gameVersionMapper;
         private readonly GenerationMapper _generationMapper;
         private readonly MoveMapper _moveMapper;
         private readonly PokemonMoveMapper _pokemonMoveMapper;
@@ -64,6 +65,7 @@ namespace ExternalApiCrawler
             AbilityMapper abilityMapper,
             PokemonAbilityMapper pokemonAbilityMapper,
             GameMapper gameMapper,
+            GameVersionMapper gameVersionMapper,
             GenerationMapper generationMapper,
             MoveMapper moveMapper,
             PokemonMoveMapper pokemonMoveMapper,
@@ -93,6 +95,7 @@ namespace ExternalApiCrawler
             _abilityMapper = abilityMapper;
             _pokemonAbilityMapper = pokemonAbilityMapper;
             _gameMapper = gameMapper;
+            _gameVersionMapper = gameVersionMapper;
             _generationMapper = generationMapper;
             _moveMapper = moveMapper;
             _pokemonMoveMapper = pokemonMoveMapper;
@@ -204,6 +207,7 @@ namespace ExternalApiCrawler
             _abilityMapper.SetUp(_pokemonAbilitiesDtos, _generationDtos);
             _pokemonAbilityMapper.SetUp(_pokemonDtos, _pokemonAbilitiesDtos);
             _gameMapper.SetUp(_gamesDtos, _pokedexDtos, _generationDtos);
+            _gameVersionMapper.SetUp(_gamesDtos);
             _generationMapper.SetUp(_generationDtos);
             _moveMapper.SetUp(_pokemonMovesDtos, _generationDtos);
             _pokemonMoveMapper.SetUp(_pokemonDtos, _pokemonMovesDtos, _gamesDtos);
@@ -230,6 +234,7 @@ namespace ExternalApiCrawler
                 .Next(_pokemonMapper)
                 .Next(_pokedexMapper)
                 .Next(_gameMapper)
+                .Next(_gameVersionMapper)
                 .Next(_pokemonMoveMapper)
                 .Next(_pokemonAbilityMapper)
                 .Next(_pokemonEntryMapper)

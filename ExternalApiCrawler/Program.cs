@@ -67,6 +67,7 @@ namespace ExternalApiCrawler
                 .AddScoped<AbilityMapper>()
                 .AddScoped<PokemonAbilityMapper>()
                 .AddScoped<GameMapper>()
+                .AddScoped<GameVersionMapper>()
                 .AddScoped<GenerationMapper>()
                 .AddScoped<MoveMapper>()
                 .AddScoped<PokemonMoveMapper>()
