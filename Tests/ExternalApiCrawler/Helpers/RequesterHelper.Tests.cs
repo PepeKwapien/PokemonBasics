@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Tests.ExternalApiHandler.Helpers
+namespace Tests.ExternalApiCrawler.Helpers
 {
     [TestClass]
     public class RequesterHelperTests

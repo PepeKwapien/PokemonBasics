@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Enums;
 using System;
 
-namespace Tests.ExternalApiHandler.Helpers
+namespace Tests.ExternalApiCrawler.Helpers
 {
     [TestClass]
     public class EnumHelperTests

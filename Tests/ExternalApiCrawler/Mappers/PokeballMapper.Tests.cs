@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tests.TestHelpers;
 
-namespace Tests.ExternalApiHandler.Mappers
+namespace Tests.ExternalApiCrawler.Mappers
 {
     [TestClass]
     public class PokeballMapperTests

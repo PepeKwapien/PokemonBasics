@@ -2,7 +2,7 @@
 using ExternalApiCrawler.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests.ExternalApiHandler.Helpers
+namespace Tests.ExternalApiCrawler.Helpers
 {
     [TestClass]
     public class LanguageVersionHelperTests

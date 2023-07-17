@@ -9,7 +9,7 @@ using Models.Types;
 using ExternalApiCrawler.Helpers;
 using Tests.TestHelpers;
 
-namespace Tests.ExternalApiHandler.Mappers
+namespace Tests.ExternalApiCrawler.Mappers
 {
     [TestClass]
     public class PokemonTypeMapperTests

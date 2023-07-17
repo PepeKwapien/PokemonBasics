@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using Tests.TestHelpers;
 
-namespace Tests.ExternalApiHandler.Mappers
+namespace Tests.ExternalApiCrawler.Mappers
 {
     [TestClass]
     public class MoveMapperTests

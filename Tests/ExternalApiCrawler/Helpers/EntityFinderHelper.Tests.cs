@@ -15,7 +15,7 @@ using System.Globalization;
 using System.Linq;
 using Tests.TestHelpers;
 
-namespace Tests.ExternalApiHandler.Helpers
+namespace Tests.ExternalApiCrawler.Helpers
 {
     [TestClass]
     public class EntityFinderHelperTests
