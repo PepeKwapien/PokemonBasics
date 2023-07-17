@@ -58,25 +58,6 @@ namespace ExternalApiCrawler.Helpers
             return foundPokemon;
         }
 
-        public static List<Game> FindGamesByVersionGroupName(DbSet<Game> gamesSet, string versionGroupName, List<GamesDto> gamesDtos, ILogger? logger = null)
-        {
-            List<Game> games = new List<Game>();
-
-            GamesDto gamesDto = gamesDtos.FirstOrDefault(gamesDto => gamesDto.VersionGroup.name.Equals(versionGroupName));
-
-            if(gamesDto == null)
-            {
-                ExceptionHelper.LogAndThrow<Exception>($"No game dto was found to match version group name {versionGroupName}", logger);
-            }
-
-            foreach (var version in gamesDto.Versions)
-            {
-                games.Add(FindEntityByDtoName(gamesSet, version.name, gamesDto.Versions, logger));
-            }
-
-            return games;
-        }
-
         public static Game FindGameBySimpleName(DbSet<Game> gamesSet, string versionGroupName, List<GamesDto> gamesDtos, ILogger? logger = null)
         {
             GamesDto gamesDto = gamesDtos.FirstOrDefault(gamesDto => gamesDto.VersionGroup.name.Equals(versionGroupName));

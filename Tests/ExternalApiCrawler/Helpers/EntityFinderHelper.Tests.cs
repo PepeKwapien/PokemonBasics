@@ -268,56 +268,6 @@ namespace Tests.ExternalApiCrawler.Helpers
         }
 
         [TestMethod]
-        public void FindGamesByVersionGroupName_FindsCorrectSingleGame()
-        {
-            // Arrange
-            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
-            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
-
-            // Act
-            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "legends", _gamesDtos);
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.AreEqual(_games[2].Id, result[0].Id);
-        }
-
-        [TestMethod]
-        public void FindGamesByVersionGroupName_FindsMultipleGames()
-        {
-            // Arrange
-            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
-            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
-
-            // Act
-            var result = EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, "red-blue", _gamesDtos);
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count);
-            for(int i = 0; i < 2; i++)
-            {
-                Assert.AreEqual(_games[i].Id, result[i].Id);
-            }
-        }
-
-        [TestMethod]
-        public void FindGamesByVersionGroupName_ThrowsIfVersionGroupDoesnotExist()
-        {
-            // Arrange
-            string versionGroupName = "notexisting";
-            var gameSet = PokemonDbSetHelper.SetUpDbSetMock(_games);
-            _databaseContext.Setup(dbc => dbc.Games).Returns(gameSet.Object);
-
-            // Act
-
-            // Assert
-            var exception = Assert.ThrowsException<Exception>(() => EntityFinderHelper.FindGamesByVersionGroupName(_databaseContext.Object.Games, versionGroupName, _gamesDtos));
-            Assert.AreEqual($"No game dto was found to match version group name {versionGroupName}", exception.Message);
-        }
-
-        [TestMethod]
         public void FindVarietiesInPokemonSpecies_FindsAllVarieties()
         {
             // Arrange
