@@ -68,13 +68,13 @@ namespace Tests.ExternalApiCrawler.Mappers
                     {
                         new VersionDto
                         {
-                            name = "first",
-                            names = SingleEnglishNameHelper.Generate("First"),
+                            name = "first one",
+                            names = SingleEnglishNameHelper.Generate("First One"),
                         },
                         new VersionDto
                         {
-                            name = "second",
-                            names = SingleEnglishNameHelper.Generate("Second")
+                            name = "second two",
+                            names = SingleEnglishNameHelper.Generate("Second Two")
                         }
                     }
 
@@ -85,16 +85,10 @@ namespace Tests.ExternalApiCrawler.Mappers
             {
                 new Game()
                 {
-                    Name = "First",
+                    Name = "First One & Second Two",
                     GenerationId = _generations[0].Id,
                     Generation = _generations[0],
                 },
-                new Game()
-                {
-                    Name = "Second",
-                    GenerationId = _generations[0].Id,
-                    Generation = _generations[0],
-                }
             };
 
             var gens = PokemonDbSetHelper.SetUpDbSetMock<Generation>(_generations);

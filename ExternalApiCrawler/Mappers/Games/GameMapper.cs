@@ -60,11 +60,14 @@ namespace ExternalApiCrawler.Mappers
                     mainRegion = regions[regions.Length - 1];
                 }
 
+                List<string> versionNames = new List<string>();
+
                 foreach (VersionDto versionDto in gameDto.Versions)
                 {
                     string name = LanguageVersionHelper.FindEnglishVersion(versionDto.names)?.name ?? StringHelper.Normalize(versionDto.name);
+                    versionNames.Add(name);
 
-                    games.Add(new Game
+                    /*games.Add(new Game
                     {
                         Name = name,
                         MainRegion = mainRegion,
@@ -72,8 +75,20 @@ namespace ExternalApiCrawler.Mappers
                         Generation = generation,
                         Pokedexes = pokedexes,
                     });
-                    _logger.Debug($"Mapped game {name} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");
+                    _logger.Debug($"Mapped game {name} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");*/
                 }
+
+                string finalName = String.Join(" & ", versionNames);
+
+                games.Add(new Game
+                {
+                    Name = finalName,
+                    MainRegion = mainRegion,
+                    GenerationId = generation.Id,
+                    Generation = generation,
+                    Pokedexes = pokedexes,
+                });
+                _logger.Debug($"Mapped game {finalName} from generation {generation.Name} placed in a region {(mainRegion != null ? mainRegion : "Unknown")}");
             }
 
             _dbContext.Games.AddRange(games);
