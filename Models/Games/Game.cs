@@ -12,7 +12,7 @@ namespace Models.Games
         [Key]
         public Guid Id { get; set; }
         [Required]
-        [StringLength(32)]
+        [StringLength(64)]
         public string Name { get; set; }
         [Required]
         [StringLength(64)]
