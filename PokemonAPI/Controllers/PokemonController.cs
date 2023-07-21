@@ -1,6 +1,7 @@
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Models.Pokemons;
+using PokemonAPI.Repositories;
 
 namespace PokemonAPI.Controllers
 {
@@ -8,26 +9,20 @@ namespace PokemonAPI.Controllers
     [Route("[controller]")]
     public class PokemonController : ControllerBase
     {
-        private readonly IPokemonDatabaseContext _dbContext;
+        private readonly IPokemonRepository _pokemonRepository;
         private readonly ILogger<PokemonController> _logger;
 
-        public PokemonController(IPokemonDatabaseContext _dbContext,ILogger<PokemonController> logger)
+        public PokemonController(IPokemonRepository pokemonRepository, ILogger<PokemonController> logger)
         {
-            this._dbContext = _dbContext;
+            _pokemonRepository = pokemonRepository;
             _logger = logger;
-        }
-
-        [HttpGet("pikachu", Name = "GetPikachu")]
-        public string GetPikachu()
-        {
-            return _dbContext.Pokemons.FirstOrDefault(pokemon => pokemon.PrimaryType.Name == "Electric").Name ?? "Pikachu ran away :(";
         }
 
         [Route("{pokemonName}")]
         [HttpGet]
-        public string GetPokemon(string pokemonName)
+        public string[] GetSimilarNames(string pokemonName)
         {
-            return _dbContext.Pokemons.FirstOrDefault(pokemon => pokemon.Name.ToLower() == pokemonName.ToLower())?.Name ?? $"{pokemonName} ran away :(";
+            return _pokemonRepository.GetPokemonsWithSimilarName(pokemonName);
         }
     }
 }

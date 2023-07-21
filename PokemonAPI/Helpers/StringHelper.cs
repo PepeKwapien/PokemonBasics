@@ -6,6 +6,8 @@ namespace PokemonAPI.Helpers
     {
         public static int LevenshteinDistance(string firstLiteral, string secondLiteral)
         {
+            string firstLiteralToLower = firstLiteral.ToLower();
+            string secondLiteralToLower = secondLiteral.ToLower();
             int firstLiteralLength = firstLiteral.Length;
             int secondLiteralLength = secondLiteral.Length;
             int[,] dimension = new int[firstLiteralLength + 1, secondLiteralLength + 1];
@@ -23,7 +25,7 @@ namespace PokemonAPI.Helpers
             {
                 for (int j = 1; j <= secondLiteralLength; j++)
                 {
-                    int cost = firstLiteral[i - 1] != secondLiteral[j - 1] ? 1 : 0;
+                    int cost = firstLiteralToLower[i - 1] != secondLiteralToLower[j - 1] ? 1 : 0;
                     dimension[i, j] = new[] { dimension[i - 1, j] + 1, dimension[i, j - 1] + 1, dimension[i - 1, j - 1] + cost }.Min();
                 }
             }
