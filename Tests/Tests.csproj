@@ -20,6 +20,7 @@
     <ProjectReference Include="..\ExternalApiCrawler\ExternalApiCrawler.csproj" />
     <ProjectReference Include="..\Logger\Logger.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\PokemonAPI\PokemonAPI.csproj" />
   </ItemGroup>
 
 </Project>
