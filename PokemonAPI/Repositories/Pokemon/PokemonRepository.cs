@@ -1,6 +1,7 @@
 ﻿using DataAccess;
+using Microsoft.EntityFrameworkCore;
+using Models.Pokemons;
 using PokemonAPI.Helpers;
-using System.Linq;
 
 namespace PokemonAPI.Repositories
 {
@@ -12,12 +13,13 @@ namespace PokemonAPI.Repositories
         {
             this._databaseContext = _databaseContext;
         }
-        public string[] GetPokemonsWithSimilarName(string name, int take = 3, int levenshteinDistance = 3)
+        public Pokemon[] GetPokemonsWithSimilarName(string name, int take = 3, int levenshteinDistance = 3)
         {
+            _databaseContext.PokemonEntries.Include(entry => entry.Pokedex).ToList();
+
             return _databaseContext.Pokemons
-                .Select(pokemon => pokemon.Name.ToLower())
                 .AsEnumerable()
-                .Where(pokemonName => pokemonName.Contains(name, StringComparison.OrdinalIgnoreCase) || StringHelper.LevenshteinDistance(name, pokemonName) < levenshteinDistance)
+                .Where(pokemon => pokemon.Name.Contains(name, StringComparison.OrdinalIgnoreCase) || StringHelper.LevenshteinDistance(name, pokemon.Name) < levenshteinDistance)
                 .Take(take)
                 .ToArray();
         }

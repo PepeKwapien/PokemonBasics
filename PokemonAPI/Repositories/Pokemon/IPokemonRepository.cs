@@ -1,7 +1,9 @@
-﻿namespace PokemonAPI.Repositories
+﻿using Models.Pokemons;
+
+namespace PokemonAPI.Repositories
 {
     public interface IPokemonRepository
     {
-        string[] GetPokemonsWithSimilarName(string name, int take = 3, int levenshteinDistance = 3);
+        Pokemon[] GetPokemonsWithSimilarName(string name, int take = 3, int levenshteinDistance = 3);
     }
 }

@@ -1,6 +1,7 @@
 using DataAccess;
 using Microsoft.AspNetCore.Mvc;
 using Models.Pokemons;
+using PokemonAPI.DTO;
 using PokemonAPI.Repositories;
 
 namespace PokemonAPI.Controllers
@@ -20,9 +21,12 @@ namespace PokemonAPI.Controllers
 
         [Route("{pokemonName}")]
         [HttpGet]
-        public string[] GetSimilarNames(string pokemonName)
+        public PokemonSearchItem[] GetSimilarNames(string pokemonName)
         {
-            return _pokemonRepository.GetPokemonsWithSimilarName(pokemonName);
+            return _pokemonRepository
+                .GetPokemonsWithSimilarName(pokemonName)
+                .Select(pokemon => PokemonSearchItem.FromPokemon(pokemon))
+                .ToArray();
         }
     }
 }
