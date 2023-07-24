@@ -12,7 +12,7 @@ namespace PokemonAPI.DTO
         {
             PokemonSearchItem item = new PokemonSearchItem() { Name = pokemon.Name, Image = pokemon.Sprite };
 
-            int? nationalNumber = pokemon.PokemonEntries.FirstOrDefault(entry => entry.Pokedex.Name.ToLower() == "national")?.Number;
+            int? nationalNumber = pokemon.PokemonEntries.FirstOrDefault(entry => entry.Pokedex.Name.Equals("national", StringComparison.OrdinalIgnoreCase))?.Number;
             item.Number = nationalNumber;
 
             return item;

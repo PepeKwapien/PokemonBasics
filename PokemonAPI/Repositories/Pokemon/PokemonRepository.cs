@@ -13,14 +13,15 @@ namespace PokemonAPI.Repositories
         {
             this._databaseContext = _databaseContext;
         }
-        public Pokemon[] GetPokemonsWithSimilarName(string name, int take = 3, int levenshteinDistance = 3)
+        public Pokemon[] GetPokemonsWithSimilarName(string name, int takeCount = 3, int levenshteinDistance = 3)
         {
+            // Explicit import so that DB context knows references to collections
             _databaseContext.PokemonEntries.Include(entry => entry.Pokedex).ToList();
 
             return _databaseContext.Pokemons
                 .AsEnumerable()
                 .Where(pokemon => pokemon.Name.Contains(name, StringComparison.OrdinalIgnoreCase) || StringHelper.LevenshteinDistance(name, pokemon.Name) < levenshteinDistance)
-                .Take(take)
+                .Take(takeCount)
                 .ToArray();
         }
     }
