@@ -1,6 +1,6 @@
 ﻿using DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Models.Pokemons;
+using PokemonAPI.DTO;
 using PokemonAPI.Helpers;
 
 namespace PokemonAPI.Repositories
@@ -13,7 +13,7 @@ namespace PokemonAPI.Repositories
         {
             this._databaseContext = _databaseContext;
         }
-        public Pokemon[] GetPokemonsWithSimilarName(string name, int takeCount = 3, int levenshteinDistance = 3)
+        public PokemonSearchItem[] GetPokemonsSearchItemsWithSimilarNames(string name, int takeCount = 3, int levenshteinDistance = 3)
         {
             // Explicit import so that DB context knows references to collections
             _databaseContext.PokemonEntries.Include(entry => entry.Pokedex).ToList();
@@ -22,6 +22,7 @@ namespace PokemonAPI.Repositories
                 .AsEnumerable()
                 .Where(pokemon => pokemon.Name.Contains(name, StringComparison.OrdinalIgnoreCase) || StringHelper.LevenshteinDistance(name, pokemon.Name) < levenshteinDistance)
                 .Take(takeCount)
+                .Select(pokemon => PokemonSearchItem.FromPokemon(pokemon))
                 .ToArray();
         }
     }

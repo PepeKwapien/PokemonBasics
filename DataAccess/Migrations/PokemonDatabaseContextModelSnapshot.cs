@@ -34,7 +34,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PokedexesId");
 
-                    b.ToTable("GamePokedex");
+                    b.ToTable("GamePokedex", (string)null);
                 });
 
             modelBuilder.Entity("GenerationPokeball", b =>
@@ -49,7 +49,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PokeballsId");
 
-                    b.ToTable("GenerationPokeball");
+                    b.ToTable("GenerationPokeball", (string)null);
                 });
 
             modelBuilder.Entity("Models.Abilities.Ability", b =>
@@ -77,7 +77,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GenerationId");
 
-                    b.ToTable("Abilities");
+                    b.ToTable("Abilities", (string)null);
                 });
 
             modelBuilder.Entity("Models.Abilities.PokemonAbility", b =>
@@ -104,7 +104,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PokemonId");
 
-                    b.ToTable("PokemonAbilities");
+                    b.ToTable("PokemonAbilities", (string)null);
                 });
 
             modelBuilder.Entity("Models.Games.Game", b =>
@@ -133,7 +133,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GenerationId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("Models.Games.GameVersion", b =>
@@ -154,7 +154,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("GameVersions");
+                    b.ToTable("GameVersions", (string)null);
                 });
 
             modelBuilder.Entity("Models.Generations.Generation", b =>
@@ -172,7 +172,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Generations");
+                    b.ToTable("Generations", (string)null);
                 });
 
             modelBuilder.Entity("Models.Moves.Move", b =>
@@ -226,7 +226,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Moves");
+                    b.ToTable("Moves", (string)null);
                 });
 
             modelBuilder.Entity("Models.Moves.PokemonMove", b =>
@@ -258,7 +258,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PokemonId");
 
-                    b.ToTable("PokemonMoves");
+                    b.ToTable("PokemonMoves", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokeballs.Pokeball", b =>
@@ -286,7 +286,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Pokeballs");
+                    b.ToTable("Pokeballs", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokedexes.Pokedex", b =>
@@ -309,7 +309,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pokedexes");
+                    b.ToTable("Pokedexes", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokedexes.PokemonEntry", b =>
@@ -333,7 +333,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("PokemonId");
 
-                    b.ToTable("PokemonEntries");
+                    b.ToTable("PokemonEntries", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokemons.AlternateForm", b =>
@@ -354,7 +354,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("VariantId");
 
-                    b.ToTable("AlternateForms");
+                    b.ToTable("AlternateForms", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokemons.Evolution", b =>
@@ -444,7 +444,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("TradeSpeciesId");
 
-                    b.ToTable("Evolutions");
+                    b.ToTable("Evolutions", (string)null);
                 });
 
             modelBuilder.Entity("Models.Pokemons.Pokemon", b =>
@@ -528,7 +528,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("SecondaryTypeId");
 
-                    b.ToTable("Pokemons");
+                    b.ToTable("Pokemons", (string)null);
                 });
 
             modelBuilder.Entity("Models.Types.DamageMultiplier", b =>
@@ -552,7 +552,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("DamageMultipliers");
+                    b.ToTable("DamageMultipliers", (string)null);
                 });
 
             modelBuilder.Entity("Models.Types.PokemonType", b =>
@@ -573,7 +573,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Types");
+                    b.ToTable("Types", (string)null);
                 });
 
             modelBuilder.Entity("GamePokedex", b =>

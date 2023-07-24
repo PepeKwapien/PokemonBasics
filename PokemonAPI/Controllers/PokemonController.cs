@@ -24,8 +24,7 @@ namespace PokemonAPI.Controllers
         public PokemonSearchItem[] GetSimilarNames(string pokemonName)
         {
             return _pokemonRepository
-                .GetPokemonsWithSimilarName(pokemonName)
-                .Select(pokemon => PokemonSearchItem.FromPokemon(pokemon))
+                .GetPokemonsSearchItemsWithSimilarNames(pokemonName)
                 .ToArray();
         }
     }
