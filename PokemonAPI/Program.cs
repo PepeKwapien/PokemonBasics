@@ -21,6 +21,12 @@ namespace PokemonAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options => options.AddPolicy("AllowLocalhost4200",
+                builder => builder
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,8 +36,9 @@ namespace PokemonAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
 
+            app.UseHttpsRedirection();
+            app.UseCors("AllowLocalhost4200");
             app.UseAuthorization();
 
 
