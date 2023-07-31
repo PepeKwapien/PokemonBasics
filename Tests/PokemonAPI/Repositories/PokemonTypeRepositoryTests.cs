@@ -133,5 +133,34 @@ namespace Tests.PokemonAPI.Repositories
             Assert.IsTrue(result.Any(dm => dm.Type.Name.Equals("Water") && dm.Against.Name.Equals("Rock")));
             Assert.IsTrue(result.Any(dm => dm.Type.Name.Equals("Grass") && dm.Against.Name.Equals("Water")));
         }
+
+        [TestMethod]
+        public void GetTypeDefensiveCharacteristicByName_GetsListWhenTypeIsDefending()
+        {
+            // Arrange
+
+            // Act
+            var result = _typeRepository.GetTypeDefensiveCharacteristicByName("rock");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count);
+            Assert.IsTrue(result.All(dm => dm.Against.Name.Equals("Rock")));
+            Assert.IsTrue(result.Any(dm => dm.Type.Name.Equals("Water")));
+            Assert.IsTrue(result.Any(dm => dm.Type.Name.Equals("Grass")));
+        }
+
+        [TestMethod]
+        public void GetTypeDefensiveCharacteristicByName_GetsEmptyListIfTypeHasNoWeakness()
+        {
+            // Arrange
+
+            // Act
+            var result = _typeRepository.GetTypeDefensiveCharacteristicByName("Grass");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
+        }
     }
 }

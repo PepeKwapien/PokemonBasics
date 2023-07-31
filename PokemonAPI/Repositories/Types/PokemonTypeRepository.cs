@@ -19,5 +19,14 @@ namespace PokemonAPI.Repositories.Types
                 .Where(multiplier => multiplier.Type.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) || multiplier.Against.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase))
                 .ToList();
         }
+
+        public List<DamageMultiplier> GetTypeDefensiveCharacteristicByName(string typeName)
+        {
+            return _databaseContext
+                .DamageMultipliers
+                .AsEnumerable()
+                .Where(multiplier => multiplier.Against.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }
