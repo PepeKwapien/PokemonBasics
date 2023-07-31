@@ -1,6 +1,4 @@
-using DataAccess;
 using Microsoft.AspNetCore.Mvc;
-using Models.Pokemons;
 using PokemonAPI.DTO;
 using PokemonAPI.Repositories;
 
