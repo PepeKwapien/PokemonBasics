@@ -125,7 +125,7 @@ namespace Tests.PokemonAPI.Repositories
         }
 
         [TestMethod]
-        public void GetsSimilarNames()
+        public void GetPokemonsSearchItemsWithSimilarNames_GetsSimilarNames()
         {
             // Arrange
 
@@ -140,7 +140,7 @@ namespace Tests.PokemonAPI.Repositories
         }
 
         [TestMethod]
-        public void ReturnsEmptyListIfNotFound()
+        public void GetPokemonsSearchItemsWithSimilarNames_ReturnsEmptyListIfNotFound()
         {
             // Arrange
 
@@ -153,7 +153,7 @@ namespace Tests.PokemonAPI.Repositories
         }
 
         [TestMethod]
-        public void GetsIfNameContainsPhrase()
+        public void GetPokemonsSearchItemsWithSimilarNames_GetsIfNameContainsPhrase()
         {
             // Arrange
 
