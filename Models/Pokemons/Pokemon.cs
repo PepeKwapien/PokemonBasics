@@ -42,8 +42,8 @@ namespace Models.Pokemons
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }
 
-        public ICollection<PokemonEntry> PokemonEntries { get; set; }
-        public ICollection<PokemonAbility> PokemonAbilities { get; set; }
-        public ICollection<PokemonMove> PokemonMoves { get; set; }
+        public ICollection<PokemonEntry> PokemonEntries { get; set; } = new List<PokemonEntry>();
+        public ICollection<PokemonAbility> PokemonAbilities { get; set; } = new List<PokemonAbility>();
+        public ICollection<PokemonMove> PokemonMoves { get; set; } = new List<PokemonMove>();
     }
 }

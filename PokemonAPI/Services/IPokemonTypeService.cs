@@ -4,6 +4,6 @@ namespace PokemonAPI.Services
 {
     public interface IPokemonTypeService
     {
-        PokemonDefensiveCharacteristics GetDefensiveCharacteristics(string primaryTypeName, string? secondaryTypeName);
+        PokemonDefensiveCharacteristics GetDefensiveCharacteristics(string primaryTypeName, string? secondaryTypeName = null);
     }
 }

@@ -14,10 +14,10 @@ namespace PokemonAPI.Services
             _pokemonTypeRepository = pokemonTypeRepository;
         }
 
-        public PokemonDefensiveCharacteristics GetDefensiveCharacteristics(string primaryTypeName, string? secondaryTypeName)
+        public PokemonDefensiveCharacteristics GetDefensiveCharacteristics(string primaryTypeName, string? secondaryTypeName = null)
         {
             List<DamageMultiplier> combinedDefensiveCharacteristics = _pokemonTypeRepository.GetTypeDefensiveCharacteristicByName(primaryTypeName);
-            List<DamageMultiplier> secondaryTypeDefensiceCharacteristics = String.IsNullOrEmpty(secondaryTypeName) ?
+            List<DamageMultiplier> secondaryTypeDefensiceCharacteristics = string.IsNullOrEmpty(secondaryTypeName) ?
                 new List<DamageMultiplier>() : _pokemonTypeRepository.GetTypeDefensiveCharacteristicByName(secondaryTypeName);
 
             combinedDefensiveCharacteristics.AddRange(secondaryTypeDefensiceCharacteristics);

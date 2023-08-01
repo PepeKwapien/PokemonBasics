@@ -15,5 +15,19 @@ namespace PokemonAPI.DTO
                 Color = pokemonType.Color,
             };
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(PokemonTypeDto))
+            {
+                return base.Equals(obj);
+            }
+            else
+            {
+                PokemonTypeDto psi = obj as PokemonTypeDto;
+                return Name == psi.Name && Color == psi.Color;
+            }
+        }
     }
 }

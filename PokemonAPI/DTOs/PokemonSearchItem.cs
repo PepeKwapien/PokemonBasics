@@ -17,5 +17,19 @@ namespace PokemonAPI.DTO
 
             return item;
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if(obj.GetType() != typeof(PokemonSearchItem))
+            {
+                return base.Equals(obj);
+            }
+            else
+            {
+                PokemonSearchItem psi = obj as PokemonSearchItem;
+                return Name == psi.Name && Image == psi.Image && Number == psi.Number;
+            }
+        }
     }
 }
