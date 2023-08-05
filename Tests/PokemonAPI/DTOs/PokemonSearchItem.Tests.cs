@@ -28,7 +28,7 @@ namespace Tests.PokemonAPI.DTOs
             };
             pokemon.PokemonEntries.Add(entry);
 
-            PokemonSearchItem expectedSearchItem = new PokemonSearchItem()
+            PokemonSearchItemDto expectedSearchItem = new PokemonSearchItemDto()
             {
                 Name = pokemon.Name,
                 Image = pokemon.Sprite,
@@ -36,7 +36,7 @@ namespace Tests.PokemonAPI.DTOs
             };
 
             // Act
-            PokemonSearchItem actualSearchItem = PokemonSearchItem.FromPokemon(pokemon);
+            PokemonSearchItemDto actualSearchItem = PokemonSearchItemDto.FromPokemon(pokemon);
 
             // Assert
             Assert.AreEqual(expectedSearchItem, actualSearchItem);

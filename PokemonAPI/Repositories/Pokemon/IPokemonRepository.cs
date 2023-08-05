@@ -4,6 +4,6 @@ namespace PokemonAPI.Repositories
 {
     public interface IPokemonRepository
     {
-        PokemonSearchItem[] GetPokemonsSearchItemsWithSimilarNames(string name, int levenshteinDistance = 3);
+        PokemonSearchItemDto[] GetPokemonsSearchItemsWithSimilarNames(string name, int levenshteinDistance = 3);
     }
 }

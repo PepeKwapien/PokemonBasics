@@ -19,7 +19,7 @@ namespace PokemonAPI.Controllers
 
         [Route("{pokemonName}")]
         [HttpGet]
-        public PokemonSearchItem[] GetSimilarNames(string pokemonName)
+        public PokemonSearchItemDto[] GetSimilarNames(string pokemonName)
         {
             return _pokemonRepository
                 .GetPokemonsSearchItemsWithSimilarNames(pokemonName)
