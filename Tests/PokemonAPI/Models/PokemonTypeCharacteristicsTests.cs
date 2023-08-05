@@ -1,9 +1,7 @@
-﻿using Microsoft.SqlServer.Server;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Types;
 using PokemonAPI.Models;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
 
 namespace Tests.PokemonAPI.Models
@@ -103,8 +101,217 @@ namespace Tests.PokemonAPI.Models
             Assert.AreEqual(normal.Name, result.NoFrom.First().Name);
             Assert.AreEqual(fire.Name, result.HalfTo.First().Name);
             Assert.AreEqual(water.Name, result.HalfFrom.First().Name);
-            Assert.AreEqual(electric.Name, result.DoublTo.First().Name);
-            Assert.AreEqual(flying.Name, result.DoublFrom.First().Name);
+            Assert.AreEqual(electric.Name, result.DoubleTo.First().Name);
+            Assert.AreEqual(flying.Name, result.DoubleFrom.First().Name);
+        }
+
+        [TestMethod]
+        public void Equals_TrueWhenIdentical()
+        {
+            // Arrange
+            PokemonTypeCharacteristics first = new()
+            {
+                Name = "Grass",
+                Color = "Green",
+                NoTo = new()
+                {
+                    new()
+                    {
+                        Name = "Fire",
+                        Color = "Red"
+                    }
+                },
+                NoFrom = new(),
+                HalfTo = new(),
+                HalfFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Water",
+                        Color = "Blue"
+                    },
+                    new()
+                    {
+                        Name = "Ground",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleTo = new()
+                {
+                    new()
+                    {
+                        Name = "Rock",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Ice",
+                        Color = "Lightblue"
+                    }
+                }
+            };
+
+            PokemonTypeCharacteristics second = new()
+            {
+                Name = "Grass",
+                Color = "Green",
+                NoTo = new()
+                {
+                    new()
+                    {
+                        Name = "Fire",
+                        Color = "Red"
+                    }
+                },
+                NoFrom = new(),
+                HalfTo = new(),
+                HalfFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Water",
+                        Color = "Blue"
+                    },
+                    new()
+                    {
+                        Name = "Ground",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleTo = new()
+                {
+                    new()
+                    {
+                        Name = "Rock",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Ice",
+                        Color = "Lightblue"
+                    }
+                }
+            };
+
+            // Act
+            bool result = first.Equals(second);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Equals_FalseWhenOneCollectionDiffers()
+        {
+            // Arrange
+            PokemonTypeCharacteristics first = new()
+            {
+                Name = "Grass",
+                Color = "Green",
+                NoTo = new()
+                {
+                    new()
+                    {
+                        Name = "Fire",
+                        Color = "Red"
+                    }
+                },
+                NoFrom = new(),
+                HalfTo = new(),
+                HalfFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Water",
+                        Color = "Blue"
+                    },
+                    new()
+                    {
+                        Name = "Ground",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleTo = new()
+                {
+                    new()
+                    {
+                        Name = "Rock",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Ice",
+                        Color = "Lightblue"
+                    }
+                }
+            };
+
+            PokemonTypeCharacteristics second = new()
+            {
+                Name = "Grass",
+                Color = "Green",
+                NoTo = new()
+                {
+                    new()
+                    {
+                        Name = "Fire",
+                        Color = "Red"
+                    }
+                },
+                NoFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Ghost",
+                        Color = "Purple"
+                    }
+                },
+                HalfTo = new(),
+                HalfFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Water",
+                        Color = "Blue"
+                    },
+                    new()
+                    {
+                        Name = "Ground",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleTo = new()
+                {
+                    new()
+                    {
+                        Name = "Rock",
+                        Color = "Bronze"
+                    }
+                },
+                DoubleFrom = new()
+                {
+                    new()
+                    {
+                        Name = "Ice",
+                        Color = "Lightblue"
+                    }
+                }
+            };
+
+            // Act
+            bool result = first.Equals(second);
+
+            // Assert
+            Assert.IsFalse(result);
         }
     }
 }

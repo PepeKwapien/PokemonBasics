@@ -13,6 +13,14 @@ namespace PokemonAPI.Repositories
         {
             this._databaseContext = _databaseContext;
         }
+
+        public Pokemon GetByName(string name)
+        {
+            // Explicit import so that DB context knows references to collections
+            _databaseContext.PokemonEntries.Include(entry => entry.Pokedex).ToList();
+            return _databaseContext.Pokemons.AsEnumerable().FirstOrDefault(pokemon => pokemon.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
         public List<Pokemon> GetPokemonsSimilarNames(string name, int levenshteinDistance = 3)
         {
             // Explicit import so that DB context knows references to collections

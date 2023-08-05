@@ -125,6 +125,19 @@ namespace Tests.PokemonAPI.Repositories
         }
 
         [TestMethod]
+        public void GetByName_GetsCorrectPokemon()
+        {
+            // Arrange
+
+            // Act
+            Pokemon result = _pokemonRepository.GetByName("charmander");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Charmander", result.Name);
+        }
+
+        [TestMethod]
         public void GetPokemonsSimilarNames_GetsSimilarNames()
         {
             // Arrange

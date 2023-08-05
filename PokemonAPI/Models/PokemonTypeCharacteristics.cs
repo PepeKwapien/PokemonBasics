@@ -12,8 +12,30 @@ namespace PokemonAPI.Models
         public List<PokemonTypeDto> NoFrom { get; set; } = new();
         public List<PokemonTypeDto> HalfTo { get; set; } = new();
         public List<PokemonTypeDto> HalfFrom { get; set; } = new();
-        public List<PokemonTypeDto> DoublTo { get; set; } = new();
-        public List<PokemonTypeDto> DoublFrom { get; set; } = new();
+        public List<PokemonTypeDto> DoubleTo { get; set; } = new();
+        public List<PokemonTypeDto> DoubleFrom { get; set; } = new();
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(PokemonTypeCharacteristics))
+            {
+                return base.Equals(obj);
+            }
+            else
+            {
+                PokemonTypeCharacteristics ptc = obj as PokemonTypeCharacteristics;
+                return
+                    Name == ptc.Name &&
+                    Color == ptc.Color &&
+                    NoTo.Count == ptc.NoTo.Count && NoTo.All(ptc.NoTo.Contains) &&
+                    NoFrom.Count == ptc.NoFrom.Count && NoFrom.All(ptc.NoFrom.Contains) &&
+                    HalfTo.Count == ptc.HalfTo.Count && HalfTo.All(ptc.HalfTo.Contains) &&
+                    HalfFrom.Count == ptc.HalfFrom.Count && HalfFrom.All(ptc.HalfFrom.Contains) &&
+                    DoubleTo.Count == ptc.DoubleTo.Count && DoubleTo.All(ptc.DoubleTo.Contains) &&
+                    DoubleFrom.Count == ptc.DoubleFrom.Count && DoubleFrom.All(ptc.DoubleFrom.Contains);
+            }
+        }
 
         public static PokemonTypeCharacteristics FromPokemonTypeAndDamageMultipliers(PokemonType type, List<DamageMultiplier> multipliers)
         {
@@ -33,7 +55,7 @@ namespace PokemonAPI.Models
                         FillToAndFromRelations(multiplierGroups[multiplierGroup.Key], type, pokemonTypeCharacteristics.NoTo, pokemonTypeCharacteristics.NoFrom);
                         break;
                     case 2:
-                        FillToAndFromRelations(multiplierGroups[multiplierGroup.Key], type, pokemonTypeCharacteristics.DoublTo, pokemonTypeCharacteristics.DoublFrom);
+                        FillToAndFromRelations(multiplierGroups[multiplierGroup.Key], type, pokemonTypeCharacteristics.DoubleTo, pokemonTypeCharacteristics.DoubleFrom);
                         break;
                     default:
                         FillToAndFromRelations(multiplierGroups[multiplierGroup.Key], type, pokemonTypeCharacteristics.HalfTo, pokemonTypeCharacteristics.HalfFrom);

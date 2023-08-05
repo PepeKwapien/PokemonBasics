@@ -170,6 +170,12 @@ namespace Tests.PokemonAPI.Services
                 },
                 new DamageMultiplier()
                 {
+                    Type = grass,
+                    Against = water,
+                    Multiplier = 2
+                },
+                new DamageMultiplier()
+                {
                     Type = ground,
                     Against = grass,
                     Multiplier = 0.5
@@ -348,6 +354,93 @@ namespace Tests.PokemonAPI.Services
             var result = _service.GetDefensiveCharacteristics("grass", "ground");
 
             // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GetTypeCharacteristic_ReturnsMappedObject()
+        {
+            // Arrange
+            PokemonTypeCharacteristics expected = new()
+            {
+                Name = grass.Name,
+                Color = grass.Color,
+                NoTo = new(),
+                NoFrom = new(),
+                HalfTo = new()
+                {
+                    new()
+                    {
+                        Name = grass.Name,
+                        Color = grass.Color,
+                    }
+                },
+                HalfFrom = new()
+                {
+                    new()
+                    {
+                        Name = electric.Name,
+                        Color = electric.Color,
+                    },
+                    new()
+                    {
+                        Name = ground.Name,
+                        Color = ground.Color,
+                    },
+                    new()
+                    {
+                        Name = water.Name,
+                        Color = water.Color,
+                    },
+                },
+                DoubleTo = new()
+                {
+                    new()
+                    {
+                        Name = water.Name,
+                        Color = water.Color,
+                    },
+                    new()
+                    {
+                        Name = ground.Name,
+                        Color = ground.Color,
+                    }
+                },
+                DoubleFrom = new()
+                {
+                    new()
+                    {
+                        Name = fire.Name,
+                        Color = fire.Color,
+                    },
+                    new()
+                    {
+                        Name = bug.Name,
+                        Color = bug.Color,
+                    },
+                    new()
+                    {
+                        Name = flying.Name,
+                        Color = flying.Color,
+                    },
+                    new()
+                    {
+                        Name = ice.Name,
+                        Color = ice.Color,
+                    },
+                    new()
+                    {
+                        Name = poison.Name,
+                        Color = poison.Color,
+                    },
+                }
+            };
+
+            // Act
+            var result = _service.GetTypeCharacteristic("grass");
+
+            // Assert
+            Assert.IsNotNull(result);
             Assert.AreEqual(expected, result);
         }
     }

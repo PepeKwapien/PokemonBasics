@@ -69,5 +69,13 @@ namespace PokemonAPI.Services
 
             return pdc;
         }
+
+        public PokemonTypeCharacteristics GetTypeCharacteristic(string typeName)
+        {
+            PokemonType pokemonType = _pokemonTypeRepository.GetTypeByName(typeName);
+            List<DamageMultiplier> multiplierList = _pokemonTypeRepository.GetTypeCharacteristicByName(typeName);
+
+            return PokemonTypeCharacteristics.FromPokemonTypeAndDamageMultipliers(pokemonType, multiplierList);
+        }
     }
 }

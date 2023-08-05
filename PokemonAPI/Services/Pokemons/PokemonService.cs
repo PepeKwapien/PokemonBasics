@@ -1,4 +1,5 @@
-﻿using PokemonAPI.DTOs;
+﻿using Models.Pokemons;
+using PokemonAPI.DTOs;
 using PokemonAPI.Repositories;
 
 namespace PokemonAPI.Services
@@ -11,6 +12,12 @@ namespace PokemonAPI.Services
         {
             _pokemonRepository = pokemonRepository;
         }
+
+        public Pokemon GetPokemonByName(string name)
+        {
+            return _pokemonRepository.GetByName(name);
+        }
+
         public PokemonSearchItemDto[] GetPokemonsSearchItemsWithSimilarNames(string name, int levenshteinDistance = 3)
         {
             return _pokemonRepository
