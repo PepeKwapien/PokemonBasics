@@ -70,6 +70,12 @@ namespace PokemonAPI.Models
         {
             foreach (var multiplier in damageMultipliers)
             {
+                if(multiplier.Type.Name == type.Name && multiplier.Against.Name == type.Name)
+                {
+                    listTo.Add(PokemonTypeDto.FromPokemonType(multiplier.Against));
+                    listFrom.Add(PokemonTypeDto.FromPokemonType(multiplier.Type));
+                    continue;
+                }
                 bool isTypeAttacking = DamageMultiplierHelper.IsTypeAttacking(type, multiplier);
 
                 if(isTypeAttacking)

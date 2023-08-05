@@ -392,6 +392,11 @@ namespace Tests.PokemonAPI.Services
                         Name = water.Name,
                         Color = water.Color,
                     },
+                    new()
+                    {
+                        Name = grass.Name,
+                        Color = grass.Color,
+                    }
                 },
                 DoubleTo = new()
                 {

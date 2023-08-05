@@ -13,7 +13,7 @@ namespace Tests.PokemonAPI.Models
         public void FromPokemonTypeAndDamageMultipliers_MapsCorrectly()
         {
             // Arrange
-            PokemonType type = new()
+            PokemonType grass = new()
             {
                 Name = "Grass",
                 Color = "Green"
@@ -54,7 +54,7 @@ namespace Tests.PokemonAPI.Models
             {
                 new()
                 {
-                    Type = type,
+                    Type = grass,
                     Multiplier = 0,
                     Against = fighting
                 },
@@ -62,11 +62,11 @@ namespace Tests.PokemonAPI.Models
                 {
                     Type = normal,
                     Multiplier = 0,
-                    Against = type
+                    Against = grass
                 },
                 new()
                 {
-                    Type = type,
+                    Type = grass,
                     Multiplier = 0.5,
                     Against = fire
                 },
@@ -74,11 +74,11 @@ namespace Tests.PokemonAPI.Models
                 {
                     Type = water,
                     Multiplier = .5,
-                    Against = type
+                    Against = grass
                 },
                 new()
                 {
-                    Type = type,
+                    Type = grass,
                     Multiplier = 2,
                     Against = electric
                 },
@@ -86,23 +86,54 @@ namespace Tests.PokemonAPI.Models
                 {
                     Type = flying,
                     Multiplier = 2,
-                    Against = type
+                    Against = grass
                 }
             };
 
             // Act
-            var result = PokemonTypeCharacteristics.FromPokemonTypeAndDamageMultipliers(type, multipliers);
+            var result = PokemonTypeCharacteristics.FromPokemonTypeAndDamageMultipliers(grass, multipliers);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(type.Name, result.Name);
-            Assert.AreEqual(type.Color, result.Color);
+            Assert.AreEqual(grass.Name, result.Name);
+            Assert.AreEqual(grass.Color, result.Color);
             Assert.AreEqual(fighting.Name, result.NoTo.First().Name);
             Assert.AreEqual(normal.Name, result.NoFrom.First().Name);
             Assert.AreEqual(fire.Name, result.HalfTo.First().Name);
             Assert.AreEqual(water.Name, result.HalfFrom.First().Name);
             Assert.AreEqual(electric.Name, result.DoubleTo.First().Name);
             Assert.AreEqual(flying.Name, result.DoubleFrom.First().Name);
+        }
+
+        [TestMethod]
+        public void FromPokemonTypeAndDamageMultipliers_CreatesTwoObjectsWhenDamageRelationWithItself()
+        {
+            // Arrange
+            PokemonType grass = new()
+            {
+                Name = "Grass",
+                Color = "Green"
+            };
+
+            List<DamageMultiplier> multipliers = new List<DamageMultiplier>()
+            {
+                new()
+                {
+                    Type = grass,
+                    Multiplier = 0.5,
+                    Against = grass
+                },
+            };
+
+            // Act
+            var result = PokemonTypeCharacteristics.FromPokemonTypeAndDamageMultipliers(grass, multipliers);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(grass.Name, result.Name);
+            Assert.AreEqual(grass.Color, result.Color);
+            Assert.AreEqual(grass.Name, result.HalfTo.First().Name);
+            Assert.AreEqual(grass.Name, result.HalfFrom.First().Name);
         }
 
         [TestMethod]
