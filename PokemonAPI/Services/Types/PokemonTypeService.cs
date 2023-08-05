@@ -1,5 +1,5 @@
 ﻿using Models.Types;
-using PokemonAPI.DTO;
+using PokemonAPI.DTOs;
 using PokemonAPI.Models;
 using PokemonAPI.Repositories;
 

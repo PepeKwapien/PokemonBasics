@@ -1,43 +1,20 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Models.Types;
 using PokemonAPI.DTOs;
 using System.Collections.Generic;
 
 namespace Tests.PokemonAPI.DTOs
 {
     [TestClass]
-    public class PokemonTypeDtoTests
+    public class AbilityDtoTests
     {
-        [TestMethod]
-        public void PokemonTypeDto_FromType()
-        {
-            // Arrange
-            PokemonType type = new()
-            {
-                Name = "Grass",
-                Color = "Green"
-            };
-            PokemonTypeDto expectedDto = new()
-            {
-                Name = "Grass",
-                Color = "Green"
-            };
-
-            // Act
-            PokemonTypeDto result = PokemonTypeDto.FromPokemonType(type);
-
-            // Assert
-            Assert.AreEqual(expectedDto, result);
-        }
-
         [TestMethod]
         public void Equals_FalseIfNull()
         {
             // Assert
-            PokemonTypeDto firstItem = new()
+            AbilityDto firstItem = new AbilityDto()
             {
                 Name = "stinky",
-                Color = "purple"
+                Effect = "stinks"
             };
 
             // Act
@@ -51,10 +28,10 @@ namespace Tests.PokemonAPI.DTOs
         public void Equals_FalseIfOtherObject()
         {
             // Assert
-            PokemonTypeDto firstItem = new()
+            AbilityDto firstItem = new AbilityDto()
             {
                 Name = "stinky",
-                Color = "purple"
+                Effect = "stinks"
             };
 
             // Act
@@ -68,16 +45,16 @@ namespace Tests.PokemonAPI.DTOs
         public void Equals_FalseIfNameDiffers()
         {
             // Assert
-            PokemonTypeDto firstItem = new()
+            AbilityDto firstItem = new AbilityDto()
             {
                 Name = "stinky",
-                Color = "purple"
+                Effect = "stinks"
             };
 
-            PokemonTypeDto secondItem = new()
+            AbilityDto secondItem = new AbilityDto()
             {
                 Name = "stinkers",
-                Color = "purple"
+                Effect = "stinks"
             };
 
             // Act
@@ -91,17 +68,13 @@ namespace Tests.PokemonAPI.DTOs
         public void Equals_TrueIfEverythingIsTheSame()
         {
             // Assert
-            PokemonTypeDto firstItem = new()
+            AbilityDto firstItem = new AbilityDto()
             {
                 Name = "stinky",
-                Color = "purple"
+                Effect = "stinks"
             };
 
-            PokemonTypeDto secondItem = new()
-            {
-                Name = "stinky",
-                Color = "purple"
-            };
+            AbilityDto secondItem = new AbilityDto() { Name = "stinky", Effect = "stinks" };
 
             // Act
             var result = firstItem.Equals(secondItem);

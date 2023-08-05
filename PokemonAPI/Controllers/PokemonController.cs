@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PokemonAPI.DTO;
+using PokemonAPI.DTOs;
 using PokemonAPI.Services;
 
 namespace PokemonAPI.Controllers

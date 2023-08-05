@@ -1,5 +1,4 @@
 ﻿using Models.Abilities;
-using PokemonAPI.DTO;
 
 namespace PokemonAPI.DTOs
 {

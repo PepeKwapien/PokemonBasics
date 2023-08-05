@@ -1,4 +1,4 @@
-﻿using PokemonAPI.DTO;
+﻿using PokemonAPI.DTOs;
 using PokemonAPI.Repositories;
 
 namespace PokemonAPI.Services

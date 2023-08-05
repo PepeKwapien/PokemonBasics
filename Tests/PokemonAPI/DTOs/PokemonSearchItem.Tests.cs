@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Pokedexes;
 using Models.Pokemons;
-using PokemonAPI.DTO;
+using PokemonAPI.DTOs;
+using System.Collections.Generic;
 
 namespace Tests.PokemonAPI.DTOs
 {
@@ -9,26 +10,26 @@ namespace Tests.PokemonAPI.DTOs
     public class PokemonSearchItemTests
     {
         [TestMethod]
-        public void PokemonSearchItem_FromPokemon()
+        public void FromPokemon_MapsCorrectly()
         {
             // Arrange
-            Pokemon pokemon = new Pokemon()
+            Pokemon pokemon = new()
             {
                 Name = "Bulbasaur",
                 Sprite = "Bulbasaur.png"
             };
-            Pokedex pokedex = new Pokedex()
+            Pokedex pokedex = new()
             {
                 Name = "National"
             };
-            PokemonEntry entry = new PokemonEntry()
+            PokemonEntry entry = new()
             {
                 Pokedex = pokedex,
                 Number = 1
             };
             pokemon.PokemonEntries.Add(entry);
 
-            PokemonSearchItemDto expectedSearchItem = new PokemonSearchItemDto()
+            PokemonSearchItemDto expectedSearchItem = new()
             {
                 Name = pokemon.Name,
                 Image = pokemon.Sprite,
@@ -40,6 +41,92 @@ namespace Tests.PokemonAPI.DTOs
 
             // Assert
             Assert.AreEqual(expectedSearchItem, actualSearchItem);
+        }
+
+        [TestMethod]
+        public void Equals_FalseIfNull()
+        {
+            // Assert
+            PokemonSearchItemDto firstItem = new()
+            {
+                Name = "bulbasaur",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            // Act
+            var result = firstItem.Equals(null);
+
+            // Arrange
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Equals_FalseIfOtherObject()
+        {
+            // Assert
+            PokemonSearchItemDto firstItem = new()
+            {
+                Name = "bulbasaur",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            // Act
+            var result = firstItem.Equals(new List<int>());
+
+            // Arrange
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Equals_FalseIfNameDiffers()
+        {
+            // Assert
+            PokemonSearchItemDto firstItem = new()
+            {
+                Name = "bulbasaur",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            PokemonSearchItemDto secondItem = new()
+            {
+                Name = "charmander",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            // Act
+            var result = firstItem.Equals(secondItem);
+
+            // Arrange
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Equals_TrueIfEverythingIsTheSame()
+        {
+            // Assert
+            PokemonSearchItemDto firstItem = new()
+            {
+                Name = "bulbasaur",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            PokemonSearchItemDto secondItem = new()
+            {
+                Name = "bulbasaur",
+                Image = "bulbasaur.png",
+                Number = 1
+            };
+
+            // Act
+            var result = firstItem.Equals(secondItem);
+
+            // Arrange
+            Assert.IsTrue(result);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Models.Pokemons;
 
-namespace PokemonAPI.DTO
+namespace PokemonAPI.DTOs
 {
     public class PokemonSearchItemDto
     {

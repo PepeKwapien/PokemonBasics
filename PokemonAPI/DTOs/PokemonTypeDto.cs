@@ -1,6 +1,6 @@
 ﻿using Models.Types;
 
-namespace PokemonAPI.DTO
+namespace PokemonAPI.DTOs
 {
     public class PokemonTypeDto
     {
@@ -25,8 +25,8 @@ namespace PokemonAPI.DTO
             }
             else
             {
-                PokemonTypeDto psi = obj as PokemonTypeDto;
-                return Name == psi.Name && Color == psi.Color;
+                PokemonTypeDto ptd = obj as PokemonTypeDto;
+                return Name == ptd.Name && Color == ptd.Color;
             }
         }
     }

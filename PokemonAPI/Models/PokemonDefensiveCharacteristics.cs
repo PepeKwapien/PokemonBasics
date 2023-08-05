@@ -1,5 +1,4 @@
-﻿using PokemonAPI.DTO;
-using System.Drawing;
+﻿using PokemonAPI.DTOs;
 
 namespace PokemonAPI.Models
 {
@@ -32,12 +31,12 @@ namespace PokemonAPI.Models
             {
                 PokemonDefensiveCharacteristics pdc = obj as PokemonDefensiveCharacteristics;
                 return
-                    No.All(pdc.No.Contains) &&
-                    Quarter.All(pdc.Quarter.Contains) &&
-                    Half.All(pdc.Half.Contains) &&
-                    Neutral.All(pdc.Neutral.Contains) &&
-                    Double.All(pdc.Double.Contains) &&
-                    Quadruple.All(pdc.Quadruple.Contains);
+                    No.Count == pdc.No.Count && No.All(pdc.No.Contains) &&
+                    Quarter.Count ==  pdc.Quarter.Count && Quarter.All(pdc.Quarter.Contains) &&
+                    Half.Count == pdc.Half.Count && Half.All(pdc.Half.Contains) &&
+                    Neutral.Count == pdc.Neutral.Count && Neutral.All(pdc.Neutral.Contains) &&
+                    Double.Count == pdc.Double.Count && Double.All(pdc.Double.Contains) &&
+                    Quadruple.Count == pdc.Quadruple.Count && Quadruple.All(pdc.Quadruple.Contains);
             }
         }
     }

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Types;
 using Moq;
-using PokemonAPI.DTO;
+using PokemonAPI.DTOs;
 using PokemonAPI.Models;
 using PokemonAPI.Repositories;
 using PokemonAPI.Services;
@@ -132,7 +132,7 @@ namespace Tests.PokemonAPI.Services
                 Color = "Dark Purple"
             };
 
-            List<PokemonType> types = new List<PokemonType>()
+            List<PokemonType> types = new()
             {
                 grass,
                 water,
@@ -154,7 +154,7 @@ namespace Tests.PokemonAPI.Services
                 dragon
             };
 
-            List<DamageMultiplier> multiplier = new List<DamageMultiplier>()
+            List<DamageMultiplier> multiplier = new()
             {
                 new DamageMultiplier()
                 {
@@ -261,7 +261,7 @@ namespace Tests.PokemonAPI.Services
         public void GetDefensiveCharacteristics_GetCorrectlyForSingleType()
         {
             // Arrange
-            PokemonDefensiveCharacteristics expected = new PokemonDefensiveCharacteristics()
+            PokemonDefensiveCharacteristics expected = new()
             {
                 No = new List<PokemonTypeDto>(),
                 Quarter = new List<PokemonTypeDto>(),
@@ -306,7 +306,7 @@ namespace Tests.PokemonAPI.Services
         public void GetDefensiveCharacteristics_GetCorrectlyForDoubleType()
         {
             // Arrange
-            PokemonDefensiveCharacteristics expected = new PokemonDefensiveCharacteristics()
+            PokemonDefensiveCharacteristics expected = new()
             {
                 No = new List<PokemonTypeDto>()
                 {
