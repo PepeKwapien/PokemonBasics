@@ -1,6 +1,6 @@
 ﻿using Models.Types;
 
-namespace PokemonAPI.Repositories.Types
+namespace PokemonAPI.Repositories
 {
     public interface IPokemonTypeRepository
     {

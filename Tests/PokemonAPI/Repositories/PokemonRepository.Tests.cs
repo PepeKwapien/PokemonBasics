@@ -125,44 +125,44 @@ namespace Tests.PokemonAPI.Repositories
         }
 
         [TestMethod]
-        public void GetPokemonsSearchItemsWithSimilarNames_GetsSimilarNames()
+        public void GetPokemonsSimilarNames_GetsSimilarNames()
         {
             // Arrange
 
             // Act
-            var result = _pokemonRepository.GetPokemonsSearchItemsWithSimilarNames("mareil");
+            var result = _pokemonRepository.GetPokemonsSimilarNames("mareil");
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual(2, result.Count);
             Assert.IsTrue(result.Any(search => search.Name.Equals("Mareep")));
             Assert.IsTrue(result.Any(search => search.Name.Equals("Marill")));
         }
 
         [TestMethod]
-        public void GetPokemonsSearchItemsWithSimilarNames_ReturnsEmptyListIfNotFound()
+        public void GetPokemonsSimilarNames_ReturnsEmptyListIfNotFound()
         {
             // Arrange
 
             // Act
-            var result = _pokemonRepository.GetPokemonsSearchItemsWithSimilarNames("complete jiberish");
+            var result = _pokemonRepository.GetPokemonsSimilarNames("complete jiberish");
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.Length);
+            Assert.AreEqual(0, result.Count);
         }
 
         [TestMethod]
-        public void GetPokemonsSearchItemsWithSimilarNames_GetsIfNameContainsPhrase()
+        public void GetPokemonsSimilarNames_GetsIfNameContainsPhrase()
         {
             // Arrange
 
             // Act
-            var result = _pokemonRepository.GetPokemonsSearchItemsWithSimilarNames("char");
+            var result = _pokemonRepository.GetPokemonsSimilarNames("char");
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual(3, result.Count);
             Assert.IsTrue(result.Any(search => search.Name.Equals("Charmander")));
             Assert.IsTrue(result.Any(search => search.Name.Equals("Charmeleon")));
             Assert.IsTrue(result.Any(search => search.Name.Equals("Charizard")));

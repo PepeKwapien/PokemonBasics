@@ -4,7 +4,7 @@ using Models.Types;
 using Moq;
 using PokemonAPI.DTO;
 using PokemonAPI.Models;
-using PokemonAPI.Repositories.Types;
+using PokemonAPI.Repositories;
 using PokemonAPI.Services;
 using System.Collections.Generic;
 using Tests.TestHelpers;

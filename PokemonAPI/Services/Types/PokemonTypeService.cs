@@ -1,7 +1,7 @@
 ﻿using Models.Types;
 using PokemonAPI.DTO;
 using PokemonAPI.Models;
-using PokemonAPI.Repositories.Types;
+using PokemonAPI.Repositories;
 
 namespace PokemonAPI.Services
 {

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Types;
 using Moq;
-using PokemonAPI.Repositories.Types;
+using PokemonAPI.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using Tests.TestHelpers;

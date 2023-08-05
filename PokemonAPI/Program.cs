@@ -1,7 +1,6 @@
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using PokemonAPI.Repositories;
-using PokemonAPI.Repositories.Types;
 using PokemonAPI.Services;
 
 namespace PokemonAPI
@@ -16,10 +15,15 @@ namespace PokemonAPI
             builder.Services.AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDatabase")));
 
+            // Repositories
             builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
             builder.Services.AddScoped<IPokemonTypeRepository, PokemonTypeRepository>();
+            builder.Services.AddScoped<IAbilityRepository, AbilityRepository>();
 
+            // Services
+            builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
             builder.Services.AddScoped<IPokemonTypeService, PokemonTypeService>();
+            builder.Services.AddScoped<IAbilityService, AbilityService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

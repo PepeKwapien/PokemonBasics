@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PokemonAPI.DTO;
-using PokemonAPI.Repositories;
+using PokemonAPI.Services;
 
 namespace PokemonAPI.Controllers
 {
@@ -8,12 +8,12 @@ namespace PokemonAPI.Controllers
     [Route("[controller]")]
     public class PokemonController : ControllerBase
     {
-        private readonly IPokemonRepository _pokemonRepository;
+        private readonly IPokemonService _pokemonService;
         private readonly ILogger<PokemonController> _logger;
 
-        public PokemonController(IPokemonRepository pokemonRepository, ILogger<PokemonController> logger)
+        public PokemonController(IPokemonService pokemonService, ILogger<PokemonController> logger)
         {
-            _pokemonRepository = pokemonRepository;
+            _pokemonService = pokemonService;
             _logger = logger;
         }
 
@@ -21,7 +21,7 @@ namespace PokemonAPI.Controllers
         [HttpGet]
         public PokemonSearchItemDto[] GetSimilarNames(string pokemonName)
         {
-            return _pokemonRepository
+            return _pokemonService
                 .GetPokemonsSearchItemsWithSimilarNames(pokemonName)
                 .ToArray();
         }
