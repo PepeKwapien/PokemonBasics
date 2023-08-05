@@ -18,6 +18,11 @@ namespace PokemonAPI.Repositories
             return _databaseContext.Types.Where(type => type.Name != "Shadow" && type.Name != "???").ToList();
         }
 
+        public PokemonType GetTypeByName(string name)
+        {
+            return _databaseContext.Types.AsEnumerable().FirstOrDefault(type => type.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+
         public List<DamageMultiplier> GetTypeCharacteristicByName(string typeName)
         {
             return _databaseContext

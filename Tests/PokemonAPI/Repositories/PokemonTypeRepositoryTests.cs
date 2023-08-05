@@ -42,6 +42,14 @@ namespace Tests.PokemonAPI.Repositories
                 grass,
                 water,
                 rock,
+                new()
+                {
+                    Name = "Shadow"
+                },
+                new()
+                {
+                    Name = "???"
+                }
             };
 
             _damageMultipliers = new List<DamageMultiplier>()
@@ -72,6 +80,34 @@ namespace Tests.PokemonAPI.Repositories
             _databaseContext.Setup(db => db.DamageMultipliers).Returns(damageMultiplier.Object);
 
             _typeRepository = new PokemonTypeRepository(_databaseContext.Object);
+        }
+
+        [TestMethod]
+        public void GetAllRelevantTypes_SkipsRedundantTypes()
+        {
+            // Arrange
+
+            // Act
+            var result = _typeRepository.GetAllRelevantTypes();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, result.Count);
+            Assert.IsFalse(result.Any(type => type.Name.Equals("Shadow")));
+            Assert.IsFalse(result.Any(type => type.Name.Equals("???")));
+        }
+
+        [TestMethod]
+        public void GetTypeByName_GetsCorrectType()
+        {
+            // Arrange
+
+            // Act
+            var result = _typeRepository.GetTypeByName("grass");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("Grass", result.Name);
         }
 
         [TestMethod]
