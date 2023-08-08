@@ -19,6 +19,33 @@ namespace PokemonAPI.DTOs
         public PokemonTypeCharacteristics PrimaryType { get; set; }
         public PokemonTypeCharacteristics? SecondaryType { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj.GetType() != typeof(PokemonGeneralDto))
+            {
+                return base.Equals(obj);
+            }
+            else
+            {
+                PokemonGeneralDto pgd = obj as PokemonGeneralDto;
+                return
+                    Name == pgd.Name &&
+                    Image == pgd.Image &&
+                    Number == pgd.Number &&
+                    HP == pgd.HP &&
+                    Attack == pgd.Attack &&
+                    SpecialAttack == pgd.SpecialAttack &&
+                    Defense == pgd.Defense &&
+                    SpecialDefense == pgd.SpecialDefense &&
+                    Speed == pgd.Speed &&
+                    Abilities.Count == pgd.Abilities.Count && Abilities.All(pgd.Abilities.Contains) &&
+                    DefensiveRelations.Equals(pgd.DefensiveRelations) &&
+                    PrimaryType.Equals(pgd.PrimaryType) &&
+                    (SecondaryType == null && pgd.SecondaryType == null || (SecondaryType != null && SecondaryType.Equals(pgd.SecondaryType)));
+            }
+        }
+
         public static PokemonGeneralDto FromPokemonAbilitiesAndTypes(
             Pokemon pokemon,
             List<AbilityDto> abilities,

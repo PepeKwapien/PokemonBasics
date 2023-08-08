@@ -13,14 +13,12 @@ namespace PokemonAPI.Controllers
         private readonly IPokemonService _pokemonService;
         private readonly IPokemonTypeService _pokemonTypeService;
         private readonly IAbilityService _abilityService;
-        private readonly ILogger<PokemonController> _logger;
 
-        public PokemonController(IPokemonService pokemonService, IPokemonTypeService pokemonTypeService, IAbilityService abilityService, ILogger<PokemonController> logger)
+        public PokemonController(IPokemonService pokemonService, IPokemonTypeService pokemonTypeService, IAbilityService abilityService)
         {
             _pokemonService = pokemonService;
             _pokemonTypeService = pokemonTypeService;
             _abilityService = abilityService;
-            _logger = logger;
         }
 
         [Route("search/{pokemonName}")]
@@ -46,7 +44,7 @@ namespace PokemonAPI.Controllers
             string primaryTypeName = pokemon.PrimaryType.Name;
             string? secondaryTypeName = pokemon.SecondaryType?.Name;
 
-            List<AbilityDto> abilities = _abilityService.GetAbilitiesDtoForPokemon(pokemonName);
+            List<AbilityDto> abilities = _abilityService.GetAbilitiesDtoForPokemon(pokemon.Name);
             PokemonDefensiveCharacteristics defensiveRelations = _pokemonTypeService.GetDefensiveCharacteristics(primaryTypeName, secondaryTypeName);
             PokemonTypeCharacteristics primaryTypeCharacteristic = _pokemonTypeService.GetTypeCharacteristic(primaryTypeName);
             PokemonTypeCharacteristics? secondaryTypeCharacteristic = string.IsNullOrEmpty(secondaryTypeName) ? null : _pokemonTypeService.GetTypeCharacteristic(secondaryTypeName);
