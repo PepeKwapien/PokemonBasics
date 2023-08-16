@@ -21,7 +21,7 @@ namespace PokemonAPI
             builder.Services.AddScoped<IAbilityRepository, AbilityRepository>();
 
             // Services
-            builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+            builder.Services.AddScoped<IPokemonService, PokemonService>();
             builder.Services.AddScoped<IPokemonTypeService, PokemonTypeService>();
             builder.Services.AddScoped<IAbilityService, AbilityService>();
 
