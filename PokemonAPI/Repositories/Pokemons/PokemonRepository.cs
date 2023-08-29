@@ -18,7 +18,11 @@ namespace PokemonAPI.Repositories
         {
             // Explicit import so that DB context knows references to collections
             _databaseContext.PokemonEntries.Include(entry => entry.Pokedex).ToList();
-            return _databaseContext.Pokemons.AsEnumerable().FirstOrDefault(pokemon => pokemon.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            return _databaseContext.Pokemons
+                .Include(pokemon => pokemon.PrimaryType)
+                .Include(pokemon => pokemon.SecondaryType)
+                .AsEnumerable()
+                .FirstOrDefault(pokemon => pokemon.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public List<Pokemon> GetPokemonsSimilarNames(string name, int levenshteinDistance = 3)
