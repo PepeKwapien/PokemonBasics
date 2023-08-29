@@ -30,7 +30,7 @@ namespace PokemonAPI.Controllers
                 .ToArray();
         }
 
-        [Route("{pokemonName}/general")]
+        [Route("general/{pokemonName}")]
         [HttpGet]
         public IActionResult GetGeneralInformation(string pokemonName)
         {
