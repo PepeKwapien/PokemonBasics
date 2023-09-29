@@ -30,9 +30,12 @@ namespace PokemonAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddCors(options => options.AddPolicy("AllowLocalhost4200",
+            string pokeWeaknessCorsName = builder.Configuration.GetValue<string>("Cors:PokeWeakness:Name");
+            string pokeWeaknessCorsUrl = builder.Configuration.GetValue<string>("Cors:PokeWeakness:Url");
+
+            builder.Services.AddCors(options => options.AddPolicy(pokeWeaknessCorsName,
                 builder => builder
-                .WithOrigins("http://localhost:4200")
+                .WithOrigins(pokeWeaknessCorsUrl)
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
 
@@ -47,7 +50,7 @@ namespace PokemonAPI
 
 
             app.UseHttpsRedirection();
-            app.UseCors("AllowLocalhost4200");
+            app.UseCors(pokeWeaknessCorsName);
             app.UseAuthorization();
 
 

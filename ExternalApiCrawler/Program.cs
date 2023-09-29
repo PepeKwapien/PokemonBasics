@@ -21,11 +21,13 @@ namespace ExternalApiCrawler
                .Build();
 
             // Bind class with options for http client
-            ExternalApiOptions externalOptions = new ExternalApiOptions();
+            ExternalApiOptions externalOptions = new();
             config.GetRequiredSection("ExternalApiSettings").Bind(externalOptions);
 
+            var serviceCollection = new ServiceCollection();
+
             // Options
-            var serviceCollection = new ServiceCollection()
+            serviceCollection
                 .Configure<ExternalApiOptions>(config.GetRequiredSection("ExternalApiSettings"))
                 .Configure<LoggerOptions>(config.GetRequiredSection("LoggerSettings"))
                 .Configure<ImageOptions>(config.GetRequiredSection("ImageSettings"));
@@ -95,8 +97,8 @@ namespace ExternalApiCrawler
                 bool result = await orchestrator.Start();
                 Console.WriteLine($"{(result ? "Yay" : "Nay")}");
 
-                var imageManager = scope.ServiceProvider.GetService<IImageManager>();
-                await imageManager.Run();
+                /*var imageManager = scope.ServiceProvider.GetService<IImageManager>();
+                await imageManager.Run();*/
             }
         }
     }
