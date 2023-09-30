@@ -17,9 +17,9 @@ Each project had a different purpose and they were split based on their responsi
 - <b>Models</b>: Classes representing tables in my database marked with interface IModel
 - <b>Data Access</b>: Contains DbContext for EntityFramework Core. Maintains history of migrations. Used to keep database schema in sync with my code
 - <b>Logger</b>: My own logging class (wanted to try it)
-- <b>Tests</b>: Tests for my <b>ExternalApiCrawler</b> project
+- <b>Tests</b>: Tests for <b>ExternalApiCrawler</b> and <b>PokemonAPI</b> project
 - <b>ExternalApiCrawler</b>: will be covered in a [seperate section](#external-api-crawler)
-- <b>PokemonAPI (TBD)</b>: This project will have endpoints used by future projects
+- <b>PokemonAPI</b>: API serving fetched and stored data in a desired manner for my other projects
 
 ## External API Crawler
 
