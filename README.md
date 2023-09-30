@@ -19,7 +19,7 @@ Each project had a different purpose and they were split based on their responsi
 - <b>Logger</b>: My own logging class (wanted to try it)
 - <b>Tests</b>: Tests for <b>ExternalApiCrawler</b> and <b>PokemonAPI</b> project
 - <b>ExternalApiCrawler</b>: will be covered in a [seperate section](#external-api-crawler)
-- <b>PokemonAPI</b>: API serving fetched and stored data in a desired manner for my other projects
+- <b>PokemonAPI</b>: API serving fetched and stored data in a desired manner for my other projects e.g. [PokeWaekness](https://github.com/PepeKwapien/PokeWeakness)
 
 ## External API Crawler
 
