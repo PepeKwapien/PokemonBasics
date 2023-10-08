@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalApiCrawler", "Exter
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{04F912E5-A020-4784-BD1E-74040DBC81B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonAPI", "PokemonAPI\PokemonAPI.csproj", "{FC37F236-3AF9-415F-8C0F-6C6018BAE666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonAPI", "PokemonAPI\PokemonAPI.csproj", "{FC37F236-3AF9-415F-8C0F-6C6018BAE666}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

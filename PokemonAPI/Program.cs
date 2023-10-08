@@ -42,20 +42,18 @@ namespace PokemonAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            app.UseSwagger();
+            if (app.Environment.IsDevelopment() || app.Environment.EnvironmentName == "Docker")
             {
-                app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
 
             app.UseHttpsRedirection();
             app.UseCors(pokeWeaknessCorsName);
             app.UseAuthorization();
 
-
             app.MapControllers();
-
+            
             app.Run();
         }
     }
