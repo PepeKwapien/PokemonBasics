@@ -7,7 +7,7 @@ using PokemonAPI.Services;
 namespace PokemonAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("pokemon")]
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
