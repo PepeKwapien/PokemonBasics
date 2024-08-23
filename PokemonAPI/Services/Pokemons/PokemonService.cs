@@ -25,5 +25,10 @@ namespace PokemonAPI.Services
                 .Select(pokemon => PokemonSearchItemDto.FromPokemon(pokemon))
                 .ToArray();
         }
+
+        public Pokemon[] GetRandomPokemons(int size)
+        {
+            return _pokemonRepository.GetRandomPokemons(size);
+        }
     }
 }

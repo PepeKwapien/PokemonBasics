@@ -188,7 +188,7 @@ namespace Tests.PokemonAPI.Controllers
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.GetType() == typeof(NotFoundResult));
+            Assert.IsTrue(result.Result.GetType() == typeof(NotFoundResult));
         }
 
         [TestMethod]
@@ -257,14 +257,14 @@ namespace Tests.PokemonAPI.Controllers
 
             // Act
             var result = _controller.GetGeneralInformation("charmander");
-            var resultOkOjbect = result as OkObjectResult;
+            var resultOkOjbect = result.Result as OkObjectResult;
             var resultValue = resultOkOjbect?.Value as PokemonGeneralDto;
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(resultOkOjbect);
             Assert.IsNotNull(resultValue);
-            Assert.IsTrue(result.GetType() == typeof(OkObjectResult));
+            Assert.IsTrue(resultOkOjbect.GetType() == typeof(OkObjectResult));
             Assert.AreEqual(expected, resultValue);
         }
 
@@ -339,14 +339,14 @@ namespace Tests.PokemonAPI.Controllers
 
             // Act
             var result = _controller.GetGeneralInformation("bulbasaur");
-            var resultOkOjbect = result as OkObjectResult;
+            var resultOkOjbect = result.Result as OkObjectResult;
             var resultValue = resultOkOjbect?.Value as PokemonGeneralDto;
 
             // Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(resultOkOjbect);
             Assert.IsNotNull(resultValue);
-            Assert.IsTrue(result.GetType() == typeof(OkObjectResult));
+            Assert.IsTrue(resultOkOjbect.GetType() == typeof(OkObjectResult));
             Assert.AreEqual(expected, resultValue);
         }
     }

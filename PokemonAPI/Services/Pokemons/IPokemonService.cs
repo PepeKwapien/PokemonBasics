@@ -7,5 +7,6 @@ namespace PokemonAPI.Services
     {
         Pokemon GetPokemonByName(string name);
         PokemonSearchItemDto[] GetPokemonsSearchItemsWithSimilarNames(string name, int levenshteinDistance = 3);
+        Pokemon[] GetRandomPokemons(int size);
     }
 }

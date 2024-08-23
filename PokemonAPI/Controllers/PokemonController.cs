@@ -23,22 +23,22 @@ namespace PokemonAPI.Controllers
 
         [Route("search/{pokemonName}")]
         [HttpGet]
-        public PokemonSearchItemDto[] GetSimilarNames(string pokemonName)
+        public ActionResult<PokemonSearchItemDto[]> GetSimilarNames(string pokemonName)
         {
-            return _pokemonService
+            return Ok(_pokemonService
                 .GetPokemonsSearchItemsWithSimilarNames(pokemonName)
-                .ToArray();
+                .ToArray());
         }
 
         [Route("general/{pokemonName}")]
         [HttpGet]
-        public IActionResult GetGeneralInformation(string pokemonName)
+        public ActionResult<PokemonGeneralDto> GetGeneralInformation(string pokemonName)
         {
             Pokemon pokemon = _pokemonService.GetPokemonByName(pokemonName);
 
             if(pokemon == null)
             {
-                return new NotFoundResult();
+                return NotFound();
             }
 
             string primaryTypeName = pokemon.PrimaryType.Name;
@@ -50,6 +50,18 @@ namespace PokemonAPI.Controllers
             PokemonTypeCharacteristics? secondaryTypeCharacteristic = string.IsNullOrEmpty(secondaryTypeName) ? null : _pokemonTypeService.GetTypeCharacteristic(secondaryTypeName);
 
             return Ok(PokemonGeneralDto.FromPokemonAbilitiesAndTypes(pokemon, abilities, defensiveRelations, primaryTypeCharacteristic, secondaryTypeCharacteristic));
+        }
+
+        [Route("random")]
+        [HttpGet]
+        public ActionResult<Pokemon[]> GetRandomPokemon([FromQuery] int size = 1)
+        {
+            if(size < 1)
+            {
+                return BadRequest();
+            }
+
+            return _pokemonService.GetRandomPokemons(size);
         }
     }
 }
