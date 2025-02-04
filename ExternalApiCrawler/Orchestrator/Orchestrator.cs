@@ -125,7 +125,7 @@ namespace ExternalApiCrawler
 
         public async Task<bool> Start()
         {
-            if(
+            if (
                 (await GetDtos()) &&
                 ClearContext() &&
                 SetUpMappers() &&
@@ -139,25 +139,63 @@ namespace ExternalApiCrawler
                 _logger.Warn("Operation of populating the database was not successful. Check the logs to find more information");
                 return false;
             }
-                
+
         }
 
         private async Task<bool> GetDtos()
         {
             try
             {
-                _evolutionChainDtos = await _evolutionsRequester.GetCollection();
-                _gamesDtos = await _gamesRequester.GetCollection();
-                _generationDtos = await _generationsRequester.GetCollection();
-                _pokeballDtos = await _pokeballsRequester.GetCollection();
-                _pokedexDtos = await _pokedexesRequester.GetCollection();
-                _pokemonDtos = await _pokemonsRequester.GetCollection();
-                _pokemonAbilitiesDtos = await _pokemonAbilitiesRequester.GetCollection();
-                _pokemonMovesDtos = await _pokemonMovesRequester.GetCollection();
-                _pokemonSpeciesDtos = await _pokemonSpeciesRequester.GetCollection();
-                _pokemonTypesDtos = await _pokemonTypesRequester.GetCollection();
+                var evolutionChainTask = _evolutionsRequester.GetCollection();
+                var gamesTask = _gamesRequester.GetCollection();
+                var generationTask = _generationsRequester.GetCollection();
+                var pokeballTask = _pokeballsRequester.GetCollection();
+                var pokedexTask = _pokedexesRequester.GetCollection();
+                var pokemonTask = _pokemonsRequester.GetCollection();
+                var pokemonAbilitiesTask = _pokemonAbilitiesRequester.GetCollection();
+                var pokemonMovesTask = _pokemonMovesRequester.GetCollection();
+                var pokemonSpeciesTask = _pokemonSpeciesRequester.GetCollection();
+                var pokemonTypesTask = _pokemonTypesRequester.GetCollection();
+
+                var allTasks = new List<Task>
+                {
+                    evolutionChainTask,
+                    gamesTask,
+                    generationTask,
+                    pokeballTask,
+                    pokedexTask,
+                    pokemonTask,
+                    pokemonAbilitiesTask,
+                    pokemonMovesTask,
+                    pokemonSpeciesTask,
+                    pokemonTypesTask
+                };
+
+                await Task.WhenAll(allTasks);
+
+                _evolutionChainDtos = await evolutionChainTask;
+                _gamesDtos = await gamesTask;
+                _generationDtos = await generationTask;
+                _pokeballDtos = await pokeballTask;
+                _pokedexDtos = await pokedexTask;
+                _pokemonDtos = await pokemonTask;
+                _pokemonAbilitiesDtos = await pokemonAbilitiesTask;
+                _pokemonMovesDtos = await pokemonMovesTask;
+                _pokemonSpeciesDtos = await pokemonSpeciesTask;
+                _pokemonTypesDtos = await pokemonTypesTask;
             }
-            catch(Exception ex)
+            catch(AggregateException ex)
+            {
+                ex = ex.Flatten();
+                foreach(var exIn in ex.InnerExceptions)
+                {
+                    _logger.Error(exIn.Message);
+                    _logger.Error(exIn.StackTrace ?? "No stack trace");
+                }
+
+                return false;
+            }
+            catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 _logger.Error(ex.StackTrace ?? "No stack trace");
@@ -245,10 +283,10 @@ namespace ExternalApiCrawler
             {
                 _pokemonTypeMapper.StartChain();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                if(ex.InnerException != null)
+                if (ex.InnerException != null)
                 {
                     _logger.Error(ex.InnerException.Message);
                 }

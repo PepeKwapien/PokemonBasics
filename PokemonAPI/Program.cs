@@ -11,9 +11,26 @@ namespace PokemonAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            string? dbType = Environment.GetEnvironmentVariable("DB_TYPE")?.ToLower() ?? "sql_server";
+            string? dbConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? builder.Configuration.GetConnectionString("Default");
+
             // Add services to the container.
             builder.Services.AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDatabase")));
+                {
+                    if (dbType == "sql_server")
+                    {
+                        options.UseSqlServer(dbConnectionString);
+                    }
+                    else if (dbType == "postgres")
+                    {
+                        options.UseNpgsql(dbConnectionString);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid DB_TYPE. Must be either 'sql_server' or 'postgres'");
+                    }
+                }
+            );
 
             // Repositories
             builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
@@ -53,7 +70,7 @@ namespace PokemonAPI
             app.UseAuthorization();
 
             app.MapControllers();
-            
+
             app.Run();
         }
     }

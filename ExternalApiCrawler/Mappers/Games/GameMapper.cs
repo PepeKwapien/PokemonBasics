@@ -38,17 +38,8 @@ namespace ExternalApiCrawler.Mappers
                 List<Pokedex> pokedexes = new List<Pokedex>();
                 foreach (var pokedexName in gameDto.VersionGroup.pokedexes)
                 {
-                    try
-                    {
-                        Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexName.name, _pokedexDtos, _logger);
-                        pokedexes.Add(pokedex);
-                    }
-                    catch (Exception ex)
-                    {
-                        // TODO Remove in the future once the S/V DLCs are out
-                        // Unlucky inconsistent restful API
-                        continue;
-                    }
+                    Pokedex pokedex = EntityFinderHelper.FindEntityByDtoName(_dbContext.Pokedexes, pokedexName.name, _pokedexDtos, _logger);
+                    pokedexes.Add(pokedex);
                 }
 
                 if (regions != null && regions.Length == 1)

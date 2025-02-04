@@ -14,23 +14,22 @@ namespace PokemonAPI.Repositories
             this._databaseContext = _databaseContext;
         }
 
-        public Pokemon GetByName(string name)
+        public Pokemon? GetByName(string name)
         {
-            // Explicit import so that DB context knows references to collections
-            _databaseContext.PokemonEntries.Include(entry => entry.Pokedex);
             return _databaseContext.Pokemons
                 .Include(pokemon => pokemon.PrimaryType)
                 .Include(pokemon => pokemon.SecondaryType)
+                .Include(pokemon => pokemon.PokemonEntries)
+                .ThenInclude(entry => entry.Pokedex)
                 .AsEnumerable()
                 .FirstOrDefault(pokemon => pokemon.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public List<Pokemon> GetPokemonsSimilarNames(string name, int levenshteinDistance = 3)
         {
-            // Explicit import so that DB context knows references to collections
-            _databaseContext.PokemonEntries.Include(entry => entry.Pokedex);
-
             return _databaseContext.Pokemons
+                .Include(entry => entry.PokemonEntries)
+                .ThenInclude(entry => entry.Pokedex)
                 .AsEnumerable()
                 .Where(pokemon => pokemon.Name.Contains(name, StringComparison.OrdinalIgnoreCase) || StringHelper.LevenshteinDistance(name, pokemon.Name) < levenshteinDistance)
                 .ToList();

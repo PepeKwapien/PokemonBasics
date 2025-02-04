@@ -34,8 +34,8 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
       "useSSL": true,
-      "httpPort": 7236,
-      "sslPort": 7237,
+      "httpPort": 8080,
+      "sslPort": 8081,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Docker"
       }
