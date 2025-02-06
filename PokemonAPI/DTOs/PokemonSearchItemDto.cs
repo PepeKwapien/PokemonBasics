@@ -4,8 +4,8 @@ namespace PokemonAPI.DTOs
 {
     public class PokemonSearchItemDto
     {
-        public string Name { get; set; }
-        public string Image { get; set; }
+        public string Name { get; set; } = "";
+        public string? Image { get; set; }
         public int? Number { get; set; }
 
         public static PokemonSearchItemDto FromPokemon(Pokemon pokemon)

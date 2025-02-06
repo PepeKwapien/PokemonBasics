@@ -38,6 +38,7 @@ namespace Models.Pokemons
         public bool Mythical { get; set; }
         public string? Shape { get; set; }
         public string? Sprite { get; set; }
+        public string? ShinySprite { get; set; }
         public Guid GenerationId { get; set; }
         [ForeignKey(nameof(GenerationId))]
         public Generation Generation { get; set; }

@@ -76,7 +76,8 @@ namespace ExternalApiCrawler.Mappers
                     Shape = shape,
                     GenerationId = generation.Id,
                     Generation = generation,
-                    Sprite = pokemonDto.sprites.front_default
+                    Sprite = pokemonDto.sprites.front_default,
+                    ShinySprite = pokemonDto.sprites.front_shiny
                 });
 
                 _logger.Debug($"Mapped pokemon {name}");

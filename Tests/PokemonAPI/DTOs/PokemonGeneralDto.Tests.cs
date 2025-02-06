@@ -19,6 +19,7 @@ namespace Tests.PokemonAPI.DTOs
             {
                 Name = "Bulbasaur",
                 Sprite = "Bulbasaur.png",
+                ShinySprite = "ShinyBulbasaur.png",
                 HP = 70,
                 Attack = 80,
                 Defense = 90,

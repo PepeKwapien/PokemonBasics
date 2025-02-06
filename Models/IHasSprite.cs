@@ -2,6 +2,6 @@
 {
     public interface IHasSprite
     {
-        string Sprite { get; set; }
+        string? Sprite { get; set; }
     }
 }

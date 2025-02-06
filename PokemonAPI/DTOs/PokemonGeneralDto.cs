@@ -6,7 +6,7 @@ namespace PokemonAPI.DTOs
     public class PokemonGeneralDto
     {
         public string Name { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public int? Number { get; set; }
         public int HP { get; set; }
         public int Attack { get; set; }

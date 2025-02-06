@@ -1,5 +1,4 @@
-﻿using Models.Games;
-using Models.Generations;
+﻿using Models.Generations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.Pokeballs

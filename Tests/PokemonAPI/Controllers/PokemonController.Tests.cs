@@ -199,6 +199,7 @@ namespace Tests.PokemonAPI.Controllers
             {
                 Name = "Charmander",
                 Sprite = "Charmander.png",
+                ShinySprite = "ShinyCharmander.png",
                 HP = 30,
                 Attack = 40,
                 Defense = 50,
