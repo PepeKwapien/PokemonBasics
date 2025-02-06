@@ -1,0 +1,40 @@
+services:
+  pokemon-api:
+    image: paulstump/pokemon:pokemon-api.1.0
+    platform: linux/amd64
+    container_name: pokemon-api
+    depends_on:
+      - pokemon-db
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_TYPE=postgres
+      - DB_CONNECTION_STRING=Host=192.168.0.123; Database=PokemonDb; Username=paul_stump; Password=pokemon_master_123
+      - ASPNETCORE_ENVIRONMENT=Docker
+    restart: unless-stopped
+    networks:
+       - pokemon-basic-network
+       - pokeweakness-network
+
+  pokemon-db:
+     image: postgres:latest
+     container_name: pokemon-db
+     ports:
+       - "5432:5432"
+     environment:
+       - POSTGRES_USER=paul_stump
+       - POSTGRES_PASSWORD=pokemon_master_123
+       - POSTGRES_DB=PokemonDb
+     volumes:
+       - pokemon-db-data:/var/lib/postgresql/data
+     restart: unless-stopped
+     networks:
+       - pokemon-basic-network
+
+volumes:
+  pokemon-db-data:
+  
+networks:
+  pokemon-basic-network:
+  pokeweakness-network:  
+    
