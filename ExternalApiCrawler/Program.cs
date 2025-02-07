@@ -34,7 +34,7 @@ namespace ExternalApiCrawler
 
             // DbContext
             serviceCollection
-                .AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultDatabase")));
+                .AddDbContext<IPokemonDatabaseContext, PokemonDatabaseContext>(options => options.UseNpgsql(config.GetConnectionString("DefaultDatabase")));
 
             // Http client
             serviceCollection.AddHttpClient(externalOptions.ClientName, client =>

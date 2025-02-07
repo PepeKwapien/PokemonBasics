@@ -505,6 +505,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Shape")
                         .HasColumnType("text");
 
+                    b.Property<string>("ShinySprite")
+                        .HasColumnType("text");
+
                     b.Property<int>("SpecialAttack")
                         .HasColumnType("integer");
 

@@ -45,15 +45,10 @@ namespace ExternalApiCrawler.Helpers
             return foundEntity;
         }
 
-        public static Pokemon FindPokemonByName(DbSet<Pokemon> pokemonSet, string pokemonName, ILogger? logger = null)
+        public static Pokemon? FindPokemonByName(DbSet<Pokemon> pokemonSet, string pokemonName, ILogger? logger = null)
         {
             string databaseName = StringHelper.Normalize(pokemonName);
-            Pokemon foundPokemon = pokemonSet.FirstOrDefault(pokemon => pokemon.Name.Equals(databaseName));
-
-            if(foundPokemon == null)
-            {
-                ExceptionHelper.LogAndThrow<Exception>($"Pokemon with name {databaseName} does not exist in the database", logger);
-            }
+            Pokemon? foundPokemon = pokemonSet.FirstOrDefault(pokemon => pokemon.Name.Equals(databaseName));
 
             return foundPokemon;
         }

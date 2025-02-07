@@ -30,7 +30,7 @@ namespace ExternalApiCrawler.Mappers
 
                 ILookup<bool, Variety> varietyGroups = speciesDto.varieties.ToLookup(variety => variety.is_default);
 
-                Pokemon original = null;
+                Pokemon? original = null;
                 List<Pokemon> variants = new List<Pokemon>();
 
                 foreach (var group in varietyGroups)
@@ -42,7 +42,9 @@ namespace ExternalApiCrawler.Mappers
                     else
                     {
                         variants = varietyGroups[group.Key].Select(varietyDto =>
-                            EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name, _logger)).ToList();
+                                EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, varietyDto.pokemon.name, _logger))
+                            .Where(pokemon => pokemon != null)
+                            .ToList()!;
                     }
                 }
 
@@ -50,7 +52,7 @@ namespace ExternalApiCrawler.Mappers
                 {
                     alternateForms.Add(new AlternateForm
                     {
-                        OriginalId = original.Id,
+                        OriginalId = original!.Id,
                         Original = original,
                         VariantId = variant.Id,
                         Variant = variant,

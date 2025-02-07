@@ -34,7 +34,12 @@ namespace ExternalApiCrawler.Mappers
 
                     foreach (var variety in matchingSpecies.varieties)
                     {
-                        Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, variety.pokemon.name, _logger);
+                        Pokemon? pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, variety.pokemon.name, _logger);
+                        if(pokemon == null)
+                        {
+                            _logger.Warn($"No pokemon with name {variety.pokemon.name} was found. Skipping creating its entry");
+                            continue;
+                        }
 
                         pokemonEntries.Add(new PokemonEntry
                         {

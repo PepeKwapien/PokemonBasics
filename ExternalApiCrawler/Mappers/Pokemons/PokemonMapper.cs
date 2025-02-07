@@ -29,6 +29,10 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (var pokemonDto in _pokemonDtos)
             {
+                if(pokemonDto.types.Length == 0)
+                {
+                    continue;
+                }
                 PokemonSpeciesDto pokemonSpecies = FindMatchingPokemonSpecies(pokemonDto.species.name);
                 Generation generation = EntityFinderHelper.FindEntityByDtoName(_dbContext.Generations, pokemonSpecies.generation.name, _generationDtos, _logger);
                 string name = StringHelper.Normalize(pokemonDto.name);

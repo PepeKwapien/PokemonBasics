@@ -102,12 +102,15 @@ namespace Logger
                 try
                 {
                     _writer.Flush();
-                    _writer.Dispose();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
                     throw;
+                }
+                finally
+                {
+                    _writer?.Dispose();
                 }
             }
         }
@@ -174,6 +177,7 @@ namespace Logger
             try
             {
                 _writer?.WriteLine(lineMessage);
+                _writer?.Flush();
             }
             catch(Exception ex)
             {

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PokemonDatabaseContext))]
-    [Migration("20241127182326_init")]
-    partial class init
+    [Migration("20250206221023_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -506,6 +506,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Shape")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShinySprite")
                         .HasColumnType("text");
 
                     b.Property<int>("SpecialAttack")

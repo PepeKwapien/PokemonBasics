@@ -26,7 +26,12 @@ namespace ExternalApiCrawler.Mappers
 
             foreach (PokemonDto pokemonDto in _pokemonDtos)
             {
-                Pokemon pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name, _logger);
+                Pokemon? pokemon = EntityFinderHelper.FindPokemonByName(_dbContext.Pokemons, pokemonDto.name, _logger);
+                if (pokemon == null)
+                {
+                    _logger.Warn($"No pokemon with name {pokemonDto.name} was found. Skipping creating its abilities");
+                    continue;
+                }
 
                 foreach (PokemonAbilityDto pokemonAbility in pokemonDto.abilities)
                 {

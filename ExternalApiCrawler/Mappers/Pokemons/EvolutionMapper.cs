@@ -152,7 +152,13 @@ namespace ExternalApiCrawler.Mappers
                 for (int i = 0; i < numberOfEvolutionPairs; i++)
                 {
                     EvolutionTriggerPair currentPair = evolutionTriggerPairs[i];
-                    evolutions.Add(CreateEvolution(evolvingFromPokemons[i % numberOfBaseForms], currentPair.pokemon, currentPair.detail, babyItem));
+                    Pokemon from = evolvingFromPokemons[i % numberOfBaseForms];
+                    Pokemon into = currentPair.pokemon;
+                    if(from == null || into == null)
+                    {
+                        continue;
+                    }
+                    evolutions.Add(CreateEvolution(from, into, currentPair.detail, babyItem));
                 }
             }
             // Regional evolution - add evolution only to the latest variant
