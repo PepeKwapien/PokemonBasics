@@ -35,5 +35,9 @@ volumes:
   
 networks:
   pokemon-basic-network:
-  pokeweakness-network:  
+    driver: bridge
+    name: pokemon-basic-network
+  pokeweakness-network:
+    driver: bridge
+    name: pokeweakness-network
     
