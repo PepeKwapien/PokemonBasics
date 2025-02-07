@@ -1,7 +1,6 @@
 services:
   pokemon-api:
     image: paulstump/pokemon:pokemon-api.1.0
-    platform: linux/amd64
     container_name: pokemon-api
     depends_on:
       - pokemon-db
