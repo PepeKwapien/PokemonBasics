@@ -37,6 +37,15 @@ Not going into a lof of details project consists of 4 main components:
 - Orchestrator which assures that everything happens in a correct order. First requesters need to get collections of IDtos, then orchestrator sets the collections mappers will be working on and lastly it creates a correct chain of mappers and starts them. The whole process lasts approximately 10 minutes depending on your computer and network connection
 
 <b>Be warned</b>:
-In its peak this process can take up to 3GB of your memory
+In its peak this process can take up to 2GB of your memory
 
 After the program.cs stops being executed the database is filled with objects related to pokemons
+
+
+## PokemonAPI
+
+It's a simple API that I develop when I need it for side projects or learning.
+
+To run it simply provide connection string to the database you have filled previously (using Data Access and External API Crawler), and run the app using either dotner, or docker.
+
+When using docker provide DB_TYPE and DB_CONNECTION_STRING envs
